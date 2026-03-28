@@ -1,0 +1,3698 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
+    />
+    <title>Sai Cottage v2</title>
+    <style>
+      :root {
+        --primary: #1a237e;
+        --primary-light: #3949ab;
+        --primary-dark: #0d1752;
+        --accent: #ff6f00;
+        --accent-light: #ffa000;
+        --success: #2e7d32;
+        --danger: #c62828;
+        --warning: #e65100;
+        --info: #0277bd;
+        --bg: #f0f4ff;
+        --card: #fff;
+        --text: #1a1a2e;
+        --text-muted: #546e7a;
+        --border: #e0e7ff;
+        --shadow: 0 2px 14px rgba(26, 35, 126, 0.1);
+        --radius: 16px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── OFFLINE BANNER ── */
+      #offlineBanner {
+        display: none;
+        background: #e65100;
+        color: #fff;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 9999;
+      }
+      body.offline #offlineBanner {
+        display: block;
+      }
+
+      /* ── LOADING ── */
+      #loadingScreen {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, #1a237e, #3949ab);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        transition: opacity 0.4s;
+      }
+      #loadingScreen.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .loader-logo {
+        font-size: 60px;
+        margin-bottom: 16px;
+        animation: pulse 1.5s infinite;
+      }
+      .loader-title {
+        color: #fff;
+        font-size: 22px;
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+      .loader-sub {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 13px;
+        margin-bottom: 32px;
+      }
+      .loader-bar {
+        width: 200px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .loader-fill {
+        height: 100%;
+        background: #fff;
+        border-radius: 2px;
+        animation: loadbar 2s ease forwards;
+      }
+      .loader-status {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 11px;
+        margin-top: 12px;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.08);
+        }
+      }
+      @keyframes loadbar {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
+      /* ── AUTH ── */
+      #authScreen {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 24px;
+        background: linear-gradient(
+          135deg,
+          #1a237e 0%,
+          #283593 50%,
+          #3949ab 100%
+        );
+      }
+      .auth-logo {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 38px;
+        margin-bottom: 14px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+      .auth-title {
+        color: #fff;
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 3px;
+      }
+      .auth-sub {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 12px;
+        margin-bottom: 28px;
+        text-align: center;
+      }
+      .auth-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 26px 22px;
+        width: 100%;
+        max-width: 380px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.22);
+      }
+      .auth-card h3 {
+        font-size: 17px;
+        color: var(--primary);
+        margin-bottom: 18px;
+        text-align: center;
+        font-weight: 800;
+      }
+      .field {
+        margin-bottom: 14px;
+      }
+      .field label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: block;
+        margin-bottom: 5px;
+      }
+      .field input,
+      .field select {
+        width: 100%;
+        padding: 11px 13px;
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        font-size: 14px;
+        color: var(--text);
+        outline: none;
+        transition: 0.2s;
+        background: #fafbff;
+      }
+      .field input:focus,
+      .field select:focus {
+        border-color: var(--primary-light);
+        background: #fff;
+      }
+      .btn {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.18s;
+        letter-spacing: 0.3px;
+      }
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-light)
+        );
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(26, 35, 126, 0.3);
+      }
+      .btn-primary:active,
+      .btn:active {
+        transform: scale(0.97);
+      }
+      .sync-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        padding: 4px 10px;
+        font-size: 10px;
+        color: #fff;
+        margin-bottom: 16px;
+        font-weight: 600;
+      }
+      .sync-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #4caf50;
+        animation: blink 2s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* ── APP SHELL ── */
+      #app {
+        display: none;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* ── HEADER ── */
+      .header {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-light)
+        );
+        color: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 11px 15px;
+      }
+      .header-title {
+        font-size: 16px;
+        font-weight: 800;
+      }
+      .header-sub {
+        font-size: 10px;
+        opacity: 0.75;
+        margin-top: 1px;
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .role-badge {
+        font-size: 9px;
+        font-weight: 800;
+        padding: 3px 8px;
+        border-radius: 20px;
+        text-transform: uppercase;
+      }
+      .badge-admin {
+        background: #e8eaf6;
+        color: #3949ab;
+      }
+      .badge-manager {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+      .badge-tenant {
+        background: #fff3e0;
+        color: #e65100;
+      }
+      .icon-btn {
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        color: #fff;
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .sync-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .sync-online {
+        background: #4caf50;
+      }
+      .sync-offline {
+        background: #f44336;
+      }
+      .sync-syncing {
+        background: #ff9800;
+        animation: blink 0.8s infinite;
+      }
+
+      /* ── NAV ── */
+      .nav {
+        display: flex;
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .nav::-webkit-scrollbar {
+        display: none;
+      }
+      .nav-item {
+        flex: 1;
+        min-width: 58px;
+        padding: 9px 4px 7px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        cursor: pointer;
+        color: var(--text-muted);
+        font-size: 9px;
+        font-weight: 700;
+        border-bottom: 3px solid transparent;
+        transition: 0.18s;
+        white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+      .nav-item.active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+      }
+      .nav-item .ni {
+        font-size: 19px;
+      }
+
+      /* ── CONTENT ── */
+      .content {
+        flex: 1;
+        padding: 14px;
+        padding-bottom: 20px;
+      }
+
+      /* ── CARDS ── */
+      .card {
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 12px;
+        overflow: hidden;
+      }
+      .card-header {
+        padding: 13px 15px 9px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .card-header h3 {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--primary);
+      }
+      .card-body {
+        padding: 13px 15px;
+      }
+
+      /* ── STAT GRID ── */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .stat-card {
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 14px;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+      }
+      .stat-card.full {
+        grid-column: span 2;
+      }
+      .stat-icon {
+        font-size: 26px;
+        margin-bottom: 6px;
+      }
+      .stat-value {
+        font-size: 21px;
+        font-weight: 900;
+        color: var(--primary);
+      }
+      .stat-label {
+        font-size: 10px;
+        color: var(--text-muted);
+        font-weight: 700;
+        margin-top: 1px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+      .stat-card.green .stat-value {
+        color: var(--success);
+      }
+      .stat-card.orange .stat-value {
+        color: var(--warning);
+      }
+      .stat-card.red .stat-value {
+        color: var(--danger);
+      }
+      .stat-card.blue .stat-value {
+        color: var(--info);
+      }
+
+      /* ── ROOM ITEMS ── */
+      .room-item {
+        display: flex;
+        align-items: center;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--border);
+        gap: 11px;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .room-item:last-child {
+        border-bottom: none;
+      }
+      .room-item:active {
+        opacity: 0.75;
+      }
+      .room-num {
+        width: 42px;
+        height: 42px;
+        background: var(--bg);
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--primary);
+        flex-shrink: 0;
+        border: 1.5px solid var(--border);
+      }
+      .room-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .room-name {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .room-sub {
+        font-size: 10px;
+        color: var(--text-muted);
+        margin-top: 1px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .room-right {
+        text-align: right;
+        flex-shrink: 0;
+      }
+      .room-amount {
+        font-size: 14px;
+        font-weight: 900;
+      }
+      .pill {
+        font-size: 9px;
+        font-weight: 800;
+        padding: 2px 7px;
+        border-radius: 20px;
+        margin-top: 3px;
+        display: inline-block;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+      .pill-paid {
+        color: var(--success);
+        background: #e8f5e9;
+      }
+      .pill-unpaid {
+        color: var(--danger);
+        background: #ffebee;
+      }
+      .pill-partial {
+        color: var(--warning);
+        background: #fff3e0;
+      }
+      .pill-vacant {
+        color: var(--text-muted);
+        background: var(--bg);
+      }
+      .member-count {
+        font-size: 10px;
+        color: var(--info);
+        font-weight: 700;
+      }
+
+      /* ── FLOOR TABS ── */
+      .floor-tabs {
+        display: flex;
+        gap: 7px;
+        margin-bottom: 13px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+      }
+      .floor-tabs::-webkit-scrollbar {
+        display: none;
+      }
+      .floor-tab {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 800;
+        cursor: pointer;
+        border: 2px solid var(--border);
+        background: #fff;
+        color: var(--text-muted);
+        transition: 0.18s;
+        white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+      .floor-tab.active {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+      }
+
+      /* ── SEARCH ── */
+      .search-wrap {
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 9px 13px;
+        margin-bottom: 12px;
+        gap: 9px;
+      }
+      .search-wrap input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: var(--text);
+        background: transparent;
+      }
+
+      /* ── SECTION TITLE ── */
+      .section-title {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin: 16px 0 9px;
+      }
+
+      /* ── SUMMARY BAR ── */
+      .summary-bar {
+        display: flex;
+        background: var(--primary);
+        color: #fff;
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 14px;
+      }
+      .sum-item {
+        flex: 1;
+        padding: 11px 8px;
+        text-align: center;
+      }
+      .sum-item + .sum-item {
+        border-left: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .sum-value {
+        font-size: 14px;
+        font-weight: 900;
+      }
+      .sum-label {
+        font-size: 9px;
+        opacity: 0.75;
+        margin-top: 2px;
+        text-transform: uppercase;
+      }
+
+      /* ── MODAL ── */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        z-index: 500;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        backdrop-filter: blur(4px);
+      }
+      .modal {
+        background: #fff;
+        border-radius: 24px 24px 0 0;
+        width: 100%;
+        max-width: 600px;
+        max-height: 92vh;
+        overflow-y: auto;
+        padding: 18px;
+        animation: slideUp 0.28s ease;
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+      .modal-handle {
+        width: 38px;
+        height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        margin: 0 auto 14px;
+      }
+      .modal-title {
+        font-size: 17px;
+        font-weight: 900;
+        color: var(--primary);
+        margin-bottom: 3px;
+      }
+      .modal-sub {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-bottom: 16px;
+      }
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .detail-row:last-child {
+        border-bottom: none;
+      }
+      .detail-label {
+        font-size: 12px;
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+      .detail-value {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--text);
+        text-align: right;
+        max-width: 65%;
+      }
+      .total-box {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-light)
+        );
+        border-radius: 12px;
+        padding: 13px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 13px 0;
+        color: #fff;
+      }
+      .total-box-label {
+        font-size: 13px;
+        font-weight: 700;
+        opacity: 0.9;
+      }
+      .total-box-value {
+        font-size: 22px;
+        font-weight: 900;
+      }
+
+      /* ── BUTTONS ── */
+      .btn-group {
+        display: flex;
+        gap: 9px;
+        margin-top: 12px;
+      }
+      .btn-sm {
+        flex: 1;
+        padding: 11px;
+        border: none;
+        border-radius: 11px;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: 0.15s;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+      .btn-sm:active {
+        transform: scale(0.96);
+      }
+      .btn-success {
+        background: var(--success);
+        color: #fff;
+      }
+      .btn-danger {
+        background: var(--danger);
+        color: #fff;
+      }
+      .btn-warning {
+        background: var(--warning);
+        color: #fff;
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+      }
+      .btn-info {
+        background: var(--info);
+        color: #fff;
+      }
+      .btn-ghost {
+        background: var(--bg);
+        color: var(--text);
+        border: 1.5px solid var(--border);
+      }
+
+      /* ── EDIT FIELDS ── */
+      .edit-section label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-muted);
+        display: block;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+      .edit-section input,
+      .edit-section select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        font-size: 14px;
+        margin-bottom: 10px;
+        outline: none;
+        background: #fafbff;
+      }
+      .edit-section input:focus,
+      .edit-section select:focus {
+        border-color: var(--primary-light);
+        background: #fff;
+      }
+      .edit-section .hint {
+        font-size: 10px;
+        color: var(--text-muted);
+        margin-top: -7px;
+        margin-bottom: 9px;
+      }
+
+      /* ── MEMBER CARDS ── */
+      .member-card {
+        display: flex;
+        align-items: center;
+        background: var(--bg);
+        border-radius: 11px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        gap: 10px;
+        border: 1.5px solid var(--border);
+      }
+      .member-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+      .member-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .member-name {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--text);
+      }
+      .member-detail {
+        font-size: 10px;
+        color: var(--text-muted);
+        margin-top: 1px;
+      }
+      .member-actions {
+        display: flex;
+        gap: 6px;
+        flex-shrink: 0;
+      }
+      .icon-action {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        transition: 0.15s;
+      }
+      .icon-action:active {
+        transform: scale(0.9);
+      }
+      .ia-danger {
+        background: #ffebee;
+        color: var(--danger);
+      }
+      .ia-info {
+        background: #e3f2fd;
+        color: var(--info);
+      }
+      .ia-warning {
+        background: #fff3e0;
+        color: var(--warning);
+      }
+
+      /* ── PRICING RULE BOX ── */
+      .pricing-box {
+        background: linear-gradient(135deg, #e8eaf6, #e3f2fd);
+        border-radius: 12px;
+        padding: 12px 14px;
+        margin: 10px 0;
+        border-left: 4px solid var(--primary-light);
+      }
+      .pricing-box-title {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .pricing-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        margin-bottom: 3px;
+      }
+      .pricing-row:last-child {
+        margin-bottom: 0;
+        font-weight: 800;
+        padding-top: 6px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        font-size: 14px;
+        color: var(--primary);
+      }
+
+      /* ── HISTORY ── */
+      .hist-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .hist-item:last-child {
+        border-bottom: none;
+      }
+      .hist-date {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+      .hist-amt {
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .hist-paid {
+        color: var(--success);
+      }
+      .hist-unpaid {
+        color: var(--danger);
+      }
+
+      /* ── USER CARDS ── */
+      .user-card {
+        background: var(--bg);
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 9px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1.5px solid var(--border);
+      }
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+      .user-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .user-name {
+        font-size: 13px;
+        font-weight: 800;
+      }
+      .user-detail {
+        font-size: 10px;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+      .user-role-badge {
+        font-size: 9px;
+        padding: 2px 7px;
+        border-radius: 10px;
+        font-weight: 800;
+        display: inline-block;
+        margin-top: 3px;
+        text-transform: uppercase;
+      }
+
+      /* ── TOAST ── */
+      .toast {
+        position: fixed;
+        bottom: 88px;
+        left: 50%;
+        transform: translateX(-50%) translateY(16px);
+        background: #1a1a2e;
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        opacity: 0;
+        transition: 0.28s;
+        z-index: 9000;
+        white-space: nowrap;
+        pointer-events: none;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* ── EMPTY STATE ── */
+      .empty-state {
+        text-align: center;
+        padding: 36px 20px;
+        color: var(--text-muted);
+      }
+      .empty-state .ei {
+        font-size: 46px;
+        margin-bottom: 10px;
+      }
+      .empty-state p {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      /* ── REPORT ROWS ── */
+      .report-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .report-row:last-child {
+        border-bottom: none;
+      }
+      .report-name {
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .report-sub {
+        font-size: 10px;
+        color: var(--text-muted);
+        margin-top: 1px;
+      }
+      .report-amount {
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      /* ── SPINNER ── */
+      .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        vertical-align: middle;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ── TENANT VIEW ── */
+      .my-room-card {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-light)
+        );
+        border-radius: 18px;
+        padding: 20px;
+        color: #fff;
+        margin-bottom: 14px;
+      }
+      .my-room-num {
+        font-size: 40px;
+        font-weight: 900;
+        opacity: 0.9;
+      }
+      .my-room-floor {
+        font-size: 12px;
+        opacity: 0.75;
+        margin-bottom: 14px;
+      }
+      .my-room-stat {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .my-room-stat:last-child {
+        border-bottom: none;
+      }
+
+      /* ── NOTIFICATION DOT ── */
+      .notif-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: inline-block;
+        margin-left: 4px;
+        animation: blink 1.5s infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="offlineBanner">
+      ⚠️ Offline Mode — Changes will sync when connected
+    </div>
+
+    <!-- LOADING -->
+    <div id="loadingScreen">
+      <div class="loader-logo">🏠</div>
+      <div class="loader-title">Sai Cottage</div>
+      <div class="loader-sub">साई कॉटेज • Rental Management v2</div>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+      <div class="loader-status" id="loaderStatus">
+        Connecting to database...
+      </div>
+    </div>
+
+    <!-- AUTH -->
+    <div id="authScreen">
+      <div class="auth-logo">🏠</div>
+      <div class="auth-title">Sai Cottage v2</div>
+      <div class="auth-sub">साई कॉटेज • Real-time Rental Management</div>
+      <div class="sync-badge">
+        <span class="sync-dot"></span> Live Sync Enabled
+      </div>
+      <div class="auth-card">
+        <h3>Sign In 🔐</h3>
+        <div class="field">
+          <label>Username</label>
+          <input
+            type="text"
+            id="loginUser"
+            placeholder="Enter your username"
+            autocomplete="username"
+          />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input
+            type="password"
+            id="loginPass"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          />
+        </div>
+        <button class="btn btn-primary" id="loginBtn" onclick="doLogin()">
+          Sign In →
+        </button>
+        <div
+          style="
+            margin-top: 14px;
+            background: #f0f4ff;
+            border-radius: 10px;
+            padding: 11px;
+            font-size: 11px;
+            color: var(--text-muted);
+          "
+        >
+          <b style="color: var(--primary)">Demo:</b>&nbsp; admin/admin123
+          &nbsp;·&nbsp; manager/mgr123 &nbsp;·&nbsp; tenant1/tenant123
+        </div>
+        <div
+          id="loginError"
+          style="
+            display: none;
+            margin-top: 10px;
+            background: #ffebee;
+            border-radius: 8px;
+            padding: 9px;
+            font-size: 12px;
+            color: var(--danger);
+            font-weight: 700;
+            text-align: center;
+          "
+        ></div>
+      </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="app">
+      <div class="header">
+        <div class="header-top">
+          <div>
+            <div class="header-title">🏠 Sai Cottage</div>
+            <div class="header-sub" id="headerSub">Balda, Pardi, Valsad</div>
+          </div>
+          <div class="header-right">
+            <div
+              class="sync-indicator sync-offline"
+              id="syncDot"
+              title="Connection status"
+            ></div>
+            <span class="role-badge" id="roleBadge">Admin</span>
+            <button class="icon-btn" onclick="doLogout()" title="Logout">
+              🚪
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="nav" id="mainNav"></div>
+      <div class="content" id="mainContent"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      "use strict";
+
+      // ═══════════════════════════════════════════════════════════════════
+      // CONFIGURATION — Replace with your Supabase project values
+      // ═══════════════════════════════════════════════════════════════════
+      const SUPABASE_URL = "https://uomudbjtafmehraqszkn.supabase.co";
+      const SUPABASE_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvbXVkYmp0YWZtZWhyYXFzemtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3MDUzNTcsImV4cCI6MjA5MDI4MTM1N30.uYOdsz59nBKD-XwQARWc34hnnYBykmTB84C9Z3l5G8Q";
+
+      // Tables
+      const T = {
+        ROOMS: "rooms",
+        MEMBERS: "members",
+        PAYMENTS: "payments",
+        USERS: "users",
+        SETTINGS: "settings",
+      };
+
+      // ═══════════════════════════════════════════════════════════════════
+      // SUPABASE CLIENT (no SDK — raw REST + Realtime WebSocket)
+      // ═══════════════════════════════════════════════════════════════════
+      const sb = {
+        _headers() {
+          return {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+            "Content-Type": "application/json",
+            Prefer: "return=representation",
+          };
+        },
+
+        async query(table, params = "") {
+          const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${params}`, {
+            headers: this._headers(),
+          });
+          if (!r.ok) throw new Error(await r.text());
+          return r.json();
+        },
+
+        async insert(table, data) {
+          const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+            method: "POST",
+            headers: this._headers(),
+            body: JSON.stringify(data),
+          });
+          if (!r.ok) throw new Error(await r.text());
+          return r.json();
+        },
+
+        async update(table, match, data) {
+          const qs = Object.entries(match)
+            .map(([k, v]) => `${k}=eq.${v}`)
+            .join("&");
+          const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${qs}`, {
+            method: "PATCH",
+            headers: this._headers(),
+            body: JSON.stringify(data),
+          });
+          if (!r.ok) throw new Error(await r.text());
+          return r.json();
+        },
+
+        async delete(table, match) {
+          const qs = Object.entries(match)
+            .map(([k, v]) => `${k}=eq.${v}`)
+            .join("&");
+          const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${qs}`, {
+            method: "DELETE",
+            headers: this._headers(),
+          });
+          if (!r.ok) throw new Error(await r.text());
+          return true;
+        },
+
+        async upsert(table, data, onConflict = "id") {
+          const r = await fetch(
+            `${SUPABASE_URL}/rest/v1/${table}?on_conflict=${onConflict}`,
+            {
+              method: "POST",
+              headers: {
+                ...this._headers(),
+                Prefer: "resolution=merge-duplicates,return=representation",
+              },
+              body: JSON.stringify(data),
+            },
+          );
+          if (!r.ok) throw new Error(await r.text());
+          return r.json();
+        },
+
+        // Realtime WebSocket channel
+        _ws: null,
+        _subs: [],
+        subscribe(table, cb) {
+          this._subs.push({ table, cb });
+          this._connectWS();
+        },
+        _connectWS() {
+          if (this._ws && this._ws.readyState < 2) return;
+          const wsUrl =
+            SUPABASE_URL.replace("https", "wss").replace("http", "ws") +
+            `/realtime/v1/websocket?apikey=${SUPABASE_KEY}&vsn=1.0.0`;
+          try {
+            this._ws = new WebSocket(wsUrl);
+            this._ws.onopen = () => {
+              setSync("online");
+              // Join each table channel
+              const tables = [...new Set(this._subs.map((s) => s.table))];
+              tables.forEach((t) => {
+                this._ws.send(
+                  JSON.stringify({
+                    topic: `realtime:public:${t}`,
+                    event: "phx_join",
+                    payload: {},
+                    ref: null,
+                  }),
+                );
+              });
+            };
+            this._ws.onmessage = (e) => {
+              try {
+                const msg = JSON.parse(e.data);
+                if (
+                  msg.event === "INSERT" ||
+                  msg.event === "UPDATE" ||
+                  msg.event === "DELETE"
+                ) {
+                  const table = msg.topic.replace("realtime:public:", "");
+                  this._subs
+                    .filter((s) => s.table === table)
+                    .forEach((s) => s.cb(msg.event, msg.payload));
+                }
+              } catch (_) {}
+            };
+            this._ws.onclose = () => {
+              setSync("offline");
+              setTimeout(() => this._connectWS(), 5000);
+            };
+            this._ws.onerror = () => setSync("offline");
+          } catch (_) {
+            setSync("offline");
+          }
+        },
+      };
+
+      // ═══════════════════════════════════════════════════════════════════
+      // LOCAL STATE (fallback + cache)
+      // ═══════════════════════════════════════════════════════════════════
+      let S = {
+        user: null,
+        rooms: [],
+        members: [], // [{id, room_id, name, mobile, username, is_active, joined_at, left_at}]
+        payments: [], // [{id, room_id, month, paid, amount, paid_date, paid_by}]
+        users: [], // [{id, username, password_hash, role, name, room_id, is_active}]
+        settings: {}, // {current_month, base_members_gf, extra_per_member_gf, base_members_3rd, extra_per_member_3rd}
+        activeTab: "dashboard",
+        activeFloor: "All",
+        searchQ: "",
+        selectedRoom: null,
+        editMode: false,
+        syncStatus: "offline",
+        pendingSync: [],
+        isOnline: navigator.onLine,
+      };
+
+      const STORE_KEY = "saiV2";
+
+      function persist() {
+        try {
+          localStorage.setItem(
+            STORE_KEY,
+            JSON.stringify({
+              rooms: S.rooms,
+              members: S.members,
+              payments: S.payments,
+              users: S.users,
+              settings: S.settings,
+            }),
+          );
+        } catch (_) {}
+      }
+
+      function hydrate() {
+        try {
+          const d = localStorage.getItem(STORE_KEY);
+          if (d) {
+            const p = JSON.parse(d);
+            S.rooms = p.rooms || [];
+            S.members = p.members || [];
+            S.payments = p.payments || [];
+            S.users = p.users || [];
+            S.settings = p.settings || defaultSettings();
+          }
+        } catch (_) {}
+      }
+
+      function defaultSettings() {
+        return {
+          current_month: currentMonthLabel(),
+          base_members_gf: 2,
+          extra_per_member_gf: 500,
+          base_members_3rd: 2,
+          extra_per_member_3rd: 400,
+        };
+      }
+
+      function currentMonthLabel() {
+        return new Date().toLocaleDateString("en-IN", {
+          month: "short",
+          year: "numeric",
+        });
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // SEED DATA (used when Supabase is not yet configured)
+      // ═══════════════════════════════════════════════════════════════════
+      const SEED_ROOMS = [
+        {
+          id: "r1",
+          floor: "Ground",
+          num: "1",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r2",
+          floor: "Ground",
+          num: "2",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: true,
+        },
+        {
+          id: "r3",
+          floor: "Ground",
+          num: "3",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r4",
+          floor: "Ground",
+          num: "4",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r5",
+          floor: "Ground",
+          num: "5",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r6",
+          floor: "Ground",
+          num: "6",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r7",
+          floor: "Ground",
+          num: "7",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 200,
+          other_label: "Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r8",
+          floor: "Ground",
+          num: "8",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r9",
+          floor: "Ground",
+          num: "9",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 200,
+          other_label: "Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r10",
+          floor: "Ground",
+          num: "10",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r11",
+          floor: "Ground",
+          num: "11",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r12",
+          floor: "Ground",
+          num: "12",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r13",
+          floor: "Ground",
+          num: "13",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 4200,
+          other_label: "Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r14",
+          floor: "Ground",
+          num: "14",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r101",
+          floor: "1st",
+          num: "101",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r102",
+          floor: "1st",
+          num: "102",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 4200,
+          other_label: "Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r103",
+          floor: "1st",
+          num: "103",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r104",
+          floor: "1st",
+          num: "104",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 200,
+          other_label: "Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r105",
+          floor: "1st",
+          num: "105",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r106",
+          floor: "1st",
+          num: "106",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r107",
+          floor: "1st",
+          num: "107",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 200,
+          other_label: "Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r108",
+          floor: "1st",
+          num: "108",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 3200,
+          other_label: "Extra",
+          is_vacant: false,
+        },
+        {
+          id: "r109",
+          floor: "1st",
+          num: "109",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 2800,
+          other_label: "Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r110",
+          floor: "1st",
+          num: "110",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r111",
+          floor: "1st",
+          num: "111",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 4000,
+          other_label: "Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r112",
+          floor: "1st",
+          num: "112",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r113",
+          floor: "1st",
+          num: "113",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r114",
+          floor: "1st",
+          num: "114",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r201",
+          floor: "2nd",
+          num: "201",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r202",
+          floor: "2nd",
+          num: "202",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r203",
+          floor: "2nd",
+          num: "203",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r204",
+          floor: "2nd",
+          num: "204",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r205",
+          floor: "2nd",
+          num: "205",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r206",
+          floor: "2nd",
+          num: "206",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r207",
+          floor: "2nd",
+          num: "207",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r208",
+          floor: "2nd",
+          num: "208",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 4000,
+          other_label: "Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r209",
+          floor: "2nd",
+          num: "209",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r210",
+          floor: "2nd",
+          num: "210",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 200,
+          other_label: "Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r211",
+          floor: "2nd",
+          num: "211",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r212",
+          floor: "2nd",
+          num: "212",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 5400,
+          other_label: "Extra+Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r213",
+          floor: "2nd",
+          num: "213",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r214",
+          floor: "2nd",
+          num: "214",
+          base_rent: 3500,
+          water_charge: 500,
+          other_charge: 200,
+          other_label: "Extra",
+          is_vacant: false,
+        },
+        {
+          id: "r301",
+          floor: "3rd",
+          num: "301",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r302",
+          floor: "3rd",
+          num: "302",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r303",
+          floor: "3rd",
+          num: "303",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r304",
+          floor: "3rd",
+          num: "304",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r305",
+          floor: "3rd",
+          num: "305",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r306",
+          floor: "3rd",
+          num: "306",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r307",
+          floor: "3rd",
+          num: "307",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r308",
+          floor: "3rd",
+          num: "308",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r309",
+          floor: "3rd",
+          num: "309",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r310",
+          floor: "3rd",
+          num: "310",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r311",
+          floor: "3rd",
+          num: "311",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 1000,
+          other_label: "Extra",
+          is_vacant: false,
+        },
+        {
+          id: "r312",
+          floor: "3rd",
+          num: "312",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 3100,
+          other_label: "Baki",
+          is_vacant: false,
+        },
+        {
+          id: "r313",
+          floor: "3rd",
+          num: "313",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+        {
+          id: "r314",
+          floor: "3rd",
+          num: "314",
+          base_rent: 2600,
+          water_charge: 500,
+          other_charge: 0,
+          other_label: "",
+          is_vacant: false,
+        },
+      ];
+
+      const SEED_MEMBERS = [
+        {
+          id: "m1",
+          room_id: "r1",
+          name: "Chainsingh",
+          mobile: "9033245958",
+          username: "chainsingh",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m3",
+          room_id: "r3",
+          name: "Virendra Kumar",
+          mobile: "9033728963",
+          username: "virendra",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m4",
+          room_id: "r4",
+          name: "Sumit Kumar",
+          mobile: "7061117858",
+          username: "sumit",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m5",
+          room_id: "r5",
+          name: "Rahul Kumar",
+          mobile: "9717112862",
+          username: "rahulk",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m6",
+          room_id: "r6",
+          name: "Tarun Kumar",
+          mobile: "9162091578",
+          username: "tarun",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m7",
+          room_id: "r7",
+          name: "Mohit",
+          mobile: "9425989507",
+          username: "mohit",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m8",
+          room_id: "r8",
+          name: "Shivam Yadav",
+          mobile: "9305786925",
+          username: "shivam",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m9a",
+          room_id: "r9",
+          name: "Gansiyam",
+          mobile: "9120193614",
+          username: "gansiyam",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m9b",
+          room_id: "r9",
+          name: "Vivek",
+          mobile: "",
+          username: "vivek",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m9c",
+          room_id: "r9",
+          name: "Mayank",
+          mobile: "",
+          username: "mayank",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m9d",
+          room_id: "r9",
+          name: "Hiren",
+          mobile: "",
+          username: "hiren",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m10",
+          room_id: "r10",
+          name: "Ranjet Purohit",
+          mobile: "7359336332",
+          username: "ranjet",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m11",
+          room_id: "r11",
+          name: "Anvar",
+          mobile: "6392843846",
+          username: "anvar",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m12",
+          room_id: "r12",
+          name: "Deepak",
+          mobile: "7693978823",
+          username: "deepak",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m13",
+          room_id: "r13",
+          name: "Nilesh Bindra",
+          mobile: "9714369211",
+          username: "nilesh",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+        {
+          id: "m14",
+          room_id: "r14",
+          name: "Rajive Singh",
+          mobile: "9773151157",
+          username: "rajive",
+          password_hash: "tenant123",
+          is_active: true,
+          joined_at: "2026-01-01",
+          left_at: null,
+        },
+      ];
+
+      const SEED_USERS = [
+        {
+          id: "u1",
+          username: "admin",
+          password_hash: "admin123",
+          role: "admin",
+          name: "Admin User",
+          room_id: null,
+          is_active: true,
+        },
+        {
+          id: "u2",
+          username: "manager",
+          password_hash: "mgr123",
+          role: "manager",
+          name: "Property Manager",
+          room_id: null,
+          is_active: true,
+        },
+        {
+          id: "u3",
+          username: "tenant1",
+          password_hash: "tenant123",
+          role: "tenant",
+          name: "Demo Tenant",
+          room_id: "r1",
+          is_active: true,
+        },
+      ];
+
+      // ═══════════════════════════════════════════════════════════════════
+      // BUSINESS LOGIC — RENT CALCULATION
+      // ═══════════════════════════════════════════════════════════════════
+      function getRoomMembers(roomId) {
+        return S.members.filter((m) => m.room_id === roomId && m.is_active);
+      }
+
+      function calcMemberCharge(room) {
+        const members = getRoomMembers(room.id);
+        const count = members.length;
+        const is3rd = room.floor === "3rd";
+        const base = is3rd
+          ? S.settings.base_members_3rd || 2
+          : S.settings.base_members_gf || 2;
+        const rate = is3rd
+          ? S.settings.extra_per_member_3rd || 400
+          : S.settings.extra_per_member_gf || 500;
+        const extra = Math.max(0, count - base) * rate;
+        return { count, base, rate, extra };
+      }
+
+      function calcRoomTotal(room) {
+        const { extra: memberCharge } = calcMemberCharge(room);
+        return (
+          room.base_rent + room.water_charge + room.other_charge + memberCharge
+        );
+      }
+
+      function getRoomPayment(roomId) {
+        const month = S.settings.current_month || currentMonthLabel();
+        let p = S.payments.find(
+          (x) => x.room_id === roomId && x.month === month,
+        );
+        if (!p) {
+          p = {
+            id: null,
+            room_id: roomId,
+            month,
+            paid: false,
+            amount: 0,
+            paid_date: null,
+            paid_by: null,
+          };
+          S.payments.push(p);
+        }
+        return p;
+      }
+
+      function getRoomById(id) {
+        return S.rooms.find((r) => r.id === id);
+      }
+      function getUserById(id) {
+        return S.users.find((u) => u.id === id);
+      }
+
+      function roomPrimaryName(room) {
+        if (room.is_vacant) return "(Vacant)";
+        const mems = getRoomMembers(room.id);
+        if (!mems.length) return "(Vacant)";
+        return mems.map((m) => m.name).join(" / ");
+      }
+
+      function roomMobilePrimary(room) {
+        const mems = getRoomMembers(room.id);
+        return mems
+          .filter((m) => m.mobile)
+          .map((m) => m.mobile)
+          .slice(0, 2)
+          .join(", ");
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // SYNC STATUS UI
+      // ═══════════════════════════════════════════════════════════════════
+      function setSync(status) {
+        S.syncStatus = status;
+        const dot = document.getElementById("syncDot");
+        if (!dot) return;
+        dot.className = "sync-indicator";
+        if (status === "online") dot.classList.add("sync-online");
+        else if (status === "offline") dot.classList.add("sync-offline");
+        else if (status === "syncing") dot.classList.add("sync-syncing");
+        dot.title =
+          {
+            online: "Live sync active",
+            offline: "Offline — local mode",
+            syncing: "Syncing...",
+          }[status] || "";
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // DATA LAYER — Supabase first, localStorage fallback
+      // ═══════════════════════════════════════════════════════════════════
+      const isConfigured = () => !SUPABASE_URL.includes("YOUR_PROJECT");
+
+      async function loadAllData() {
+        setLoaderStatus("Loading room data...");
+        if (!isConfigured()) {
+          // Offline / demo mode: use seed + localStorage
+          hydrate();
+          if (!S.rooms.length) {
+            S.rooms = JSON.parse(JSON.stringify(SEED_ROOMS));
+            S.members = JSON.parse(JSON.stringify(SEED_MEMBERS));
+            S.users = JSON.parse(JSON.stringify(SEED_USERS));
+            S.settings = defaultSettings();
+            persist();
+          }
+          setSync("offline");
+          return;
+        }
+
+        try {
+          setSync("syncing");
+          const [rooms, members, payments, users, settingsArr] =
+            await Promise.all([
+              sb.query(T.ROOMS, "order=floor,num.asc"),
+              sb.query(T.MEMBERS, "is_active=eq.true&order=name.asc"),
+              sb.query(
+                T.PAYMENTS,
+                `month=eq.${encodeURIComponent(S.settings.current_month || currentMonthLabel())}`,
+              ),
+              sb.query(T.USERS, "order=role,name.asc"),
+              sb.query(T.SETTINGS, "limit=1"),
+            ]);
+
+          S.rooms = rooms;
+          S.members = members;
+          S.payments = payments;
+          S.users = users;
+          S.settings = settingsArr[0] || defaultSettings();
+          persist();
+          setSync("online");
+
+          // Subscribe to real-time changes
+          [T.ROOMS, T.MEMBERS, T.PAYMENTS, T.USERS].forEach((table) => {
+            sb.subscribe(table, (event, payload) =>
+              handleRealtimeEvent(table, event, payload),
+            );
+          });
+        } catch (err) {
+          console.warn("Supabase load failed, using local data:", err);
+          hydrate();
+          if (!S.rooms.length) {
+            S.rooms = JSON.parse(JSON.stringify(SEED_ROOMS));
+            S.members = JSON.parse(JSON.stringify(SEED_MEMBERS));
+            S.users = JSON.parse(JSON.stringify(SEED_USERS));
+            S.settings = defaultSettings();
+          }
+          setSync("offline");
+        }
+      }
+
+      function handleRealtimeEvent(table, event, payload) {
+        const rec = payload.record || payload.new || {};
+        const old = payload.old_record || payload.old || {};
+
+        const merge = (arr, item) => {
+          const i = arr.findIndex((x) => x.id === item.id);
+          if (i >= 0) arr[i] = item;
+          else arr.push(item);
+        };
+        const remove = (arr, id) => {
+          const i = arr.findIndex((x) => x.id === id);
+          if (i >= 0) arr.splice(i, 1);
+        };
+
+        if (table === T.ROOMS) {
+          if (event === "DELETE") remove(S.rooms, old.id);
+          else merge(S.rooms, rec);
+        } else if (table === T.MEMBERS) {
+          if (event === "DELETE") remove(S.members, old.id);
+          else merge(S.members, rec);
+        } else if (table === T.PAYMENTS) {
+          if (event === "DELETE") remove(S.payments, old.id);
+          else merge(S.payments, rec);
+        } else if (table === T.USERS) {
+          if (event === "DELETE") remove(S.users, old.id);
+          else merge(S.users, rec);
+        }
+
+        persist();
+        // Re-render current tab if visible
+        if (S.user) renderTab(S.activeTab, false);
+      }
+
+      async function syncWrite(action) {
+        if (!isConfigured()) {
+          action.local();
+          persist();
+          return;
+        }
+        setSync("syncing");
+        try {
+          await action.remote();
+          action.local();
+          persist();
+          setSync("online");
+        } catch (err) {
+          console.error("Sync write failed:", err);
+          action.local();
+          persist();
+          setSync("offline");
+          showToast("⚠️ Saved locally — will sync when online");
+        }
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // AUTH
+      // ═══════════════════════════════════════════════════════════════════
+      async function doLogin() {
+        const username = document.getElementById("loginUser").value.trim();
+        const password = document.getElementById("loginPass").value.trim();
+        const errDiv = document.getElementById("loginError");
+        const btn = document.getElementById("loginBtn");
+
+        errDiv.style.display = "none";
+        if (!username || !password) {
+          showLoginError("Please enter username and password");
+          return;
+        }
+
+        btn.innerHTML = '<span class="spinner"></span> Signing in...';
+        btn.disabled = true;
+
+        await new Promise((r) => setTimeout(r, 300));
+
+        // Check system users first (admin/manager)
+        let found = S.users.find(
+          (u) =>
+            u.username === username &&
+            u.password_hash === password &&
+            u.is_active,
+        );
+
+        // Then check tenant members
+        if (!found) {
+          const member = S.members.find(
+            (m) =>
+              m.username === username &&
+              m.password_hash === password &&
+              m.is_active,
+          );
+          if (member) {
+            found = {
+              id: member.id,
+              username: member.username,
+              role: "tenant",
+              name: member.name,
+              room_id: member.room_id,
+              is_active: true,
+            };
+          }
+        }
+
+        btn.innerHTML = "Sign In →";
+        btn.disabled = false;
+
+        if (!found) {
+          showLoginError("❌ Invalid username or password");
+          return;
+        }
+        if (!found.is_active) {
+          showLoginError("🚫 Account has been deactivated. Contact admin.");
+          return;
+        }
+
+        S.user = found;
+        document.getElementById("authScreen").style.display = "none";
+        document.getElementById("app").style.display = "flex";
+        document.getElementById("roleBadge").textContent =
+          found.role.charAt(0).toUpperCase() + found.role.slice(1);
+        document.getElementById("roleBadge").className =
+          "role-badge badge-" + found.role;
+        document.getElementById("headerSub").textContent =
+          found.name + " · Balda, Pardi, Valsad";
+
+        buildNav();
+        renderTab("dashboard");
+      }
+
+      function showLoginError(msg) {
+        const e = document.getElementById("loginError");
+        e.textContent = msg;
+        e.style.display = "block";
+      }
+
+      function doLogout() {
+        S.user = null;
+        S.activeTab = "dashboard";
+        document.getElementById("app").style.display = "none";
+        document.getElementById("authScreen").style.display = "flex";
+        document.getElementById("loginUser").value = "";
+        document.getElementById("loginPass").value = "";
+        document.getElementById("loginError").style.display = "none";
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // NAVIGATION
+      // ═══════════════════════════════════════════════════════════════════
+      function buildNav() {
+        const role = S.user.role;
+        const tabs = [
+          { id: "dashboard", icon: "📊", label: "Home" },
+          { id: "rooms", icon: "🚪", label: "Rooms" },
+          { id: "payments", icon: "💰", label: "Pay" },
+        ];
+        if (role === "tenant")
+          tabs.push({ id: "myroom", icon: "🏠", label: "My Room" });
+        if (role !== "tenant")
+          tabs.push({ id: "reports", icon: "📈", label: "Reports" });
+        if (role === "admin")
+          tabs.push({ id: "admin", icon: "⚙️", label: "Admin" });
+
+        document.getElementById("mainNav").innerHTML = tabs
+          .map(
+            (t) =>
+              `<div class="nav-item${S.activeTab === t.id ? " active" : ""}" onclick="renderTab('${t.id}')">
+      <span class="ni">${t.icon}</span><span>${t.label}</span>
+    </div>`,
+          )
+          .join("");
+      }
+
+      function renderTab(tab, rebuild = true) {
+        S.activeTab = tab;
+        if (rebuild) buildNav();
+        const c = document.getElementById("mainContent");
+        const role = S.user.role;
+
+        if (tab === "dashboard") c.innerHTML = renderDashboard();
+        else if (tab === "rooms") c.innerHTML = renderRooms();
+        else if (tab === "payments") c.innerHTML = renderPayments();
+        else if (tab === "reports")
+          c.innerHTML = role !== "tenant" ? renderReports() : "";
+        else if (tab === "admin")
+          c.innerHTML = role === "admin" ? renderAdmin() : "";
+        else if (tab === "myroom")
+          c.innerHTML = role === "tenant" ? renderMyRoom() : "";
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // DASHBOARD
+      // ═══════════════════════════════════════════════════════════════════
+      function renderDashboard() {
+        const rooms = S.rooms;
+        const total = rooms.length;
+        const occupied = rooms.filter(
+          (r) => !r.is_vacant && getRoomMembers(r.id).length > 0,
+        ).length;
+        const totalMembers = S.members.filter((m) => m.is_active).length;
+        const totalRent = rooms.reduce((s, r) => s + calcRoomTotal(r), 0);
+        const paidRooms = rooms.filter((r) => getRoomPayment(r.id).paid);
+        const collected = paidRooms.reduce((s, r) => s + calcRoomTotal(r), 0);
+        const pending = totalRent - collected;
+        const pendingRooms = rooms.filter(
+          (r) =>
+            !getRoomPayment(r.id).paid &&
+            !r.is_vacant &&
+            getRoomMembers(r.id).length > 0,
+        );
+        const month = S.settings.current_month || currentMonthLabel();
+        const pct =
+          totalRent > 0 ? Math.round((collected / totalRent) * 100) : 0;
+
+        return `
+  <div class="section-title">📅 ${month}</div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">🏠</div>
+      <div class="stat-value">${occupied}/${total}</div>
+      <div class="stat-label">Rooms Occupied</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-icon">👥</div>
+      <div class="stat-value">${totalMembers}</div>
+      <div class="stat-label">Total Members</div>
+    </div>
+    <div class="stat-card full green">
+      <div class="stat-icon">💵</div>
+      <div class="stat-value">₹${collected.toLocaleString("en-IN")}</div>
+      <div class="stat-label">Collected — ${paidRooms.length} rooms paid (${pct}%)</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-value">${pendingRooms.length}</div>
+      <div class="stat-label">Pending Rooms</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-icon">💸</div>
+      <div class="stat-value">₹${pending.toLocaleString("en-IN")}</div>
+      <div class="stat-label">Pending Amount</div>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    <div class="sum-item"><div class="sum-value">₹${totalRent.toLocaleString("en-IN")}</div><div class="sum-label">Total Rent</div></div>
+    <div class="sum-item"><div class="sum-value">${pct}%</div><div class="sum-label">Collected</div></div>
+    <div class="sum-item"><div class="sum-value">${S.syncStatus === "online" ? "🟢" : "🔴"}</div><div class="sum-label">${S.syncStatus === "online" ? "Live" : "Offline"}</div></div>
+  </div>
+
+  ${
+    pendingRooms.length > 0
+      ? `
+  <div class="section-title">⚠️ Pending Payments</div>
+  <div class="card"><div class="card-body">
+    ${pendingRooms
+      .slice(0, 8)
+      .map((r) => {
+        const mems = getRoomMembers(r.id);
+        return `<div class="room-item" onclick="openRoomModal('${r.id}')">
+        <div class="room-num">${r.num}</div>
+        <div class="room-info">
+          <div class="room-name">${mems.map((m) => m.name).join(", ") || "—"}</div>
+          <div class="room-sub">${r.floor} Fl · ${mems.length} member${mems.length !== 1 ? "s" : ""}</div>
+        </div>
+        <div class="room-right">
+          <div class="room-amount" style="color:var(--danger)">₹${calcRoomTotal(r).toLocaleString("en-IN")}</div>
+          <div class="pill pill-unpaid">Unpaid</div>
+        </div>
+      </div>`;
+      })
+      .join("")}
+    ${pendingRooms.length > 8 ? `<div style="text-align:center;padding:8px;font-size:12px;color:var(--primary);font-weight:700;cursor:pointer" onclick="renderTab('rooms')">+${pendingRooms.length - 8} more →</div>` : ""}
+  </div></div>`
+      : `<div class="card"><div class="card-body"><div class="empty-state"><div class="ei">🎉</div><p>All rooms paid this month!</p></div></div></div>`
+  }`;
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // ROOMS LIST
+      // ═══════════════════════════════════════════════════════════════════
+      function renderRooms() {
+        const floors = ["All", "Ground", "1st", "2nd", "3rd"];
+        return `
+  <div class="search-wrap">
+    <span>🔍</span>
+    <input type="text" placeholder="Search room, name, mobile..." value="${escHtml(S.searchQ)}"
+      oninput="S.searchQ=this.value;document.getElementById('roomListWrap').innerHTML=renderRoomListInner()">
+  </div>
+  <div class="floor-tabs">
+    ${floors
+      .map(
+        (f) => `<div class="floor-tab${S.activeFloor === f ? " active" : ""}"
+      onclick="S.activeFloor='${f}';S.searchQ='';document.getElementById('mainContent').innerHTML=renderRooms()">
+      ${f === "All" ? "All" : f + " Fl"}
+    </div>`,
+      )
+      .join("")}
+  </div>
+  <div id="roomListWrap">${renderRoomListInner()}</div>`;
+      }
+
+      function renderRoomListInner() {
+        const q = S.searchQ.toLowerCase();
+        let filtered = S.rooms.filter((r) => {
+          const fOk = S.activeFloor === "All" || r.floor === S.activeFloor;
+          const mems = getRoomMembers(r.id);
+          const names = mems
+            .map((m) => m.name + " " + m.mobile)
+            .join(" ")
+            .toLowerCase();
+          const sOk = !q || r.num.includes(q) || names.includes(q);
+          return fOk && sOk;
+        });
+
+        if (!filtered.length)
+          return `<div class="empty-state"><div class="ei">🔍</div><p>No rooms found</p></div>`;
+
+        const grouped = {};
+        filtered.forEach((r) => {
+          (grouped[r.floor] = grouped[r.floor] || []).push(r);
+        });
+        let html = "";
+        for (const floor of ["Ground", "1st", "2nd", "3rd"]) {
+          if (!grouped[floor]) continue;
+          html += `<div class="section-title">${floor} Floor — ${grouped[floor].length} rooms</div>
+    <div class="card"><div class="card-body">`;
+          html += grouped[floor]
+            .map((r) => {
+              const mems = getRoomMembers(r.id);
+              const pay = getRoomPayment(r.id);
+              const tot = calcRoomTotal(r);
+              const name = r.is_vacant
+                ? "(Vacant)"
+                : mems.map((m) => m.name).join(", ") || "(No members)";
+              const pClass = pay.paid
+                ? "pill-paid"
+                : r.is_vacant
+                  ? "pill-vacant"
+                  : "pill-unpaid";
+              const pText = pay.paid
+                ? "Paid"
+                : r.is_vacant
+                  ? "Vacant"
+                  : "Unpaid";
+              const amtColor = pay.paid
+                ? "var(--success)"
+                : r.is_vacant
+                  ? "var(--text-muted)"
+                  : "var(--danger)";
+              return `<div class="room-item" onclick="openRoomModal('${r.id}')">
+        <div class="room-num">${r.num}</div>
+        <div class="room-info">
+          <div class="room-name">${escHtml(name)}</div>
+          <div class="room-sub">${mems.length} member${mems.length !== 1 ? "s" : ""} · ${
+            mems
+              .filter((m) => m.mobile)
+              .map((m) => m.mobile)
+              .slice(0, 1)
+              .join("") || "No mobile"
+          }</div>
+        </div>
+        <div class="room-right">
+          <div class="room-amount" style="color:${amtColor}">₹${tot.toLocaleString("en-IN")}</div>
+          <div class="pill ${pClass}">${pText}</div>
+        </div>
+      </div>`;
+            })
+            .join("");
+          html += `</div></div>`;
+        }
+        return html;
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // PAYMENTS
+      // ═══════════════════════════════════════════════════════════════════
+      function renderPayments() {
+        const role = S.user.role;
+        const canEdit = role === "admin" || role === "manager";
+        const month = S.settings.current_month || currentMonthLabel();
+        const occ = S.rooms.filter(
+          (r) => !r.is_vacant && getRoomMembers(r.id).length > 0,
+        );
+        const paid = occ.filter((r) => getRoomPayment(r.id).paid);
+        const unpaid = occ.filter((r) => !getRoomPayment(r.id).paid);
+
+        return `
+  <div class="section-title">💰 Payments — ${month}</div>
+  <div class="stats-grid">
+    <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-value">${paid.length}</div><div class="stat-label">Paid</div></div>
+    <div class="stat-card red"><div class="stat-icon">❌</div><div class="stat-value">${unpaid.length}</div><div class="stat-label">Unpaid</div></div>
+  </div>
+
+  ${
+    unpaid.length
+      ? `
+  <div class="section-title">❌ Unpaid Rooms</div>
+  <div class="card"><div class="card-body">
+    ${unpaid
+      .map((r) => {
+        const mems = getRoomMembers(r.id);
+        const tot = calcRoomTotal(r);
+        return `<div class="room-item" onclick="openRoomModal('${r.id}')">
+        <div class="room-num">${r.num}</div>
+        <div class="room-info">
+          <div class="room-name">${escHtml(mems.map((m) => m.name).join(", "))}</div>
+          <div class="room-sub">${r.floor} · ${mems.length} members</div>
+        </div>
+        <div class="room-right">
+          <div class="room-amount" style="color:var(--danger)">₹${tot.toLocaleString("en-IN")}</div>
+          ${
+            canEdit
+              ? `<button class="btn-sm btn-success" style="padding:5px 9px;font-size:10px;margin-top:4px"
+            onclick="event.stopPropagation();markPaid('${r.id}',true)">Mark Paid</button>`
+              : `<div class="pill pill-unpaid">Unpaid</div>`
+          }
+        </div>
+      </div>`;
+      })
+      .join("")}
+  </div></div>`
+      : ""
+  }
+
+  ${
+    paid.length
+      ? `
+  <div class="section-title">✅ Paid Rooms</div>
+  <div class="card"><div class="card-body">
+    ${paid
+      .map((r) => {
+        const mems = getRoomMembers(r.id);
+        const pay = getRoomPayment(r.id);
+        const tot = calcRoomTotal(r);
+        return `<div class="room-item" onclick="openRoomModal('${r.id}')">
+        <div class="room-num">${r.num}</div>
+        <div class="room-info">
+          <div class="room-name">${escHtml(mems.map((m) => m.name).join(", "))}</div>
+          <div class="room-sub">${pay.paid_date || ""}</div>
+        </div>
+        <div class="room-right">
+          <div class="room-amount" style="color:var(--success)">₹${tot.toLocaleString("en-IN")}</div>
+          ${
+            canEdit
+              ? `<button class="btn-sm btn-danger" style="padding:5px 9px;font-size:10px;margin-top:4px"
+            onclick="event.stopPropagation();markPaid('${r.id}',false)">Unmark</button>`
+              : `<div class="pill pill-paid">Paid</div>`
+          }
+        </div>
+      </div>`;
+      })
+      .join("")}
+  </div></div>`
+      : ""
+  }`;
+      }
+
+      async function markPaid(roomId, paid) {
+        const month = S.settings.current_month || currentMonthLabel();
+        const room = getRoomById(roomId);
+        const total = calcRoomTotal(room);
+        const pay = getRoomPayment(roomId);
+        const today = new Date().toLocaleDateString("en-IN");
+
+        await syncWrite({
+          local: () => {
+            pay.paid = paid;
+            pay.paid_date = paid ? today : null;
+            pay.paid_by = paid ? S.user.name : null;
+            pay.amount = total;
+          },
+          remote: async () => {
+            if (pay.id) {
+              await sb.update(
+                T.PAYMENTS,
+                { id: pay.id },
+                {
+                  paid,
+                  paid_date: paid ? today : null,
+                  paid_by: paid ? S.user.name : null,
+                  amount: total,
+                },
+              );
+            } else {
+              const result = await sb.insert(T.PAYMENTS, {
+                room_id: roomId,
+                month,
+                paid,
+                amount: total,
+                paid_date: paid ? today : null,
+                paid_by: paid ? S.user.name : null,
+              });
+              if (result && result[0]) pay.id = result[0].id;
+            }
+          },
+        });
+
+        renderTab(S.activeTab);
+        showToast(paid ? "✅ Marked as Paid" : "🔄 Marked as Unpaid");
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // MY ROOM (Tenant View)
+      // ═══════════════════════════════════════════════════════════════════
+      function renderMyRoom() {
+        const room = getRoomById(S.user.room_id);
+        if (!room)
+          return `<div class="empty-state"><div class="ei">🏠</div><p>No room assigned to your account</p></div>`;
+
+        const mems = getRoomMembers(room.id);
+        const pay = getRoomPayment(room.id);
+        const tot = calcRoomTotal(room);
+        const mc = calcMemberCharge(room);
+        const month = S.settings.current_month || currentMonthLabel();
+
+        return `
+  <div class="my-room-card">
+    <div class="my-room-num">Room ${room.num}</div>
+    <div class="my-room-floor">${room.floor} Floor · Sai Cottage</div>
+    <div class="my-room-stat"><span>Month</span><span>${month}</span></div>
+    <div class="my-room-stat"><span>Base Rent</span><span>₹${room.base_rent.toLocaleString("en-IN")}</span></div>
+    <div class="my-room-stat"><span>Water</span><span>₹${room.water_charge.toLocaleString("en-IN")}</span></div>
+    ${mc.extra > 0 ? `<div class="my-room-stat"><span>Extra Members (${mc.count - mc.base}×₹${mc.rate})</span><span>₹${mc.extra.toLocaleString("en-IN")}</span></div>` : ""}
+    ${room.other_charge > 0 ? `<div class="my-room-stat"><span>${room.other_label || "Other"}</span><span>₹${room.other_charge.toLocaleString("en-IN")}</span></div>` : ""}
+    <div class="my-room-stat" style="font-size:18px;font-weight:900;padding-top:12px;margin-top:6px;border-top:1px solid rgba(255,255,255,.3)">
+      <span>Total Due</span><span>₹${tot.toLocaleString("en-IN")}</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3>Payment Status</h3>
+      <span class="pill ${pay.paid ? "pill-paid" : "pill-unpaid"}" style="font-size:11px;padding:4px 10px">${pay.paid ? "✅ Paid" : "❌ Unpaid"}</span>
+    </div>
+    ${pay.paid ? `<div class="card-body"><div class="detail-row"><span class="detail-label">Paid On</span><span class="detail-value">${pay.paid_date || "—"}</span></div><div class="detail-row"><span class="detail-label">Recorded By</span><span class="detail-value">${pay.paid_by || "—"}</span></div></div>` : '<div class="card-body"><div style="text-align:center;padding:10px;font-size:13px;color:var(--danger);font-weight:700">Payment pending. Please contact manager.</div></div>'}
+  </div>
+
+  <div class="section-title">👥 Roommates</div>
+  <div class="card"><div class="card-body">
+    ${mems
+      .map(
+        (m) => `
+    <div class="member-card">
+      <div class="member-avatar">${m.name.charAt(0).toUpperCase()}</div>
+      <div class="member-info">
+        <div class="member-name">${escHtml(m.name)} ${m.username === S.user.username ? '<span style="font-size:9px;background:#e8f5e9;color:var(--success);padding:1px 6px;border-radius:10px">You</span>' : ""}</div>
+        <div class="member-detail">${m.mobile || "No mobile"}</div>
+      </div>
+    </div>`,
+      )
+      .join("")}
+  </div></div>`;
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // REPORTS
+      // ═══════════════════════════════════════════════════════════════════
+      function renderReports() {
+        const month = S.settings.current_month || currentMonthLabel();
+        const byFloor = {};
+        ["Ground", "1st", "2nd", "3rd"].forEach((f) => {
+          const fr = S.rooms.filter((r) => r.floor === f);
+          const occ = fr.filter(
+            (r) => !r.is_vacant && getRoomMembers(r.id).length > 0,
+          );
+          const col = occ
+            .filter((r) => getRoomPayment(r.id).paid)
+            .reduce((s, r) => s + calcRoomTotal(r), 0);
+          const tot = occ.reduce((s, r) => s + calcRoomTotal(r), 0);
+          const mems = occ.reduce((s, r) => s + getRoomMembers(r.id).length, 0);
+          byFloor[f] = {
+            total: tot,
+            collected: col,
+            pending: tot - col,
+            count: fr.length,
+            occ: occ.length,
+            paid: occ.filter((r) => getRoomPayment(r.id).paid).length,
+            members: mems,
+          };
+        });
+        const gTotal = Object.values(byFloor).reduce((s, f) => s + f.total, 0);
+        const gCollected = Object.values(byFloor).reduce(
+          (s, f) => s + f.collected,
+          0,
+        );
+        const gMembers = Object.values(byFloor).reduce(
+          (s, f) => s + f.members,
+          0,
+        );
+
+        return `
+  <div class="section-title">📈 Report — ${month}</div>
+  <div class="card">
+    <div class="card-header"><h3>Floor Summary</h3></div>
+    <div class="card-body">
+      ${["Ground", "1st", "2nd", "3rd"]
+        .map(
+          (f) => `
+      <div class="report-row">
+        <div>
+          <div class="report-name">${f} Floor</div>
+          <div class="report-sub">${byFloor[f].paid}/${byFloor[f].occ} paid · ${byFloor[f].members} members · ₹${byFloor[f].pending.toLocaleString("en-IN")} pending</div>
+        </div>
+        <div class="report-amount" style="color:var(--success)">₹${byFloor[f].collected.toLocaleString("en-IN")}</div>
+      </div>`,
+        )
+        .join("")}
+      <div style="background:var(--primary);color:#fff;border-radius:12px;padding:13px;margin-top:11px;display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-weight:800;font-size:14px">Grand Total</div><div style="font-size:10px;opacity:.8">${S.rooms.length} rooms · ${gMembers} members</div></div>
+        <div style="text-align:right"><div style="font-size:20px;font-weight:900">₹${gCollected.toLocaleString("en-IN")}</div><div style="font-size:10px;opacity:.8">of ₹${gTotal.toLocaleString("en-IN")}</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">👥 Multi-Member Rooms</div>
+  <div class="card"><div class="card-body">
+    ${
+      S.rooms
+        .filter((r) => getRoomMembers(r.id).length > 1)
+        .map((r) => {
+          const mems = getRoomMembers(r.id);
+          const mc = calcMemberCharge(r);
+          return `<div class="report-row">
+        <div>
+          <div class="report-name">Room ${r.num} — ${mems.length} members</div>
+          <div class="report-sub">${mems.map((m) => m.name).join(", ")}</div>
+        </div>
+        <div class="report-amount" style="color:${mc.extra > 0 ? "var(--warning)" : "var(--text-muted)"}">
+          ${mc.extra > 0 ? `+₹${mc.extra.toLocaleString("en-IN")} extra` : "Standard"}
+        </div>
+      </div>`;
+        })
+        .join("") ||
+      '<div class="empty-state"><div class="ei">👤</div><p>No multi-member rooms</p></div>'
+    }
+  </div></div>
+
+  <div class="section-title">💎 Extra / Baki Charges</div>
+  <div class="card"><div class="card-body">
+    ${S.rooms
+      .filter((r) => r.other_charge > 0)
+      .map(
+        (r) => `
+    <div class="report-row">
+      <div>
+        <div class="report-name">Room ${r.num}</div>
+        <div class="report-sub">${r.other_label || "Charge"}</div>
+      </div>
+      <div class="report-amount" style="color:var(--warning)">₹${r.other_charge.toLocaleString("en-IN")}</div>
+    </div>`,
+      )
+      .join("")}
+  </div></div>`;
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // ADMIN PANEL
+      // ═══════════════════════════════════════════════════════════════════
+      function renderAdmin() {
+        return `
+  <div class="section-title">⚙️ Admin Panel</div>
+
+  <div class="card">
+    <div class="card-header"><h3>📅 Current Month</h3>
+      <button class="btn-sm btn-info" style="max-width:130px;padding:7px" onclick="changeMonth()">Change Month</button>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="detail-label">Active Month</span><span class="detail-value">${S.settings.current_month || currentMonthLabel()}</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>💰 Pricing Rules</h3>
+      <button class="btn-sm btn-warning" style="max-width:90px;padding:7px" onclick="editPricingRules()">Edit</button>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="detail-label">Base Members (GF/1st/2nd)</span><span class="detail-value">${S.settings.base_members_gf || 2} members free</span></div>
+      <div class="detail-row"><span class="detail-label">Extra/Member (GF/1st/2nd)</span><span class="detail-value">₹${S.settings.extra_per_member_gf || 500}/extra member</span></div>
+      <div class="detail-row"><span class="detail-label">Base Members (3rd Floor)</span><span class="detail-value">${S.settings.base_members_3rd || 2} members free</span></div>
+      <div class="detail-row"><span class="detail-label">Extra/Member (3rd Floor)</span><span class="detail-value">₹${S.settings.extra_per_member_3rd || 400}/extra member</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>👥 System Users</h3>
+      <button class="btn-sm btn-success" style="max-width:90px;padding:7px" onclick="openAddUserModal()">+ Add</button>
+    </div>
+    <div class="card-body">
+      ${S.users
+        .map(
+          (u) => `
+      <div class="user-card">
+        <div class="user-avatar" style="background:${u.role === "admin" ? "#e8eaf6" : u.role === "manager" ? "#e8f5e9" : "#fff3e0"}">
+          ${u.role === "admin" ? "👑" : u.role === "manager" ? "🔑" : "👤"}
+        </div>
+        <div class="user-info">
+          <div class="user-name">${escHtml(u.name)} ${u.id === S.user.id ? '<span style="font-size:9px;color:var(--success)">(You)</span>' : ""}</div>
+          <div class="user-detail">@${u.username}</div>
+          <div class="user-role-badge" style="background:${u.role === "admin" ? "#e8eaf6" : u.role === "manager" ? "#e8f5e9" : "#fff3e0"};color:${u.role === "admin" ? "#3949ab" : u.role === "manager" ? "#2e7d32" : "#e65100"}">${u.role.toUpperCase()}</div>
+        </div>
+        ${
+          u.id !== S.user.id
+            ? `<div class="member-actions">
+          <button class="icon-action ia-info" onclick="adminResetPwd('${u.id}')" title="Reset Password">🔑</button>
+          ${
+            u.is_active
+              ? `<button class="icon-action ia-danger" onclick="adminToggleUser('${u.id}',false)" title="Deactivate">🚫</button>`
+              : `<button class="icon-action ia-warning" onclick="adminToggleUser('${u.id}',true)" title="Reactivate">✅</button>`
+          }
+        </div>`
+            : ""
+        }
+      </div>`,
+        )
+        .join("")}
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>🏠 Property Info</h3></div>
+    <div class="card-body">
+      <div class="detail-row"><span class="detail-label">Property</span><span class="detail-value">Sai Cottage</span></div>
+      <div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">Balda, Pardi, Valsad</span></div>
+      <div class="detail-row"><span class="detail-label">Rooms</span><span class="detail-value">${S.rooms.length}</span></div>
+      <div class="detail-row"><span class="detail-label">Members</span><span class="detail-value">${S.members.filter((m) => m.is_active).length}</span></div>
+      <div class="detail-row"><span class="detail-label">Backend</span><span class="detail-value">${isConfigured() ? "Supabase (Live 🟢)" : "Local (Offline 🔴)"}</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>⚠️ Danger Zone</h3></div>
+    <div class="card-body">
+      <button class="btn" style="background:var(--danger);color:#fff" onclick="confirmFullReset()">⚠️ Reset All Local Data</button>
+    </div>
+  </div>`;
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // ROOM MODAL — Full featured
+      // ═══════════════════════════════════════════════════════════════════
+      function openRoomModal(roomId) {
+        S.selectedRoom = roomId;
+        S.editMode = false;
+        buildRoomModal();
+      }
+
+      function buildRoomModal() {
+        const roomId = S.selectedRoom;
+        const room = getRoomById(roomId);
+        const mems = getRoomMembers(roomId);
+        const pay = getRoomPayment(roomId);
+        const mc = calcMemberCharge(room);
+        const tot = calcRoomTotal(room);
+        const role = S.user.role;
+        const canEdit = role === "admin" || role === "manager";
+        const hist = S.payments
+          .filter(
+            (p) =>
+              p.room_id === roomId &&
+              p.month !== (S.settings.current_month || currentMonthLabel()),
+          )
+          .slice(-5)
+          .reverse();
+
+        closeModal();
+        const div = document.createElement("div");
+        div.className = "modal-overlay";
+        div.id = "modalOverlay";
+        div.onclick = (e) => {
+          if (e.target === div) closeModal();
+        };
+
+        div.innerHTML = `<div class="modal">
+    <div class="modal-handle"></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+      <div>
+        <div class="modal-title">Room ${room.num}</div>
+        <div class="modal-sub">${room.floor} Floor · ${mems.length} member${mems.length !== 1 ? "s" : ""}</div>
+      </div>
+      <span class="pill ${pay.paid ? "pill-paid" : "pill-unpaid"}" style="font-size:11px;padding:4px 10px">${pay.paid ? "✅ Paid" : "❌ Unpaid"}</span>
+    </div>
+
+    ${S.editMode && canEdit ? buildEditForm(room) : buildRoomDetail(room, mems, mc, tot, pay, hist, canEdit)}
+  </div>`;
+
+        document.body.appendChild(div);
+      }
+
+      function buildRoomDetail(room, mems, mc, tot, pay, hist, canEdit) {
+        return `
+    <!-- Pricing Breakdown -->
+    <div class="pricing-box">
+      <div class="pricing-box-title">💰 Rent Breakdown</div>
+      <div class="pricing-row"><span>Base Rent</span><span>₹${room.base_rent.toLocaleString("en-IN")}</span></div>
+      <div class="pricing-row"><span>Water Charge</span><span>₹${room.water_charge.toLocaleString("en-IN")}</span></div>
+      ${mc.extra > 0 ? `<div class="pricing-row"><span>Extra Members (${mems.length - mc.base} × ₹${mc.rate})</span><span style="color:var(--warning)">+₹${mc.extra.toLocaleString("en-IN")}</span></div>` : ""}
+      ${room.other_charge > 0 ? `<div class="pricing-row"><span>${room.other_label || "Other"}</span><span style="color:var(--warning)">+₹${room.other_charge.toLocaleString("en-IN")}</span></div>` : ""}
+      <div class="pricing-row"><span>Total Due</span><span>₹${tot.toLocaleString("en-IN")}</span></div>
+    </div>
+
+    <!-- Members -->
+    <div class="section-title" style="margin-top:14px">👥 Members (${mems.length}/${mc.base} included free)</div>
+    ${
+      mems.length
+        ? mems
+            .map(
+              (m) => `
+    <div class="member-card">
+      <div class="member-avatar">${m.name.charAt(0).toUpperCase()}</div>
+      <div class="member-info">
+        <div class="member-name">${escHtml(m.name)}</div>
+        <div class="member-detail">📱 ${m.mobile || "—"} · @${m.username}</div>
+      </div>
+      ${
+        canEdit
+          ? `<div class="member-actions">
+        <button class="icon-action ia-info" onclick="editMemberModal('${m.id}')" title="Edit">✏️</button>
+        <button class="icon-action ia-danger" onclick="removeMember('${m.id}')" title="Remove">🚪</button>
+      </div>`
+          : ""
+      }
+    </div>`,
+            )
+            .join("")
+        : `<div class="empty-state" style="padding:14px"><div class="ei">👤</div><p>No members</p></div>`
+    }
+
+    ${canEdit ? `<button class="btn btn-info" style="margin-bottom:4px" onclick="openAddMemberModal('${room.id}')">+ Add Member</button>` : ""}
+
+    <!-- Actions -->
+    ${
+      canEdit
+        ? `<div class="btn-group" style="margin-top:10px">
+      ${
+        pay.paid
+          ? `<button class="btn-sm btn-danger" onclick="markPaid('${room.id}',false);closeModal()">❌ Mark Unpaid</button>`
+          : `<button class="btn-sm btn-success" onclick="markPaid('${room.id}',true);closeModal()">✅ Mark Paid</button>`
+      }
+      <button class="btn-sm btn-warning" onclick="S.editMode=true;buildRoomModal()">✏️ Edit Room</button>
+    </div>`
+        : ""
+    }
+
+    <!-- History -->
+    ${
+      hist.length
+        ? `<div class="section-title" style="margin-top:16px">📋 History</div>
+    ${hist
+      .map(
+        (h) => `<div class="hist-item">
+      <div class="hist-date">${h.month}</div>
+      <div class="hist-amt ${h.paid ? "hist-paid" : "hist-unpaid"}">${h.paid ? "✅" : "❌"} ₹${(h.amount || 0).toLocaleString("en-IN")}</div>
+    </div>`,
+      )
+      .join("")}`
+        : ""
+    }`;
+      }
+
+      function buildEditForm(room) {
+        return `<div class="edit-section">
+    <label>Vacant Room?</label>
+    <select id="eVacant">
+      <option value="false" ${!room.is_vacant ? "selected" : ""}>Occupied</option>
+      <option value="true" ${room.is_vacant ? "selected" : ""}>Vacant</option>
+    </select>
+    <label>Base Rent (₹)</label>
+    <input type="number" id="eRent" value="${room.base_rent}">
+    <label>Water Charge (₹)</label>
+    <input type="number" id="eWater" value="${room.water_charge}">
+    <label>Other Charge (₹) — Baki, Extra etc.</label>
+    <input type="number" id="eOther" value="${room.other_charge}">
+    <label>Other Charge Label</label>
+    <input type="text" id="eOtherLabel" value="${room.other_label}" placeholder="e.g. Baki, Extra">
+    <div class="btn-group">
+      <button class="btn-sm btn-success" onclick="saveRoomEdit('${room.id}')">💾 Save</button>
+      <button class="btn-sm btn-outline" onclick="S.editMode=false;buildRoomModal()">✕ Cancel</button>
+    </div>
+  </div>`;
+      }
+
+      async function saveRoomEdit(roomId) {
+        const room = getRoomById(roomId);
+        const upd = {
+          is_vacant: document.getElementById("eVacant").value === "true",
+          base_rent:
+            parseInt(document.getElementById("eRent").value) || room.base_rent,
+          water_charge:
+            parseInt(document.getElementById("eWater").value) ||
+            room.water_charge,
+          other_charge: parseInt(document.getElementById("eOther").value) || 0,
+          other_label: document.getElementById("eOtherLabel").value.trim(),
+        };
+        await syncWrite({
+          local: () => Object.assign(room, upd),
+          remote: () => sb.update(T.ROOMS, { id: roomId }, upd),
+        });
+        S.editMode = false;
+        showToast("✅ Room updated");
+        closeModal();
+        renderTab(S.activeTab);
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // MEMBER MANAGEMENT
+      // ═══════════════════════════════════════════════════════════════════
+      function openAddMemberModal(roomId) {
+        closeModal();
+        const div = document.createElement("div");
+        div.className = "modal-overlay";
+        div.id = "modalOverlay";
+        div.onclick = (e) => {
+          if (e.target === div) {
+            closeModal();
+            openRoomModal(roomId);
+          }
+        };
+        div.innerHTML = `<div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Add Member</div>
+    <div class="modal-sub">Room ${getRoomById(roomId).num} · ${getRoomById(roomId).floor} Floor</div>
+    <div class="edit-section">
+      <label>Full Name *</label>
+      <input type="text" id="mName" placeholder="e.g. Ramesh Kumar">
+      <label>Mobile</label>
+      <input type="tel" id="mMobile" placeholder="10-digit number">
+      <label>Username (for app login) *</label>
+      <input type="text" id="mUsername" placeholder="e.g. ramesh123" autocapitalize="none">
+      <label>Password *</label>
+      <input type="password" id="mPassword" placeholder="Minimum 6 characters">
+      <div class="hint">Tenant will use this to log into the app</div>
+      <div class="btn-group">
+        <button class="btn-sm btn-success" onclick="addMember('${roomId}')">✅ Add Member</button>
+        <button class="btn-sm btn-outline" onclick="closeModal();openRoomModal('${roomId}')">✕ Cancel</button>
+      </div>
+    </div>
+  </div>`;
+        document.body.appendChild(div);
+      }
+
+      async function addMember(roomId) {
+        const name = document.getElementById("mName").value.trim();
+        const mobile = document.getElementById("mMobile").value.trim();
+        const username = document
+          .getElementById("mUsername")
+          .value.trim()
+          .toLowerCase();
+        const password = document.getElementById("mPassword").value.trim();
+
+        if (!name || !username || !password) {
+          showToast("❌ Name, username & password required");
+          return;
+        }
+        if (password.length < 6) {
+          showToast("❌ Password must be 6+ characters");
+          return;
+        }
+        if (
+          S.members.find((m) => m.username === username) ||
+          S.users.find((u) => u.username === username)
+        ) {
+          showToast("❌ Username already exists");
+          return;
+        }
+
+        const newMember = {
+          id: "m" + Date.now(),
+          room_id: roomId,
+          name,
+          mobile,
+          username,
+          password_hash: password,
+          is_active: true,
+          joined_at: new Date().toISOString().split("T")[0],
+          left_at: null,
+        };
+
+        await syncWrite({
+          local: () => S.members.push(newMember),
+          remote: async () => {
+            const r = await sb.insert(T.MEMBERS, newMember);
+            if (r && r[0]) newMember.id = r[0].id;
+          },
+        });
+
+        showToast("✅ Member added");
+        closeModal();
+        openRoomModal(roomId);
+        renderTab(S.activeTab, false);
+      }
+
+      function editMemberModal(memberId) {
+        const m = S.members.find((x) => x.id === memberId);
+        if (!m) return;
+        closeModal();
+        const div = document.createElement("div");
+        div.className = "modal-overlay";
+        div.id = "modalOverlay";
+        div.onclick = (e) => {
+          if (e.target === div) {
+            closeModal();
+            openRoomModal(m.room_id);
+          }
+        };
+        div.innerHTML = `<div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Edit Member</div>
+    <div class="modal-sub">@${m.username}</div>
+    <div class="edit-section">
+      <label>Full Name</label>
+      <input type="text" id="emName" value="${escHtml(m.name)}">
+      <label>Mobile</label>
+      <input type="tel" id="emMobile" value="${m.mobile}">
+      <label>New Password (leave blank to keep)</label>
+      <input type="password" id="emPassword" placeholder="Leave blank to keep current">
+      <div class="btn-group">
+        <button class="btn-sm btn-success" onclick="saveMemberEdit('${m.id}','${m.room_id}')">💾 Save</button>
+        <button class="btn-sm btn-outline" onclick="closeModal();openRoomModal('${m.room_id}')">✕ Cancel</button>
+      </div>
+    </div>
+  </div>`;
+        document.body.appendChild(div);
+      }
+
+      async function saveMemberEdit(memberId, roomId) {
+        const m = S.members.find((x) => x.id === memberId);
+        const name = document.getElementById("emName").value.trim() || m.name;
+        const mobile = document.getElementById("emMobile").value.trim();
+        const pwd = document.getElementById("emPassword").value.trim();
+        if (pwd && pwd.length < 6) {
+          showToast("❌ Password must be 6+ characters");
+          return;
+        }
+
+        const upd = { name, mobile };
+        if (pwd) upd.password_hash = pwd;
+
+        await syncWrite({
+          local: () => Object.assign(m, upd),
+          remote: () => sb.update(T.MEMBERS, { id: memberId }, upd),
+        });
+        showToast("✅ Member updated");
+        closeModal();
+        openRoomModal(roomId);
+      }
+
+      async function removeMember(memberId) {
+        const m = S.members.find((x) => x.id === memberId);
+        if (
+          !m ||
+          !confirm(
+            `Remove ${m.name} from room? Their login will be revoked immediately.`,
+          )
+        )
+          return;
+
+        await syncWrite({
+          local: () => {
+            m.is_active = false;
+            m.left_at = new Date().toISOString().split("T")[0];
+          },
+          remote: () =>
+            sb.update(
+              T.MEMBERS,
+              { id: memberId },
+              {
+                is_active: false,
+                left_at: new Date().toISOString().split("T")[0],
+              },
+            ),
+        });
+
+        showToast("✅ Member removed — login revoked");
+        closeModal();
+        openRoomModal(m.room_id);
+        renderTab(S.activeTab, false);
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // ADMIN — USER MANAGEMENT
+      // ═══════════════════════════════════════════════════════════════════
+      function openAddUserModal() {
+        closeModal();
+        const div = document.createElement("div");
+        div.className = "modal-overlay";
+        div.id = "modalOverlay";
+        div.onclick = (e) => {
+          if (e.target === div) closeModal();
+        };
+        div.innerHTML = `<div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Add System User</div>
+    <div class="modal-sub">Admin or Manager account</div>
+    <div class="edit-section">
+      <label>Full Name</label>
+      <input type="text" id="auName" placeholder="Full name">
+      <label>Username</label>
+      <input type="text" id="auUsername" placeholder="Login username" autocapitalize="none">
+      <label>Password</label>
+      <input type="password" id="auPassword" placeholder="Min 6 chars">
+      <label>Role</label>
+      <select id="auRole">
+        <option value="manager">Manager</option>
+        <option value="admin">Admin</option>
+      </select>
+      <div class="btn-group">
+        <button class="btn-sm btn-success" onclick="addSystemUser()">✅ Create User</button>
+        <button class="btn-sm btn-outline" onclick="closeModal()">✕ Cancel</button>
+      </div>
+    </div>
+  </div>`;
+        document.body.appendChild(div);
+      }
+
+      async function addSystemUser() {
+        const name = document.getElementById("auName").value.trim();
+        const username = document
+          .getElementById("auUsername")
+          .value.trim()
+          .toLowerCase();
+        const password = document.getElementById("auPassword").value.trim();
+        const role = document.getElementById("auRole").value;
+        if (!name || !username || !password) {
+          showToast("❌ All fields required");
+          return;
+        }
+        if (password.length < 6) {
+          showToast("❌ Password must be 6+ chars");
+          return;
+        }
+        if (
+          S.users.find((u) => u.username === username) ||
+          S.members.find((m) => m.username === username)
+        ) {
+          showToast("❌ Username already exists");
+          return;
+        }
+        const nu = {
+          id: "u" + Date.now(),
+          username,
+          password_hash: password,
+          role,
+          name,
+          room_id: null,
+          is_active: true,
+        };
+        await syncWrite({
+          local: () => S.users.push(nu),
+          remote: async () => {
+            const r = await sb.insert(T.USERS, nu);
+            if (r && r[0]) nu.id = r[0].id;
+          },
+        });
+        showToast("✅ User created");
+        closeModal();
+        renderTab("admin");
+      }
+
+      async function adminResetPwd(userId) {
+        const u = getUserById(userId);
+        const newPwd = prompt(`New password for ${u.name}:`, "");
+        if (!newPwd || newPwd.trim().length < 6) {
+          showToast("❌ Password must be 6+ chars");
+          return;
+        }
+        await syncWrite({
+          local: () => {
+            u.password_hash = newPwd.trim();
+          },
+          remote: () =>
+            sb.update(
+              T.USERS,
+              { id: userId },
+              { password_hash: newPwd.trim() },
+            ),
+        });
+        showToast("✅ Password reset");
+      }
+
+      async function adminToggleUser(userId, active) {
+        const u = getUserById(userId);
+        if (
+          !confirm(
+            `${active ? "Reactivate" : "Deactivate"} ${u.name}? ${!active ? "They will not be able to login." : ""}`,
+          )
+        )
+          return;
+        await syncWrite({
+          local: () => {
+            u.is_active = active;
+          },
+          remote: () =>
+            sb.update(T.USERS, { id: userId }, { is_active: active }),
+        });
+        showToast(active ? "✅ User reactivated" : "🚫 User deactivated");
+        renderTab("admin");
+      }
+
+      async function changeMonth() {
+        const month = prompt("Enter new month (e.g. Feb 2026):", "");
+        if (!month || !month.trim()) return;
+        const m = month.trim();
+        await syncWrite({
+          local: () => {
+            S.settings.current_month = m;
+          },
+          remote: () =>
+            sb.update(T.SETTINGS, { id: S.settings.id }, { current_month: m }),
+        });
+        showToast("✅ Month changed to " + m);
+        renderTab("admin");
+      }
+
+      async function editPricingRules() {
+        const s = S.settings;
+        const g_base = prompt(
+          "Base free members (GF/1st/2nd floors):",
+          s.base_members_gf || 2,
+        );
+        if (!g_base) return;
+        const g_rate = prompt(
+          "Extra charge per member (GF/1st/2nd) in ₹:",
+          s.extra_per_member_gf || 500,
+        );
+        if (!g_rate) return;
+        const t_base = prompt(
+          "Base free members (3rd floor):",
+          s.base_members_3rd || 2,
+        );
+        if (!t_base) return;
+        const t_rate = prompt(
+          "Extra charge per member (3rd floor) in ₹:",
+          s.extra_per_member_3rd || 400,
+        );
+        if (!t_rate) return;
+
+        const upd = {
+          base_members_gf: parseInt(g_base),
+          extra_per_member_gf: parseInt(g_rate),
+          base_members_3rd: parseInt(t_base),
+          extra_per_member_3rd: parseInt(t_rate),
+        };
+
+        await syncWrite({
+          local: () => Object.assign(S.settings, upd),
+          remote: () => sb.update(T.SETTINGS, { id: S.settings.id }, upd),
+        });
+        showToast("✅ Pricing rules updated");
+        renderTab("admin");
+      }
+
+      function confirmFullReset() {
+        if (confirm("Reset ALL local data? This cannot be undone.")) {
+          localStorage.removeItem(STORE_KEY);
+          location.reload();
+        }
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // UTILS
+      // ═══════════════════════════════════════════════════════════════════
+      function closeModal() {
+        const m = document.getElementById("modalOverlay");
+        if (m) m.remove();
+      }
+
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(t._tid);
+        t._tid = setTimeout(() => t.classList.remove("show"), 2800);
+      }
+
+      function setLoaderStatus(msg) {
+        const el = document.getElementById("loaderStatus");
+        if (el) el.textContent = msg;
+      }
+
+      function escHtml(s) {
+        if (!s) return "";
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      // ═══════════════════════════════════════════════════════════════════
+      // NETWORK DETECTION
+      // ═══════════════════════════════════════════════════════════════════
+      window.addEventListener("online", () => {
+        S.isOnline = true;
+        document.body.classList.remove("offline");
+        if (isConfigured()) loadAllData();
+      });
+      window.addEventListener("offline", () => {
+        S.isOnline = false;
+        document.body.classList.add("offline");
+        setSync("offline");
+      });
+
+      // Enter key login
+      document.addEventListener("keydown", (e) => {
+        if (
+          e.key === "Enter" &&
+          document.getElementById("authScreen").style.display !== "none"
+        )
+          doLogin();
+      });
+
+      // ═══════════════════════════════════════════════════════════════════
+      // BOOT
+      // ═══════════════════════════════════════════════════════════════════
+      (async function boot() {
+        setLoaderStatus("Loading local data...");
+        hydrate();
+        await new Promise((r) => setTimeout(r, 400));
+
+        setLoaderStatus("Connecting to real-time database...");
+        await loadAllData();
+        await new Promise((r) => setTimeout(r, 400));
+
+        // Hide loader, show auth
+        const loader = document.getElementById("loadingScreen");
+        loader.classList.add("hidden");
+        setTimeout(() => (loader.style.display = "none"), 500);
+
+        document.getElementById("authScreen").style.display = "flex";
+      })();
+    </script>
+  </body>
+</html>
