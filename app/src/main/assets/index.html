@@ -10,15 +10,10 @@
   --accent:#ff6f00;--accent-light:#ffa000;
   --success:#2e7d32;--danger:#c62828;--warning:#e65100;--info:#0277bd;
   --bg:#f0f4ff;--card:#fff;--text:#1a1a2e;--text-muted:#546e7a;
-  --border:#e0e7ff;--shadow:0 2px 14px rgba(26,35,126,.10);
-  --radius:16px;
+  --border:#e0e7ff;--shadow:0 2px 14px rgba(26,35,126,.10);--radius:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-
-/* ── OFFLINE BANNER ── */
-#offlineBanner{display:none;background:#e65100;color:#fff;text-align:center;font-size:12px;font-weight:700;padding:6px;position:fixed;top:0;width:100%;z-index:9999}
-body.offline #offlineBanner{display:block}
 
 /* ── LOADING ── */
 #loadingScreen{position:fixed;inset:0;background:linear-gradient(135deg,#1a237e,#3949ab);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10000;transition:opacity .4s}
@@ -46,8 +41,6 @@ body.offline #offlineBanner{display:block}
 .btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:.18s;letter-spacing:.3px}
 .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;box-shadow:0 4px 16px rgba(26,35,126,.3)}
 .btn-primary:active,.btn:active{transform:scale(.97)}
-.sync-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border-radius:20px;padding:4px 10px;font-size:10px;color:#fff;margin-bottom:16px;font-weight:600}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:#4caf50;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* ── APP SHELL ── */
@@ -64,10 +57,7 @@ body.offline #offlineBanner{display:block}
 .badge-manager{background:#e8f5e9;color:#2e7d32}
 .badge-tenant{background:#fff3e0;color:#e65100}
 .icon-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:34px;height:34px;border-radius:9px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
-.sync-indicator{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.sync-online{background:#4caf50}
-.sync-offline{background:#f44336}
-.sync-syncing{background:#ff9800;animation:blink .8s infinite}
+.logout-icon{width:18px;height:18px;display:block}
 
 /* ── NAV ── */
 .nav{display:flex;background:#fff;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
@@ -112,7 +102,6 @@ body.offline #offlineBanner{display:block}
 .pill-unpaid{color:var(--danger);background:#ffebee}
 .pill-partial{color:var(--warning);background:#fff3e0}
 .pill-vacant{color:var(--text-muted);background:var(--bg)}
-.member-count{font-size:10px;color:var(--info);font-weight:700}
 
 /* ── FLOOR TABS ── */
 .floor-tabs{display:flex;gap:7px;margin-bottom:13px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
@@ -145,9 +134,6 @@ body.offline #offlineBanner{display:block}
 .detail-row:last-child{border-bottom:none}
 .detail-label{font-size:12px;color:var(--text-muted);font-weight:600}
 .detail-value{font-size:13px;font-weight:800;color:var(--text);text-align:right;max-width:65%}
-.total-box{background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:12px;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;margin:13px 0;color:#fff}
-.total-box-label{font-size:13px;font-weight:700;opacity:.9}
-.total-box-value{font-size:22px;font-weight:900}
 
 /* ── BUTTONS ── */
 .btn-group{display:flex;gap:9px;margin-top:12px}
@@ -162,7 +148,7 @@ body.offline #offlineBanner{display:block}
 
 /* ── EDIT FIELDS ── */
 .edit-section label{font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px}
-.edit-section input,.edit-section select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;margin-bottom:10px;outline:none;background:#fafbff}
+.edit-section input,.edit-section select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;margin-bottom:10px;outline:none;background:#fafbff;color:var(--text)}
 .edit-section input:focus,.edit-section select:focus{border-color:var(--primary-light);background:#fff}
 .edit-section .hint{font-size:10px;color:var(--text-muted);margin-top:-7px;margin-bottom:9px}
 
@@ -179,7 +165,7 @@ body.offline #offlineBanner{display:block}
 .ia-info{background:#e3f2fd;color:var(--info)}
 .ia-warning{background:#fff3e0;color:var(--warning)}
 
-/* ── PRICING RULE BOX ── */
+/* ── PRICING BOX ── */
 .pricing-box{background:linear-gradient(135deg,#e8eaf6,#e3f2fd);border-radius:12px;padding:12px 14px;margin:10px 0;border-left:4px solid var(--primary-light)}
 .pricing-box-title{font-size:11px;font-weight:800;color:var(--primary);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
 .pricing-row{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px}
@@ -192,6 +178,7 @@ body.offline #offlineBanner{display:block}
 .hist-amt{font-size:12px;font-weight:800}
 .hist-paid{color:var(--success)}
 .hist-unpaid{color:var(--danger)}
+.hist-partial{color:var(--warning)}
 
 /* ── USER CARDS ── */
 .user-card{background:var(--bg);border-radius:12px;padding:12px;margin-bottom:9px;display:flex;align-items:center;gap:10px;border:1.5px solid var(--border)}
@@ -228,24 +215,29 @@ body.offline #offlineBanner{display:block}
 .my-room-stat{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.2)}
 .my-room-stat:last-child{border-bottom:none}
 
-/* ── NOTIFICATION DOT ── */
-.notif-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;margin-left:4px;animation:blink 1.5s infinite}
-
-/* ── ADMIN MODAL FORM ── */
-.admin-form{background:#fff;border-radius:16px;padding:16px;border:1.5px solid var(--border);margin-bottom:12px}
-.admin-form h4{font-size:13px;font-weight:800;color:var(--primary);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+/* ── ADMIN / FORM LAYOUTS ── */
+.floor-config-card{border:2px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px}
+.floor-config-title{font-size:11px;font-weight:800;color:var(--primary);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;background:var(--bg);display:inline-block;padding:2px 8px;border-radius:6px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .form-field{margin-bottom:10px}
 .form-field label{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:4px}
 .form-field input,.form-field select{width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;outline:none;background:#fafbff;color:var(--text)}
 .form-field input:focus,.form-field select:focus{border-color:var(--primary-light);background:#fff}
-.floor-config-card{border:2px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px}
-.floor-config-title{font-size:11px;font-weight:800;color:var(--primary);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;background:var(--bg);display:inline-block;padding:2px 8px;border-radius:6px}
 
-/* ── LOGOUT SVG ICON ── */
-.logout-icon{width:18px;height:18px;display:block}
+/* ── SETTLEMENT BOX ── */
+.settlement-box{background:linear-gradient(135deg,#fff3e0,#fce4ec);border-radius:12px;padding:13px 14px;margin:10px 0;border-left:4px solid var(--warning)}
+.settlement-title{font-size:11px;font-weight:800;color:var(--warning);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
 
-/* ── CONFIRM DIALOG ── */
+/* ── PAYMENT INPUT ── */
+.pay-input-wrap{margin:12px 0;background:var(--bg);border-radius:12px;padding:12px;border:1.5px solid var(--border)}
+.pay-input-wrap label{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:6px}
+.pay-input-wrap input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:16px;font-weight:800;outline:none;background:#fff;color:var(--text)}
+.pay-input-wrap input:focus{border-color:var(--primary-light)}
+.balance-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;margin-top:4px}
+.balance-credit{background:#e8f5e9;color:var(--success)}
+.balance-debit{background:#ffebee;color:var(--danger)}
+
+/* ── CONFIRM / INPUT DIALOGS ── */
 .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
 .confirm-box{background:#fff;border-radius:20px;padding:24px;width:100%;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.22);animation:fadeIn .2s ease}
 @keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
@@ -255,9 +247,7 @@ body.offline #offlineBanner{display:block}
 .confirm-btns button{flex:1;padding:12px;border:none;border-radius:11px;font-size:13px;font-weight:800;cursor:pointer;transition:.15s}
 .confirm-cancel{background:var(--bg);color:var(--text);border:1.5px solid var(--border)!important}
 .confirm-ok{background:var(--danger);color:#fff}
-.confirm-ok.safe{background:var(--primary)}
-
-/* ── INPUT MODAL ── */
+.confirm-ok.safe{background:var(--primary);color:#fff}
 .input-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
 .input-modal-box{background:#fff;border-radius:20px;padding:24px;width:100%;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.22);animation:fadeIn .2s ease}
 .input-modal-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px}
@@ -270,15 +260,13 @@ body.offline #offlineBanner{display:block}
 </head>
 <body>
 
-<div id="offlineBanner">⚠️ Offline Mode — Changes will sync when connected</div>
-
 <!-- LOADING -->
 <div id="loadingScreen">
   <div class="loader-logo">🏠</div>
   <div class="loader-title">Sai Cottage</div>
   <div class="loader-sub">साई कॉटेज · Rental Management</div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
-  <div class="loader-status" id="loaderStatus">Connecting to database...</div>
+  <div class="loader-status" id="loaderStatus">Loading...</div>
 </div>
 
 <!-- AUTH -->
@@ -286,7 +274,6 @@ body.offline #offlineBanner{display:block}
   <div class="auth-logo">🏠</div>
   <div class="auth-title">Sai Cottage</div>
   <div class="auth-sub">साई कॉटेज · Balda, Pardi, Valsad</div>
-  <div class="sync-badge"><span class="sync-dot"></span> Live Sync Enabled</div>
   <div class="auth-card">
     <h3>Sign In 🔐</h3>
     <div class="field">
@@ -299,8 +286,7 @@ body.offline #offlineBanner{display:block}
     </div>
     <button class="btn btn-primary" id="loginBtn" onclick="doLogin()">Sign In →</button>
     <div style="margin-top:14px;background:#f0f4ff;border-radius:10px;padding:11px;font-size:11px;color:var(--text-muted)">
-      <b style="color:var(--primary)">Demo:</b>&nbsp;
-      admin/admin123 &nbsp;·&nbsp; manager/mgr123 &nbsp;·&nbsp; tenant1/tenant123
+      <b style="color:var(--primary)">Demo:</b>&nbsp;admin/admin123 &nbsp;·&nbsp; manager/mgr123 &nbsp;·&nbsp; tenant1/tenant123
     </div>
     <div id="loginError" style="display:none;margin-top:10px;background:#ffebee;border-radius:8px;padding:9px;font-size:12px;color:var(--danger);font-weight:700;text-align:center"></div>
   </div>
@@ -315,7 +301,6 @@ body.offline #offlineBanner{display:block}
         <div class="header-sub" id="headerSub">Balda, Pardi, Valsad</div>
       </div>
       <div class="header-right">
-        <div class="sync-indicator sync-offline" id="syncDot" title="Connection status"></div>
         <span class="role-badge" id="roleBadge">Admin</span>
         <button class="icon-btn" onclick="doLogout()" title="Logout">
           <svg class="logout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -336,161 +321,111 @@ body.offline #offlineBanner{display:block}
 <script>
 'use strict';
 
-// ═══════════════════════════════════════════════════════════════════
-// CONFIGURATION
-// ═══════════════════════════════════════════════════════════════════
+// ═══ CONFIG ═══
 const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
 const SUPABASE_KEY = 'YOUR_ANON_KEY';
-
 const T = { ROOMS:'rooms', MEMBERS:'members', PAYMENTS:'payments', USERS:'users', SETTINGS:'settings' };
 
-// ═══════════════════════════════════════════════════════════════════
-// SUPABASE CLIENT
-// ═══════════════════════════════════════════════════════════════════
+// ═══ SUPABASE CLIENT ═══
 const sb = {
-  _headers() {
-    return { 'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=representation' };
-  },
-  async query(table,params=''){
-    const r=await fetch(`${SUPABASE_URL}/rest/v1/${table}?${params}`,{headers:this._headers()});
-    if(!r.ok)throw new Error(await r.text());return r.json();
-  },
-  async insert(table,data){
-    const r=await fetch(`${SUPABASE_URL}/rest/v1/${table}`,{method:'POST',headers:this._headers(),body:JSON.stringify(data)});
-    if(!r.ok)throw new Error(await r.text());return r.json();
-  },
-  async update(table,match,data){
-    const qs=Object.entries(match).map(([k,v])=>`${k}=eq.${v}`).join('&');
-    const r=await fetch(`${SUPABASE_URL}/rest/v1/${table}?${qs}`,{method:'PATCH',headers:this._headers(),body:JSON.stringify(data)});
-    if(!r.ok)throw new Error(await r.text());return r.json();
-  },
-  async delete(table,match){
-    const qs=Object.entries(match).map(([k,v])=>`${k}=eq.${v}`).join('&');
-    const r=await fetch(`${SUPABASE_URL}/rest/v1/${table}?${qs}`,{method:'DELETE',headers:this._headers()});
-    if(!r.ok)throw new Error(await r.text());return true;
-  },
+  _h(){ return{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'};},
+  async query(t,p=''){const r=await fetch(`${SUPABASE_URL}/rest/v1/${t}?${p}`,{headers:this._h()});if(!r.ok)throw new Error(await r.text());return r.json();},
+  async insert(t,d){const r=await fetch(`${SUPABASE_URL}/rest/v1/${t}`,{method:'POST',headers:this._h(),body:JSON.stringify(d)});if(!r.ok)throw new Error(await r.text());return r.json();},
+  async update(t,m,d){const qs=Object.entries(m).map(([k,v])=>`${k}=eq.${v}`).join('&');const r=await fetch(`${SUPABASE_URL}/rest/v1/${t}?${qs}`,{method:'PATCH',headers:this._h(),body:JSON.stringify(d)});if(!r.ok)throw new Error(await r.text());return r.json();},
+  async delete(t,m){const qs=Object.entries(m).map(([k,v])=>`${k}=eq.${v}`).join('&');const r=await fetch(`${SUPABASE_URL}/rest/v1/${t}?${qs}`,{method:'DELETE',headers:this._h()});if(!r.ok)throw new Error(await r.text());return true;},
   _ws:null,_subs:[],
-  subscribe(table,cb){this._subs.push({table,cb});this._connectWS();},
-  _connectWS(){
+  subscribe(t,cb){this._subs.push({t,cb});this._conn();},
+  _conn(){
     if(this._ws&&this._ws.readyState<2)return;
-    const wsUrl=SUPABASE_URL.replace('https','wss').replace('http','ws')+`/realtime/v1/websocket?apikey=${SUPABASE_KEY}&vsn=1.0.0`;
+    const u=SUPABASE_URL.replace('https','wss')+`/realtime/v1/websocket?apikey=${SUPABASE_KEY}&vsn=1.0.0`;
     try{
-      this._ws=new WebSocket(wsUrl);
-      this._ws.onopen=()=>{
-        setSync('online');
-        const tables=[...new Set(this._subs.map(s=>s.table))];
-        tables.forEach(t=>{this._ws.send(JSON.stringify({topic:`realtime:public:${t}`,event:'phx_join',payload:{},ref:null}));});
-      };
-      this._ws.onmessage=(e)=>{
-        try{
-          const msg=JSON.parse(e.data);
-          if(msg.event==='INSERT'||msg.event==='UPDATE'||msg.event==='DELETE'){
-            const table=msg.topic.replace('realtime:public:','');
-            this._subs.filter(s=>s.table===table).forEach(s=>s.cb(msg.event,msg.payload));
-          }
-        }catch(_){}
-      };
-      this._ws.onclose=()=>{setSync('offline');setTimeout(()=>this._connectWS(),5000);};
-      this._ws.onerror=()=>setSync('offline');
-    }catch(_){setSync('offline');}
+      this._ws=new WebSocket(u);
+      this._ws.onopen=()=>{[...new Set(this._subs.map(s=>s.t))].forEach(t=>this._ws.send(JSON.stringify({topic:`realtime:public:${t}`,event:'phx_join',payload:{},ref:null})));};
+      this._ws.onmessage=e=>{try{const m=JSON.parse(e.data);if(['INSERT','UPDATE','DELETE'].includes(m.event)){const tb=m.topic.replace('realtime:public:','');this._subs.filter(s=>s.t===tb).forEach(s=>s.cb(m.event,m.payload));}}catch(_){}};
+      this._ws.onclose=()=>setTimeout(()=>this._conn(),5000);
+    }catch(_){}
   },
 };
 
-// ═══════════════════════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════════════════════
+// ═══ STATE ═══
 let S = {
   user:null, rooms:[], members:[], payments:[], users:[], settings:{},
-  activeTab:'dashboard', activeFloor:'All', searchQ:'',
-  selectedRoom:null, editMode:false, syncStatus:'offline', isOnline:navigator.onLine,
+  activeTab:'dashboard', activeFloor:'All', searchQ:'', selectedRoom:null, editMode:false,
 };
-const STORE_KEY='saiCottage';
+const STORE_KEY = 'saiCottage';
 
-function persist(){
-  try{localStorage.setItem(STORE_KEY,JSON.stringify({rooms:S.rooms,members:S.members,payments:S.payments,users:S.users,settings:S.settings}));}catch(_){}
-}
-function hydrate(){
-  try{
-    const d=localStorage.getItem(STORE_KEY);
-    if(d){const p=JSON.parse(d);S.rooms=p.rooms||[];S.members=p.members||[];S.payments=p.payments||[];S.users=p.users||[];S.settings=p.settings||defaultSettings();}
-  }catch(_){}
-}
+function persist(){try{localStorage.setItem(STORE_KEY,JSON.stringify({rooms:S.rooms,members:S.members,payments:S.payments,users:S.users,settings:S.settings}));}catch(_){}}
+function hydrate(){try{const d=localStorage.getItem(STORE_KEY);if(d){const p=JSON.parse(d);S.rooms=p.rooms||[];S.members=p.members||[];S.payments=p.payments||[];S.users=p.users||[];S.settings=p.settings||defaultSettings();}}catch(_){}}
+
 function defaultSettings(){
   return {
-    current_month:currentMonthLabel(),
-    // Global defaults (floor-specific overrides stored per floor)
-    base_members_gf:2, extra_per_member_gf:500,
-    base_members_1st:2, extra_per_member_1st:500,
-    base_members_2nd:2, extra_per_member_2nd:500,
-    base_members_3rd:2, extra_per_member_3rd:400,
-    base_rent_gf:3500, light_water_gf:500,
-    base_rent_1st:3500, light_water_1st:500,
-    base_rent_2nd:3500, light_water_2nd:500,
-    base_rent_3rd:2600, light_water_3rd:500,
+    current_month: currentMonthLabel(),
+    base_rent_gf:3500, light_water_gf:500, extra_per_member_gf:500,
+    base_rent_1st:3500, light_water_1st:500, extra_per_member_1st:500,
+    base_rent_2nd:3500, light_water_2nd:500, extra_per_member_2nd:500,
+    base_rent_3rd:2600, light_water_3rd:500, extra_per_member_3rd:400,
   };
 }
 function currentMonthLabel(){return new Date().toLocaleDateString('en-IN',{month:'short',year:'numeric'});}
 
-// ═══════════════════════════════════════════════════════════════════
-// SEED DATA
-// ═══════════════════════════════════════════════════════════════════
+// ═══ SEED DATA ═══
 const SEED_ROOMS=[
-  {id:'r1',floor:'Ground',num:'1',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r2',floor:'Ground',num:'2',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:true},
-  {id:'r3',floor:'Ground',num:'3',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r4',floor:'Ground',num:'4',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r5',floor:'Ground',num:'5',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r6',floor:'Ground',num:'6',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r7',floor:'Ground',num:'7',base_rent:3500,water_charge:500,other_charge:200,other_label:'Baki',is_vacant:false},
-  {id:'r8',floor:'Ground',num:'8',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r9',floor:'Ground',num:'9',base_rent:3500,water_charge:500,other_charge:200,other_label:'Baki',is_vacant:false},
-  {id:'r10',floor:'Ground',num:'10',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r11',floor:'Ground',num:'11',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r12',floor:'Ground',num:'12',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r13',floor:'Ground',num:'13',base_rent:3500,water_charge:500,other_charge:4200,other_label:'Baki',is_vacant:false},
-  {id:'r14',floor:'Ground',num:'14',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r101',floor:'1st',num:'101',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r102',floor:'1st',num:'102',base_rent:3500,water_charge:500,other_charge:4200,other_label:'Baki',is_vacant:false},
-  {id:'r103',floor:'1st',num:'103',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r104',floor:'1st',num:'104',base_rent:3500,water_charge:500,other_charge:200,other_label:'Baki',is_vacant:false},
-  {id:'r105',floor:'1st',num:'105',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r106',floor:'1st',num:'106',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r107',floor:'1st',num:'107',base_rent:3500,water_charge:500,other_charge:200,other_label:'Baki',is_vacant:false},
-  {id:'r108',floor:'1st',num:'108',base_rent:3500,water_charge:500,other_charge:3200,other_label:'Extra',is_vacant:false},
-  {id:'r109',floor:'1st',num:'109',base_rent:3500,water_charge:500,other_charge:2800,other_label:'Baki',is_vacant:false},
-  {id:'r110',floor:'1st',num:'110',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r111',floor:'1st',num:'111',base_rent:3500,water_charge:500,other_charge:4000,other_label:'Baki',is_vacant:false},
-  {id:'r112',floor:'1st',num:'112',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r113',floor:'1st',num:'113',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r114',floor:'1st',num:'114',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r201',floor:'2nd',num:'201',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r202',floor:'2nd',num:'202',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r203',floor:'2nd',num:'203',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r204',floor:'2nd',num:'204',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r205',floor:'2nd',num:'205',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r206',floor:'2nd',num:'206',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r207',floor:'2nd',num:'207',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r208',floor:'2nd',num:'208',base_rent:3500,water_charge:500,other_charge:4000,other_label:'Baki',is_vacant:false},
-  {id:'r209',floor:'2nd',num:'209',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r210',floor:'2nd',num:'210',base_rent:3500,water_charge:500,other_charge:200,other_label:'Baki',is_vacant:false},
-  {id:'r211',floor:'2nd',num:'211',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r212',floor:'2nd',num:'212',base_rent:3500,water_charge:500,other_charge:5400,other_label:'Extra+Baki',is_vacant:false},
-  {id:'r213',floor:'2nd',num:'213',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r214',floor:'2nd',num:'214',base_rent:3500,water_charge:500,other_charge:200,other_label:'Extra',is_vacant:false},
-  {id:'r301',floor:'3rd',num:'301',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r302',floor:'3rd',num:'302',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r303',floor:'3rd',num:'303',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r304',floor:'3rd',num:'304',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r305',floor:'3rd',num:'305',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r306',floor:'3rd',num:'306',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r307',floor:'3rd',num:'307',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r308',floor:'3rd',num:'308',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r309',floor:'3rd',num:'309',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r310',floor:'3rd',num:'310',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r311',floor:'3rd',num:'311',base_rent:2600,water_charge:500,other_charge:1000,other_label:'Extra',is_vacant:false},
-  {id:'r312',floor:'3rd',num:'312',base_rent:2600,water_charge:500,other_charge:3100,other_label:'Baki',is_vacant:false},
-  {id:'r313',floor:'3rd',num:'313',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
-  {id:'r314',floor:'3rd',num:'314',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false},
+  {id:'r1',floor:'Ground',num:'1',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r2',floor:'Ground',num:'2',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:true,extra_members:0},
+  {id:'r3',floor:'Ground',num:'3',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r4',floor:'Ground',num:'4',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r5',floor:'Ground',num:'5',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r6',floor:'Ground',num:'6',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r7',floor:'Ground',num:'7',base_rent:3500,water_charge:500,other_charge:200,other_label:'Baki',is_vacant:false,extra_members:0},
+  {id:'r8',floor:'Ground',num:'8',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r9',floor:'Ground',num:'9',base_rent:3500,water_charge:500,other_charge:200,other_label:'Baki',is_vacant:false,extra_members:2},
+  {id:'r10',floor:'Ground',num:'10',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r11',floor:'Ground',num:'11',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r12',floor:'Ground',num:'12',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r13',floor:'Ground',num:'13',base_rent:3500,water_charge:500,other_charge:4200,other_label:'Baki',is_vacant:false,extra_members:0},
+  {id:'r14',floor:'Ground',num:'14',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r101',floor:'1st',num:'101',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r102',floor:'1st',num:'102',base_rent:3500,water_charge:500,other_charge:4200,other_label:'Baki',is_vacant:false,extra_members:0},
+  {id:'r103',floor:'1st',num:'103',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r104',floor:'1st',num:'104',base_rent:3500,water_charge:500,other_charge:200,other_label:'Baki',is_vacant:false,extra_members:0},
+  {id:'r105',floor:'1st',num:'105',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r106',floor:'1st',num:'106',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r107',floor:'1st',num:'107',base_rent:3500,water_charge:500,other_charge:200,other_label:'Baki',is_vacant:false,extra_members:0},
+  {id:'r108',floor:'1st',num:'108',base_rent:3500,water_charge:500,other_charge:3200,other_label:'Extra',is_vacant:false,extra_members:0},
+  {id:'r109',floor:'1st',num:'109',base_rent:3500,water_charge:500,other_charge:2800,other_label:'Baki',is_vacant:false,extra_members:0},
+  {id:'r110',floor:'1st',num:'110',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r111',floor:'1st',num:'111',base_rent:3500,water_charge:500,other_charge:4000,other_label:'Baki',is_vacant:false,extra_members:0},
+  {id:'r112',floor:'1st',num:'112',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r113',floor:'1st',num:'113',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r114',floor:'1st',num:'114',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r201',floor:'2nd',num:'201',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r202',floor:'2nd',num:'202',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r203',floor:'2nd',num:'203',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r204',floor:'2nd',num:'204',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r205',floor:'2nd',num:'205',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r206',floor:'2nd',num:'206',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r207',floor:'2nd',num:'207',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r208',floor:'2nd',num:'208',base_rent:3500,water_charge:500,other_charge:4000,other_label:'Baki',is_vacant:false,extra_members:0},
+  {id:'r209',floor:'2nd',num:'209',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r210',floor:'2nd',num:'210',base_rent:3500,water_charge:500,other_charge:200,other_label:'Baki',is_vacant:false,extra_members:0},
+  {id:'r211',floor:'2nd',num:'211',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r212',floor:'2nd',num:'212',base_rent:3500,water_charge:500,other_charge:5400,other_label:'Extra+Baki',is_vacant:false,extra_members:0},
+  {id:'r213',floor:'2nd',num:'213',base_rent:3500,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r214',floor:'2nd',num:'214',base_rent:3500,water_charge:500,other_charge:200,other_label:'Extra',is_vacant:false,extra_members:0},
+  {id:'r301',floor:'3rd',num:'301',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r302',floor:'3rd',num:'302',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r303',floor:'3rd',num:'303',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r304',floor:'3rd',num:'304',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r305',floor:'3rd',num:'305',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r306',floor:'3rd',num:'306',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r307',floor:'3rd',num:'307',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r308',floor:'3rd',num:'308',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r309',floor:'3rd',num:'309',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r310',floor:'3rd',num:'310',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r311',floor:'3rd',num:'311',base_rent:2600,water_charge:500,other_charge:1000,other_label:'Extra',is_vacant:false,extra_members:0},
+  {id:'r312',floor:'3rd',num:'312',base_rent:2600,water_charge:500,other_charge:3100,other_label:'Baki',is_vacant:false,extra_members:0},
+  {id:'r313',floor:'3rd',num:'313',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
+  {id:'r314',floor:'3rd',num:'314',base_rent:2600,water_charge:500,other_charge:0,other_label:'',is_vacant:false,extra_members:0},
 ];
 const SEED_MEMBERS=[
   {id:'m1',room_id:'r1',name:'Chainsingh',mobile:'9033245958',username:'chainsingh',password_hash:'tenant123',is_active:true,joined_at:'2026-01-01',left_at:null},
@@ -514,56 +449,52 @@ const SEED_USERS=[
   {id:'u3',username:'tenant1',password_hash:'tenant123',role:'tenant',name:'Demo Tenant',room_id:'r1',is_active:true},
 ];
 
-// ═══════════════════════════════════════════════════════════════════
-// BUSINESS LOGIC
-// ═══════════════════════════════════════════════════════════════════
+// ═══ BUSINESS LOGIC ═══
+function getFloorKey(floor){return floor==='Ground'?'gf':floor==='1st'?'1st':floor==='2nd'?'2nd':'3rd';}
 function getRoomMembers(roomId){return S.members.filter(m=>m.room_id===roomId&&m.is_active);}
 
-function getFloorKey(floor){
-  if(floor==='Ground')return 'gf';
-  if(floor==='1st')return '1st';
-  if(floor==='2nd')return '2nd';
-  if(floor==='3rd')return '3rd';
-  return 'gf';
-}
-
-function calcMemberCharge(room){
-  const members=getRoomMembers(room.id);
-  const count=members.length;
+// Extra members now come from room.extra_members field (admin-set), not from member count
+function calcExtraMemberCharge(room){
   const fk=getFloorKey(room.floor);
-  const base=S.settings[`base_members_${fk}`]||2;
-  const rate=S.settings[`extra_per_member_${fk}`]||500;
-  const extra=Math.max(0,count-base)*rate;
-  return{count,base,rate,extra};
+  const extraCount=parseInt(room.extra_members)||0;
+  const rate=S.settings[`extra_per_member_${fk}`]||(room.floor==='3rd'?400:500);
+  return{extraCount,rate,charge:extraCount*rate};
 }
 
 function calcRoomTotal(room){
-  const{extra:memberCharge}=calcMemberCharge(room);
-  return room.base_rent+room.water_charge+room.other_charge+memberCharge;
+  const{charge:extraCharge}=calcExtraMemberCharge(room);
+  // other_charge already includes previous baki carried forward
+  return room.base_rent+room.water_charge+room.other_charge+extraCharge;
 }
 
+// Payment record: paid=bool, amount_paid=number (actual cash received), balance=carryover
 function getRoomPayment(roomId){
   const month=S.settings.current_month||currentMonthLabel();
   let p=S.payments.find(x=>x.room_id===roomId&&x.month===month);
-  if(!p){p={id:null,room_id:roomId,month,paid:false,amount:0,paid_date:null,paid_by:null};S.payments.push(p);}
+  if(!p){
+    // Check for carry-forward balance from previous records
+    p={id:null,room_id:roomId,month,paid:false,amount_due:0,amount_paid:0,balance:0,paid_date:null,paid_by:null};
+    S.payments.push(p);
+  }
+  // Sync amount_due if not set
+  const room=getRoomById(roomId);
+  if(room&&!p.amount_due)p.amount_due=calcRoomTotal(room);
   return p;
+}
+
+// Net due = this month's total + any previous unpaid balance carried from room.other_charge
+function getEffectiveDue(room){
+  const pay=getRoomPayment(room.id);
+  const tot=calcRoomTotal(room);
+  // balance is negative = credit (overpaid), positive = extra owed
+  const net=tot+(pay.balance||0);
+  return{tot,net,balance:pay.balance||0};
 }
 
 function getRoomById(id){return S.rooms.find(r=>r.id===id);}
 function getUserById(id){return S.users.find(u=>u.id===id);}
 
-// ═══════════════════════════════════════════════════════════════════
-// SYNC
-// ═══════════════════════════════════════════════════════════════════
-function setSync(status){
-  S.syncStatus=status;
-  const dot=document.getElementById('syncDot');
-  if(!dot)return;
-  dot.className='sync-indicator';
-  if(status==='online')dot.classList.add('sync-online');
-  else if(status==='offline')dot.classList.add('sync-offline');
-  else if(status==='syncing')dot.classList.add('sync-syncing');
-}
+// ═══ DATA LAYER ═══
 const isConfigured=()=>!SUPABASE_URL.includes('YOUR_PROJECT');
 
 async function loadAllData(){
@@ -576,13 +507,11 @@ async function loadAllData(){
       S.users=JSON.parse(JSON.stringify(SEED_USERS));
       S.settings=defaultSettings();persist();
     }else{
-      // Ensure settings has all floor keys
       S.settings={...defaultSettings(),...S.settings};
     }
-    setSync('offline');return;
+    return;
   }
   try{
-    setSync('syncing');
     const[rooms,members,payments,users,settingsArr]=await Promise.all([
       sb.query(T.ROOMS,'order=floor,num.asc'),
       sb.query(T.MEMBERS,'is_active=eq.true&order=name.asc'),
@@ -592,22 +521,19 @@ async function loadAllData(){
     ]);
     S.rooms=rooms;S.members=members;S.payments=payments;S.users=users;
     S.settings={...defaultSettings(),...(settingsArr[0]||{})};
-    persist();setSync('online');
-    [T.ROOMS,T.MEMBERS,T.PAYMENTS,T.USERS].forEach(table=>{
-      sb.subscribe(table,(event,payload)=>handleRealtimeEvent(table,event,payload));
+    persist();
+    [T.ROOMS,T.MEMBERS,T.PAYMENTS,T.USERS].forEach(t=>{
+      sb.subscribe(t,(ev,pl)=>handleRT(t,ev,pl));
     });
   }catch(err){
-    console.warn('Supabase load failed:',err);
-    hydrate();
+    console.warn('DB load failed:',err);hydrate();
     if(!S.rooms.length){S.rooms=JSON.parse(JSON.stringify(SEED_ROOMS));S.members=JSON.parse(JSON.stringify(SEED_MEMBERS));S.users=JSON.parse(JSON.stringify(SEED_USERS));S.settings=defaultSettings();}
-    else{S.settings={...defaultSettings(),...S.settings};}
-    setSync('offline');
+    else S.settings={...defaultSettings(),...S.settings};
   }
 }
 
-function handleRealtimeEvent(table,event,payload){
-  const rec=payload.record||payload.new||{};
-  const old=payload.old_record||payload.old||{};
+function handleRT(table,event,payload){
+  const rec=payload.record||payload.new||{};const old=payload.old_record||payload.old||{};
   const merge=(arr,item)=>{const i=arr.findIndex(x=>x.id===item.id);if(i>=0)arr[i]=item;else arr.push(item);};
   const remove=(arr,id)=>{const i=arr.findIndex(x=>x.id===id);if(i>=0)arr.splice(i,1);};
   if(table===T.ROOMS){if(event==='DELETE')remove(S.rooms,old.id);else merge(S.rooms,rec);}
@@ -619,28 +545,24 @@ function handleRealtimeEvent(table,event,payload){
 
 async function syncWrite(action){
   if(!isConfigured()){action.local();persist();return;}
-  setSync('syncing');
-  try{await action.remote();action.local();persist();setSync('online');}
-  catch(err){console.error('Sync failed:',err);action.local();persist();setSync('offline');showToast('⚠️ Saved locally — will sync when online');}
+  try{await action.remote();action.local();persist();}
+  catch(err){console.error('Sync failed:',err);action.local();persist();showToast('⚠️ Saved locally');}
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// AUTH
-// ═══════════════════════════════════════════════════════════════════
+// ═══ AUTH ═══
 async function doLogin(){
   const username=document.getElementById('loginUser').value.trim();
   const password=document.getElementById('loginPass').value.trim();
-  const errDiv=document.getElementById('loginError');
-  const btn=document.getElementById('loginBtn');
-  errDiv.style.display='none';
+  document.getElementById('loginError').style.display='none';
   if(!username||!password){showLoginError('Please enter username and password');return;}
+  const btn=document.getElementById('loginBtn');
   btn.innerHTML='<span class="spinner"></span> Signing in...';btn.disabled=true;
   await new Promise(r=>setTimeout(r,300));
 
   let found=S.users.find(u=>u.username===username&&u.password_hash===password&&u.is_active);
   if(!found){
-    const member=S.members.find(m=>m.username===username&&m.password_hash===password&&m.is_active);
-    if(member){found={id:member.id,username:member.username,role:'tenant',name:member.name,room_id:member.room_id,is_active:true};}
+    const m=S.members.find(m=>m.username===username&&m.password_hash===password&&m.is_active);
+    if(m)found={id:m.id,username:m.username,role:'tenant',name:m.name,room_id:m.room_id,is_active:true};
   }
   btn.innerHTML='Sign In →';btn.disabled=false;
   if(!found){showLoginError('❌ Invalid username or password');return;}
@@ -652,40 +574,36 @@ async function doLogin(){
   document.getElementById('roleBadge').textContent=found.role.charAt(0).toUpperCase()+found.role.slice(1);
   document.getElementById('roleBadge').className='role-badge badge-'+found.role;
   document.getElementById('headerSub').textContent=found.name+' · Balda, Pardi, Valsad';
-
   buildNav();
-  // Tenants go directly to My Room
-  renderTab(found.role==='tenant'?'myroom':'dashboard');
+  renderTab(found.role==='tenant'?'myroom':(found.role==='manager'?'payments':'dashboard'));
 }
-
 function showLoginError(msg){const e=document.getElementById('loginError');e.textContent=msg;e.style.display='block';}
-
 function doLogout(){
   S.user=null;S.activeTab='dashboard';
   document.getElementById('app').style.display='none';
   document.getElementById('authScreen').style.display='flex';
-  document.getElementById('loginUser').value='';
-  document.getElementById('loginPass').value='';
+  document.getElementById('loginUser').value='';document.getElementById('loginPass').value='';
   document.getElementById('loginError').style.display='none';
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// NAVIGATION — role-based
-// ═══════════════════════════════════════════════════════════════════
+// ═══ NAVIGATION — strict role-based ═══
 function buildNav(){
   const role=S.user.role;
   let tabs=[];
   if(role==='tenant'){
-    // Tenants ONLY see My Room
     tabs=[{id:'myroom',icon:'🏠',label:'My Room'}];
+  }else if(role==='manager'){
+    // Manager: Payments only (mark paid/unpaid, see totals)
+    tabs=[{id:'payments',icon:'💰',label:'Payments'}];
   }else{
+    // Admin: full access
     tabs=[
       {id:'dashboard',icon:'📊',label:'Home'},
       {id:'rooms',icon:'🚪',label:'Rooms'},
       {id:'payments',icon:'💰',label:'Pay'},
       {id:'reports',icon:'📈',label:'Reports'},
+      {id:'admin',icon:'⚙️',label:'Admin'},
     ];
-    if(role==='admin')tabs.push({id:'admin',icon:'⚙️',label:'Admin'});
   }
   document.getElementById('mainNav').innerHTML=tabs.map(t=>
     `<div class="nav-item${S.activeTab===t.id?' active':''}" onclick="renderTab('${t.id}')">
@@ -695,14 +613,15 @@ function buildNav(){
 }
 
 function renderTab(tab,rebuild=true){
+  const role=S.user.role;
+  // Role guards
+  if(role==='tenant'&&tab!=='myroom'){tab='myroom';}
+  else if(role==='manager'&&tab!=='payments'){tab='payments';}
+  else if(tab==='admin'&&role!=='admin'){tab='dashboard';}
+  else if(tab==='reports'&&role!=='admin'){tab='dashboard';}
   S.activeTab=tab;
   if(rebuild)buildNav();
   const c=document.getElementById('mainContent');
-  const role=S.user.role;
-  // Role guards
-  if(role==='tenant'&&tab!=='myroom'){renderTab('myroom');return;}
-  if(tab==='admin'&&role!=='admin'){renderTab('dashboard');return;}
-
   if(tab==='dashboard')c.innerHTML=renderDashboard();
   else if(tab==='rooms')c.innerHTML=renderRooms();
   else if(tab==='payments')c.innerHTML=renderPayments();
@@ -711,35 +630,34 @@ function renderTab(tab,rebuild=true){
   else if(tab==='myroom')c.innerHTML=renderMyRoom();
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// DASHBOARD
-// ═══════════════════════════════════════════════════════════════════
+// ═══ DASHBOARD (admin only) ═══
 function renderDashboard(){
   const rooms=S.rooms;
+  const occ=rooms.filter(r=>!r.is_vacant&&getRoomMembers(r.id).length>0);
   const total=rooms.length;
-  const occupied=rooms.filter(r=>!r.is_vacant&&getRoomMembers(r.id).length>0).length;
+  const occupied=occ.length;
   const totalMembers=S.members.filter(m=>m.is_active).length;
-  const totalRent=rooms.reduce((s,r)=>s+calcRoomTotal(r),0);
-  const paidRooms=rooms.filter(r=>getRoomPayment(r.id).paid);
-  const collected=paidRooms.reduce((s,r)=>s+calcRoomTotal(r),0);
-  const pending=totalRent-collected;
-  const pendingRooms=rooms.filter(r=>!getRoomPayment(r.id).paid&&!r.is_vacant&&getRoomMembers(r.id).length>0);
+  const totalRent=occ.reduce((s,r)=>s+calcRoomTotal(r),0);
+  const paidRooms=occ.filter(r=>getRoomPayment(r.id).paid);
+  const collected=paidRooms.reduce((s,r)=>{const p=getRoomPayment(r.id);return s+(p.amount_paid||calcRoomTotal(r));},0);
+  const pendingRooms=occ.filter(r=>!getRoomPayment(r.id).paid);
+  const pendingAmt=pendingRooms.reduce((s,r)=>s+calcRoomTotal(r),0);
   const month=S.settings.current_month||currentMonthLabel();
   const pct=totalRent>0?Math.round(collected/totalRent*100):0;
 
-  return `
+  return`
   <div class="section-title">📅 ${month}</div>
   <div class="stats-grid">
     <div class="stat-card"><div class="stat-icon">🏠</div><div class="stat-value">${occupied}/${total}</div><div class="stat-label">Rooms Occupied</div></div>
     <div class="stat-card blue"><div class="stat-icon">👥</div><div class="stat-value">${totalMembers}</div><div class="stat-label">Total Members</div></div>
     <div class="stat-card full green"><div class="stat-icon">💵</div><div class="stat-value">₹${collected.toLocaleString('en-IN')}</div><div class="stat-label">Collected — ${paidRooms.length} rooms paid (${pct}%)</div></div>
     <div class="stat-card red"><div class="stat-icon">⏳</div><div class="stat-value">${pendingRooms.length}</div><div class="stat-label">Pending Rooms</div></div>
-    <div class="stat-card orange"><div class="stat-icon">💸</div><div class="stat-value">₹${pending.toLocaleString('en-IN')}</div><div class="stat-label">Pending Amount</div></div>
+    <div class="stat-card orange"><div class="stat-icon">💸</div><div class="stat-value">₹${pendingAmt.toLocaleString('en-IN')}</div><div class="stat-label">Pending Amount</div></div>
   </div>
   <div class="summary-bar">
     <div class="sum-item"><div class="sum-value">₹${totalRent.toLocaleString('en-IN')}</div><div class="sum-label">Total Rent</div></div>
     <div class="sum-item"><div class="sum-value">${pct}%</div><div class="sum-label">Collected</div></div>
-    <div class="sum-item"><div class="sum-value">${S.syncStatus==='online'?'🟢':'🔴'}</div><div class="sum-label">${S.syncStatus==='online'?'Live':'Offline'}</div></div>
+    <div class="sum-item"><div class="sum-value">${paidRooms.length}/${occ.length}</div><div class="sum-label">Rooms Paid</div></div>
   </div>
   ${pendingRooms.length>0?`
   <div class="section-title">⚠️ Pending Payments</div>
@@ -763,9 +681,7 @@ function renderDashboard(){
   `<div class="card"><div class="card-body"><div class="empty-state"><div class="ei">🎉</div><p>All rooms paid this month!</p></div></div></div>`}`;
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// ROOMS LIST
-// ═══════════════════════════════════════════════════════════════════
+// ═══ ROOMS LIST ═══
 function renderRooms(){
   const floors=['All','Ground','1st','2nd','3rd'];
   return`
@@ -782,31 +698,27 @@ function renderRooms(){
   </div>
   <div id="roomListWrap">${renderRoomListInner()}</div>`;
 }
-
 function renderRoomListInner(){
   const q=S.searchQ.toLowerCase();
   let filtered=S.rooms.filter(r=>{
     const fOk=S.activeFloor==='All'||r.floor===S.activeFloor;
     const mems=getRoomMembers(r.id);
     const names=mems.map(m=>m.name+' '+m.mobile).join(' ').toLowerCase();
-    const sOk=!q||r.num.includes(q)||names.includes(q);
-    return fOk&&sOk;
+    return fOk&&(!q||r.num.includes(q)||names.includes(q));
   });
   if(!filtered.length)return`<div class="empty-state"><div class="ei">🔍</div><p>No rooms found</p></div>`;
-  const grouped={};
-  filtered.forEach(r=>{(grouped[r.floor]=grouped[r.floor]||[]).push(r);});
+  const grouped={};filtered.forEach(r=>{(grouped[r.floor]=grouped[r.floor]||[]).push(r);});
   let html='';
   for(const floor of['Ground','1st','2nd','3rd']){
     if(!grouped[floor])continue;
     html+=`<div class="section-title">${floor} Floor — ${grouped[floor].length} rooms</div><div class="card"><div class="card-body">`;
     html+=grouped[floor].map(r=>{
-      const mems=getRoomMembers(r.id);
-      const pay=getRoomPayment(r.id);
-      const tot=calcRoomTotal(r);
+      const mems=getRoomMembers(r.id);const pay=getRoomPayment(r.id);const tot=calcRoomTotal(r);
       const name=r.is_vacant?'(Vacant)':(mems.map(m=>m.name).join(', ')||'(No members)');
       const pClass=pay.paid?'pill-paid':(r.is_vacant?'pill-vacant':'pill-unpaid');
       const pText=pay.paid?'Paid':(r.is_vacant?'Vacant':'Unpaid');
       const amtColor=pay.paid?'var(--success)':(r.is_vacant?'var(--text-muted)':'var(--danger)');
+      const hasBalance=pay.balance&&pay.balance!==0;
       return`<div class="room-item" onclick="openRoomModal('${r.id}')">
         <div class="room-num">${r.num}</div>
         <div class="room-info">
@@ -816,6 +728,7 @@ function renderRoomListInner(){
         <div class="room-right">
           <div class="room-amount" style="color:${amtColor}">₹${tot.toLocaleString('en-IN')}</div>
           <div class="pill ${pClass}">${pText}</div>
+          ${hasBalance?`<div style="font-size:9px;color:${pay.balance>0?'var(--danger)':'var(--success)'};font-weight:700">${pay.balance>0?'+':''}₹${pay.balance.toLocaleString('en-IN')} bal</div>`:''}
         </div>
       </div>`;
     }).join('');
@@ -824,9 +737,7 @@ function renderRoomListInner(){
   return html;
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// PAYMENTS
-// ═══════════════════════════════════════════════════════════════════
+// ═══ PAYMENTS — Manager view: shows summary + mark paid/unpaid ═══
 function renderPayments(){
   const role=S.user.role;
   const canEdit=role==='admin'||role==='manager';
@@ -834,81 +745,286 @@ function renderPayments(){
   const occ=S.rooms.filter(r=>!r.is_vacant&&getRoomMembers(r.id).length>0);
   const paid=occ.filter(r=>getRoomPayment(r.id).paid);
   const unpaid=occ.filter(r=>!getRoomPayment(r.id).paid);
+  const totalDue=occ.reduce((s,r)=>s+calcRoomTotal(r),0);
+  const totalCollected=paid.reduce((s,r)=>{const p=getRoomPayment(r.id);return s+(p.amount_paid||calcRoomTotal(r));},0);
+  const totalPending=unpaid.reduce((s,r)=>s+calcRoomTotal(r),0);
 
   return`
   <div class="section-title">💰 Payments — ${month}</div>
   <div class="stats-grid">
-    <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-value">${paid.length}</div><div class="stat-label">Paid</div></div>
-    <div class="stat-card red"><div class="stat-icon">❌</div><div class="stat-value">${unpaid.length}</div><div class="stat-label">Unpaid</div></div>
+    <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-value">${paid.length}</div><div class="stat-label">Paid Rooms</div></div>
+    <div class="stat-card red"><div class="stat-icon">❌</div><div class="stat-value">${unpaid.length}</div><div class="stat-label">Unpaid Rooms</div></div>
+    <div class="stat-card full green"><div class="stat-icon">💵</div><div class="stat-value">₹${totalCollected.toLocaleString('en-IN')}</div><div class="stat-label">Collected this month</div></div>
+    <div class="stat-card full orange"><div class="stat-icon">💸</div><div class="stat-value">₹${totalPending.toLocaleString('en-IN')}</div><div class="stat-label">Pending amount</div></div>
   </div>
   ${unpaid.length?`
-  <div class="section-title">❌ Unpaid Rooms</div>
+  <div class="section-title">❌ Unpaid (${unpaid.length})</div>
   <div class="card"><div class="card-body">
     ${unpaid.map(r=>{
-      const mems=getRoomMembers(r.id);const tot=calcRoomTotal(r);
+      const mems=getRoomMembers(r.id);const tot=calcRoomTotal(r);const pay=getRoomPayment(r.id);
+      const bal=pay.balance||0;
       return`<div class="room-item" onclick="openRoomModal('${r.id}')">
         <div class="room-num">${r.num}</div>
         <div class="room-info">
           <div class="room-name">${escHtml(mems.map(m=>m.name).join(', '))}</div>
-          <div class="room-sub">${r.floor} · ${mems.length} members</div>
+          <div class="room-sub">${r.floor} · ${mems.length} members${bal!==0?` · Bal:₹${bal}`:''}}</div>
         </div>
         <div class="room-right">
           <div class="room-amount" style="color:var(--danger)">₹${tot.toLocaleString('en-IN')}</div>
           ${canEdit?`<button class="btn-sm btn-success" style="padding:5px 9px;font-size:10px;margin-top:4px"
-            onclick="event.stopPropagation();markPaid('${r.id}',true)">Mark Paid</button>`:`<div class="pill pill-unpaid">Unpaid</div>`}
+            onclick="event.stopPropagation();openPaymentModal('${r.id}')">Record Payment</button>`:`<div class="pill pill-unpaid">Unpaid</div>`}
         </div>
       </div>`;
     }).join('')}
   </div></div>`:''}
   ${paid.length?`
-  <div class="section-title">✅ Paid Rooms</div>
+  <div class="section-title">✅ Paid (${paid.length})</div>
   <div class="card"><div class="card-body">
     ${paid.map(r=>{
       const mems=getRoomMembers(r.id);const pay=getRoomPayment(r.id);const tot=calcRoomTotal(r);
+      const bal=pay.balance||0;
       return`<div class="room-item" onclick="openRoomModal('${r.id}')">
         <div class="room-num">${r.num}</div>
         <div class="room-info">
           <div class="room-name">${escHtml(mems.map(m=>m.name).join(', '))}</div>
-          <div class="room-sub">${pay.paid_date||''}</div>
+          <div class="room-sub">${pay.paid_date||''} · Paid ₹${(pay.amount_paid||tot).toLocaleString('en-IN')}${bal!==0?` · ${bal<0?'Credit':'Owed'}:₹${Math.abs(bal)}`:''}}</div>
         </div>
         <div class="room-right">
           <div class="room-amount" style="color:var(--success)">₹${tot.toLocaleString('en-IN')}</div>
           ${canEdit?`<button class="btn-sm btn-danger" style="padding:5px 9px;font-size:10px;margin-top:4px"
-            onclick="event.stopPropagation();markPaid('${r.id}',false)">Unmark</button>`:`<div class="pill pill-paid">Paid</div>`}
+            onclick="event.stopPropagation();revertPayment('${r.id}')">Revert</button>`:`<div class="pill pill-paid">Paid</div>`}
         </div>
       </div>`;
     }).join('')}
   </div></div>`:''}`;
 }
 
-async function markPaid(roomId,paid){
-  const month=S.settings.current_month||currentMonthLabel();
+// ── Payment Modal: record exact amount paid ──
+function openPaymentModal(roomId){
   const room=getRoomById(roomId);
-  const total=calcRoomTotal(room);
+  const mems=getRoomMembers(roomId);
   const pay=getRoomPayment(roomId);
-  const today=new Date().toLocaleDateString('en-IN');
-  await syncWrite({
-    local:()=>{pay.paid=paid;pay.paid_date=paid?today:null;pay.paid_by=paid?S.user.name:null;pay.amount=total;},
-    remote:async()=>{
-      if(pay.id){await sb.update(T.PAYMENTS,{id:pay.id},{paid,paid_date:paid?today:null,paid_by:paid?S.user.name:null,amount:total});}
-      else{const r=await sb.insert(T.PAYMENTS,{room_id:roomId,month,paid,amount:total,paid_date:paid?today:null,paid_by:paid?S.user.name:null});if(r&&r[0])pay.id=r[0].id;}
-    },
-  });
-  renderTab(S.activeTab);
-  showToast(paid?'✅ Marked as Paid':'🔄 Marked as Unpaid');
+  const tot=calcRoomTotal(room);
+  const prevBalance=pay.balance||0;
+  // Net due = this month's rent + any previous owed balance
+  const netDue=tot+Math.max(0,prevBalance);
+
+  closeModal();
+  const div=document.createElement('div');
+  div.className='modal-overlay';div.id='modalOverlay';
+  div.onclick=e=>{if(e.target===div)closeModal();};
+  div.innerHTML=`<div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Record Payment</div>
+    <div class="modal-sub">Room ${room.num} · ${room.floor} Floor · ${escHtml(mems.map(m=>m.name).join(', '))}</div>
+
+    <div class="pricing-box">
+      <div class="pricing-box-title">💰 Amount Due</div>
+      <div class="pricing-row"><span>This Month's Rent</span><span>₹${tot.toLocaleString('en-IN')}</span></div>
+      ${prevBalance>0?`<div class="pricing-row"><span>Previous Balance Owed</span><span style="color:var(--danger)">+₹${prevBalance.toLocaleString('en-IN')}</span></div>`:''}
+      ${prevBalance<0?`<div class="pricing-row"><span>Previous Credit</span><span style="color:var(--success)">−₹${Math.abs(prevBalance).toLocaleString('en-IN')}</span></div>`:''}
+      <div class="pricing-row"><span>Net Amount Due</span><span>₹${netDue.toLocaleString('en-IN')}</span></div>
+    </div>
+
+    <div class="pay-input-wrap">
+      <label>Amount Received (₹)</label>
+      <input type="number" id="amtPaidInput" value="${netDue}" min="0" oninput="updatePaymentBalance(${netDue})">
+      <div id="balancePreview" style="margin-top:6px"></div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-sm btn-success" onclick="recordPayment('${roomId}',${netDue})">✅ Confirm Payment</button>
+      <button class="btn-sm btn-outline" onclick="closeModal()">✕ Cancel</button>
+    </div>
+  </div>`;
+  document.body.appendChild(div);
+  updatePaymentBalance(netDue);
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// MY ROOM (Tenant — ONLY VIEW)
-// ═══════════════════════════════════════════════════════════════════
+function updatePaymentBalance(netDue){
+  const input=document.getElementById('amtPaidInput');
+  const preview=document.getElementById('balancePreview');
+  if(!input||!preview)return;
+  const amt=parseFloat(input.value)||0;
+  const diff=amt-netDue;
+  if(Math.abs(diff)<1){preview.innerHTML=`<span class="balance-badge balance-credit">✓ Exact amount</span>`;return;}
+  if(diff>0){
+    preview.innerHTML=`<span class="balance-badge balance-credit">Overpaid by ₹${diff.toLocaleString('en-IN')} — credit next month</span>`;
+  }else{
+    preview.innerHTML=`<span class="balance-badge balance-debit">Short by ₹${Math.abs(diff).toLocaleString('en-IN')} — carried to next month</span>`;
+  }
+}
+
+async function recordPayment(roomId,netDue){
+  const input=document.getElementById('amtPaidInput');
+  const amtPaid=parseFloat(input?.value)||0;
+  if(amtPaid<=0){showToast('❌ Enter a valid amount');return;}
+  const room=getRoomById(roomId);
+  const pay=getRoomPayment(roomId);
+  const tot=calcRoomTotal(room);
+  const today=new Date().toLocaleDateString('en-IN');
+  // balance: positive = tenant still owes, negative = credit for next month
+  const newBalance=amtPaid-netDue;
+
+  await syncWrite({
+    local:()=>{
+      pay.paid=true;pay.amount_paid=amtPaid;pay.paid_date=today;pay.paid_by=S.user.name;
+      pay.amount_due=tot;pay.balance=newBalance;
+    },
+    remote:async()=>{
+      const data={paid:true,amount_paid:amtPaid,paid_date:today,paid_by:S.user.name,amount_due:tot,balance:newBalance};
+      if(pay.id){await sb.update(T.PAYMENTS,{id:pay.id},data);}
+      else{const r=await sb.insert(T.PAYMENTS,{room_id:roomId,month:S.settings.current_month||currentMonthLabel(),...data});if(r&&r[0])pay.id=r[0].id;}
+    },
+  });
+  const balMsg=newBalance>0?` (₹${newBalance.toLocaleString('en-IN')} owed next month)`:newBalance<0?` (₹${Math.abs(newBalance).toLocaleString('en-IN')} credit next month)`:'';
+  showToast(`✅ Payment recorded — ₹${amtPaid.toLocaleString('en-IN')}${balMsg}`);
+  closeModal();
+  renderTab(S.activeTab);
+}
+
+async function revertPayment(roomId){
+  const pay=getRoomPayment(roomId);
+  showConfirm('Revert Payment','Remove this payment record?','Revert',true,async()=>{
+    await syncWrite({
+      local:()=>{pay.paid=false;pay.amount_paid=0;pay.paid_date=null;pay.paid_by=null;pay.balance=0;},
+      remote:async()=>{
+        if(pay.id)await sb.update(T.PAYMENTS,{id:pay.id},{paid:false,amount_paid:0,paid_date:null,paid_by:null,balance:0});
+      },
+    });
+    showToast('🔄 Payment reverted');renderTab(S.activeTab);
+  });
+}
+
+// ═══ SETTLEMENT — carry forward unpaid balances to new month ═══
+function openSettlementModal(){
+  const month=S.settings.current_month||currentMonthLabel();
+  const occ=S.rooms.filter(r=>!r.is_vacant&&getRoomMembers(r.id).length>0);
+  const unpaidRooms=occ.filter(r=>!getRoomPayment(r.id).paid);
+  const partialRooms=occ.filter(r=>{const p=getRoomPayment(r.id);return p.paid&&p.balance&&p.balance!==0;});
+
+  closeModal();
+  const div=document.createElement('div');
+  div.className='modal-overlay';div.id='modalOverlay';
+  div.onclick=e=>{if(e.target===div)closeModal();};
+
+  let rows='';
+  if(unpaidRooms.length){
+    rows+=`<div style="font-size:11px;font-weight:800;color:var(--danger);margin:10px 0 6px;text-transform:uppercase">Unpaid Rooms (will carry forward)</div>`;
+    rows+=unpaidRooms.map(r=>{
+      const mems=getRoomMembers(r.id);const tot=calcRoomTotal(r);
+      return`<div class="detail-row"><span class="detail-label">Room ${r.num} — ${escHtml(mems.map(m=>m.name).join(', '))}</span><span class="detail-value" style="color:var(--danger)">₹${tot.toLocaleString('en-IN')} owed</span></div>`;
+    }).join('');
+  }
+  if(partialRooms.length){
+    rows+=`<div style="font-size:11px;font-weight:800;color:var(--warning);margin:10px 0 6px;text-transform:uppercase">Partial Payments (balance carry forward)</div>`;
+    rows+=partialRooms.map(r=>{
+      const mems=getRoomMembers(r.id);const p=getRoomPayment(r.id);
+      const lbl=p.balance>0?`₹${p.balance.toLocaleString('en-IN')} owed`:`₹${Math.abs(p.balance).toLocaleString('en-IN')} credit`;
+      return`<div class="detail-row"><span class="detail-label">Room ${r.num} — ${escHtml(mems.map(m=>m.name).join(', '))}</span><span class="detail-value" style="color:${p.balance>0?'var(--danger)':'var(--success)'}">${lbl}</span></div>`;
+    }).join('');
+  }
+  if(!unpaidRooms.length&&!partialRooms.length){
+    rows=`<div class="empty-state" style="padding:20px"><div class="ei">🎉</div><p>All rooms fully settled for ${month}</p></div>`;
+  }
+
+  div.innerHTML=`<div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">📋 Month End Settlement</div>
+    <div class="modal-sub">Review and carry forward balances to next month</div>
+
+    <div class="settlement-box">
+      <div class="settlement-title">⚠️ How it works</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.6">
+        Unpaid rents and partial balances will be added as carry-forward to the next month's "other charge" for each room.
+        Enter the new month name below to proceed.
+      </div>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--primary);margin:12px 0 4px">Current Month: ${month}</div>
+    ${rows}
+
+    <div class="pay-input-wrap" style="margin-top:14px">
+      <label>New Month Name</label>
+      <input type="text" id="newMonthInput" placeholder="e.g. Apr 2026" style="font-size:15px">
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-sm btn-success" onclick="executeSettlement()">🔄 Settle &amp; Move to Next Month</button>
+      <button class="btn-sm btn-outline" onclick="closeModal()">✕ Cancel</button>
+    </div>
+  </div>`;
+  document.body.appendChild(div);
+}
+
+async function executeSettlement(){
+  const newMonth=document.getElementById('newMonthInput')?.value?.trim();
+  if(!newMonth){showToast('❌ Enter the new month name');return;}
+
+  const occ=S.rooms.filter(r=>!r.is_vacant&&getRoomMembers(r.id).length>0);
+
+  // For each room: calculate what they owe going into next month
+  const carryForwards=[];
+  occ.forEach(r=>{
+    const pay=getRoomPayment(r.id);
+    const tot=calcRoomTotal(r);
+    let carry=0;
+    if(!pay.paid){
+      // Fully unpaid: carry entire rent forward
+      carry=tot+(pay.balance||0);
+    }else if(pay.balance&&pay.balance!==0){
+      // Paid but with difference: carry balance
+      carry=pay.balance;
+    }
+    if(carry>0)carryForwards.push({room:r,carry});
+  });
+
+  // Update rooms: add carry-forward to other_charge
+  await syncWrite({
+    local:()=>{
+      carryForwards.forEach(({room,carry})=>{
+        room.other_charge=(room.other_charge||0)+carry;
+        if(!room.other_label||room.other_label==='')room.other_label='Baki';
+        else if(!room.other_label.includes('Baki'))room.other_label=room.other_label+'+Baki';
+      });
+      // Handle credits: rooms with negative balance get a reduction
+      occ.forEach(r=>{
+        const pay=getRoomPayment(r.id);
+        if(pay.paid&&pay.balance<0){
+          // Credit — reduce other_charge or store as negative
+          const credit=Math.abs(pay.balance);
+          r.other_charge=Math.max(0,(r.other_charge||0)-credit);
+        }
+      });
+      // Change month
+      S.settings.current_month=newMonth;
+      // Clear all payments for new month (they'll start fresh)
+      S.payments=S.payments.filter(p=>p.month!==newMonth);
+    },
+    remote:async()=>{
+      await sb.update(T.SETTINGS,{id:S.settings.id},{current_month:newMonth});
+      for(const {room} of carryForwards){
+        await sb.update(T.ROOMS,{id:room.id},{other_charge:room.other_charge,other_label:room.other_label});
+      }
+    },
+  });
+
+  persist();
+  showToast(`✅ Settled! Moved to ${newMonth} · ${carryForwards.length} room(s) carried forward`);
+  closeModal();
+  renderTab('admin');
+}
+
+// ═══ MY ROOM (tenant) ═══
 function renderMyRoom(){
   const room=getRoomById(S.user.room_id);
-  if(!room)return`<div class="empty-state"><div class="ei">🏠</div><p>No room assigned to your account.<br>Please contact the manager.</p></div>`;
+  if(!room)return`<div class="empty-state"><div class="ei">🏠</div><p>No room assigned.<br>Contact the manager.</p></div>`;
   const mems=getRoomMembers(room.id);
   const pay=getRoomPayment(room.id);
   const tot=calcRoomTotal(room);
-  const mc=calcMemberCharge(room);
+  const{extraCount,rate,charge}=calcExtraMemberCharge(room);
   const month=S.settings.current_month||currentMonthLabel();
+  const bal=pay.balance||0;
 
   return`
   <div class="my-room-card">
@@ -917,7 +1033,7 @@ function renderMyRoom(){
     <div class="my-room-stat"><span>Month</span><span>${month}</span></div>
     <div class="my-room-stat"><span>Base Rent</span><span>₹${room.base_rent.toLocaleString('en-IN')}</span></div>
     <div class="my-room-stat"><span>Light &amp; Water</span><span>₹${room.water_charge.toLocaleString('en-IN')}</span></div>
-    ${mc.extra>0?`<div class="my-room-stat"><span>Extra Members (${mc.count-mc.base}×₹${mc.rate})</span><span>₹${mc.extra.toLocaleString('en-IN')}</span></div>`:''}
+    ${extraCount>0?`<div class="my-room-stat"><span>Extra Members (${extraCount}×₹${rate})</span><span>₹${charge.toLocaleString('en-IN')}</span></div>`:''}
     ${room.other_charge>0?`<div class="my-room-stat"><span>${room.other_label||'Other'}</span><span>₹${room.other_charge.toLocaleString('en-IN')}</span></div>`:''}
     <div class="my-room-stat" style="font-size:18px;font-weight:900;padding-top:12px;margin-top:6px;border-top:1px solid rgba(255,255,255,.3)">
       <span>Total Due</span><span>₹${tot.toLocaleString('en-IN')}</span>
@@ -929,8 +1045,10 @@ function renderMyRoom(){
       <span class="pill ${pay.paid?'pill-paid':'pill-unpaid'}" style="font-size:11px;padding:4px 10px">${pay.paid?'✅ Paid':'❌ Unpaid'}</span>
     </div>
     ${pay.paid?`<div class="card-body">
+      <div class="detail-row"><span class="detail-label">Amount Paid</span><span class="detail-value">₹${(pay.amount_paid||tot).toLocaleString('en-IN')}</span></div>
       <div class="detail-row"><span class="detail-label">Paid On</span><span class="detail-value">${pay.paid_date||'—'}</span></div>
       <div class="detail-row"><span class="detail-label">Recorded By</span><span class="detail-value">${pay.paid_by||'—'}</span></div>
+      ${bal!==0?`<div class="detail-row"><span class="detail-label">${bal>0?'Balance Owed':'Credit'}</span><span class="detail-value" style="color:${bal>0?'var(--danger)':'var(--success)'}">₹${Math.abs(bal).toLocaleString('en-IN')} ${bal>0?'(carries to next month)':'(applies next month)'}</span></div>`:''}
     </div>`:'<div class="card-body"><div style="text-align:center;padding:10px;font-size:13px;color:var(--danger);font-weight:700">Payment pending. Please contact manager.</div></div>'}
   </div>
   <div class="section-title">👥 Roommates</div>
@@ -946,16 +1064,14 @@ function renderMyRoom(){
   </div></div>`;
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// REPORTS — with PDF download
-// ═══════════════════════════════════════════════════════════════════
+// ═══ REPORTS (admin only) ═══
 function renderReports(){
   const month=S.settings.current_month||currentMonthLabel();
   const byFloor={};
   ['Ground','1st','2nd','3rd'].forEach(f=>{
     const fr=S.rooms.filter(r=>r.floor===f);
     const occ=fr.filter(r=>!r.is_vacant&&getRoomMembers(r.id).length>0);
-    const col=occ.filter(r=>getRoomPayment(r.id).paid).reduce((s,r)=>s+calcRoomTotal(r),0);
+    const col=occ.filter(r=>getRoomPayment(r.id).paid).reduce((s,r)=>{const p=getRoomPayment(r.id);return s+(p.amount_paid||calcRoomTotal(r));},0);
     const tot=occ.reduce((s,r)=>s+calcRoomTotal(r),0);
     const mems=occ.reduce((s,r)=>s+getRoomMembers(r.id).length,0);
     byFloor[f]={total:tot,collected:col,pending:tot-col,count:fr.length,occ:occ.length,paid:occ.filter(r=>getRoomPayment(r.id).paid).length,members:mems};
@@ -969,16 +1085,13 @@ function renderReports(){
     <div class="section-title" style="margin:0">📈 Report — ${month}</div>
     <button class="btn-sm btn-info" style="max-width:130px;padding:8px;font-size:11px" onclick="downloadPDF()">📄 Download PDF</button>
   </div>
-
   <div class="card">
     <div class="card-header"><h3>Floor Summary</h3></div>
     <div class="card-body">
       ${['Ground','1st','2nd','3rd'].map(f=>`
       <div class="report-row">
-        <div>
-          <div class="report-name">${f} Floor</div>
-          <div class="report-sub">${byFloor[f].paid}/${byFloor[f].occ} paid · ${byFloor[f].members} members · ₹${byFloor[f].pending.toLocaleString('en-IN')} pending</div>
-        </div>
+        <div><div class="report-name">${f} Floor</div>
+          <div class="report-sub">${byFloor[f].paid}/${byFloor[f].occ} paid · ${byFloor[f].members} members · ₹${byFloor[f].pending.toLocaleString('en-IN')} pending</div></div>
         <div class="report-amount" style="color:var(--success)">₹${byFloor[f].collected.toLocaleString('en-IN')}</div>
       </div>`).join('')}
       <div style="background:var(--primary);color:#fff;border-radius:12px;padding:13px;margin-top:11px;display:flex;justify-content:space-between;align-items:center">
@@ -987,123 +1100,76 @@ function renderReports(){
       </div>
     </div>
   </div>
-
-  <div class="section-title">👥 Multi-Member Rooms</div>
-  <div class="card"><div class="card-body">
-    ${S.rooms.filter(r=>getRoomMembers(r.id).length>1).map(r=>{
-      const mems=getRoomMembers(r.id);const mc=calcMemberCharge(r);
-      return`<div class="report-row">
-        <div><div class="report-name">Room ${r.num} — ${mems.length} members</div><div class="report-sub">${mems.map(m=>m.name).join(', ')}</div></div>
-        <div class="report-amount" style="color:${mc.extra>0?'var(--warning)':'var(--text-muted)'}">
-          ${mc.extra>0?`+₹${mc.extra.toLocaleString('en-IN')} extra`:'Standard'}
-        </div>
-      </div>`;
-    }).join('')||'<div class="empty-state"><div class="ei">👤</div><p>No multi-member rooms</p></div>'}
-  </div></div>
-
   <div class="section-title">💎 Extra / Baki Charges</div>
   <div class="card"><div class="card-body">
     ${S.rooms.filter(r=>r.other_charge>0).map(r=>`
     <div class="report-row">
       <div><div class="report-name">Room ${r.num}</div><div class="report-sub">${r.other_label||'Charge'}</div></div>
       <div class="report-amount" style="color:var(--warning)">₹${r.other_charge.toLocaleString('en-IN')}</div>
-    </div>`).join('')}
+    </div>`).join('')||'<div class="empty-state" style="padding:14px"><div class="ei">✅</div><p>No extra charges</p></div>'}
   </div></div>`;
 }
 
 function downloadPDF(){
   const month=S.settings.current_month||currentMonthLabel();
   const occRooms=S.rooms.filter(r=>!r.is_vacant&&getRoomMembers(r.id).length>0);
-
   let rows='';
   occRooms.forEach(r=>{
-    const mems=getRoomMembers(r.id);
-    const pay=getRoomPayment(r.id);
-    const tot=calcRoomTotal(r);
-    const mc=calcMemberCharge(r);
-    const memberNames=mems.map(m=>m.name).join(', ');
-    const mobiles=mems.map(m=>m.mobile||'—').join(', ');
-    const status=pay.paid?'PAID':'UNPAID';
-    const statusColor=pay.paid?'#2e7d32':'#c62828';
+    const mems=getRoomMembers(r.id);const pay=getRoomPayment(r.id);const tot=calcRoomTotal(r);
+    const{extraCount,rate,charge}=calcExtraMemberCharge(r);
+    const status=pay.paid?'PAID':'UNPAID';const sc=pay.paid?'#2e7d32':'#c62828';
+    const bal=pay.balance||0;
     rows+=`<tr>
-      <td>${r.num}</td>
-      <td>${r.floor}</td>
-      <td>${memberNames}</td>
-      <td>${mobiles}</td>
-      <td>${mems.length}</td>
-      <td>₹${r.base_rent.toLocaleString('en-IN')}</td>
-      <td>₹${r.water_charge.toLocaleString('en-IN')}</td>
-      ${mc.extra>0?`<td>₹${mc.extra.toLocaleString('en-IN')}</td>`:'<td>—</td>'}
-      ${r.other_charge>0?`<td>₹${r.other_charge.toLocaleString('en-IN')} (${r.other_label})</td>`:'<td>—</td>'}
+      <td>${r.num}</td><td>${r.floor}</td><td>${mems.map(m=>m.name).join(', ')}</td>
+      <td>${mems.map(m=>m.mobile||'—').join(', ')}</td><td>${mems.length}</td>
+      <td>₹${r.base_rent.toLocaleString('en-IN')}</td><td>₹${r.water_charge.toLocaleString('en-IN')}</td>
+      <td>${extraCount>0?`${extraCount}×₹${rate}=₹${charge.toLocaleString('en-IN')}`:'—'}</td>
+      <td>${r.other_charge>0?`₹${r.other_charge.toLocaleString('en-IN')} (${r.other_label})':'—'}</td>
       <td><b>₹${tot.toLocaleString('en-IN')}</b></td>
-      <td style="color:${statusColor};font-weight:700">${status}</td>
+      <td>${pay.paid?`₹${(pay.amount_paid||tot).toLocaleString('en-IN')}`:'—'}</td>
+      <td style="color:${sc};font-weight:700">${status}</td>
+      ${bal!==0?`<td style="color:${bal>0?'#c62828':'#2e7d32'};font-size:10px">${bal>0?'Owes':'Credit'} ₹${Math.abs(bal).toLocaleString('en-IN')}</td>`:'<td>—</td>'}
       <td style="min-width:80px">&nbsp;</td>
     </tr>`;
   });
-
-  const totalCollected=occRooms.filter(r=>getRoomPayment(r.id).paid).reduce((s,r)=>s+calcRoomTotal(r),0);
+  const totalCollected=occRooms.filter(r=>getRoomPayment(r.id).paid).reduce((s,r)=>{const p=getRoomPayment(r.id);return s+(p.amount_paid||calcRoomTotal(r));},0);
   const totalPending=occRooms.filter(r=>!getRoomPayment(r.id).paid).reduce((s,r)=>s+calcRoomTotal(r),0);
-
-  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8">
-  <title>Sai Cottage Report — ${month}</title>
-  <style>
-    body{font-family:Arial,sans-serif;font-size:12px;color:#222;margin:20px}
-    h1{color:#1a237e;font-size:18px;margin-bottom:4px}
-    .sub{color:#666;font-size:11px;margin-bottom:16px}
-    table{width:100%;border-collapse:collapse;margin-top:10px}
-    th{background:#1a237e;color:#fff;padding:7px 6px;text-align:left;font-size:11px}
-    td{padding:6px;border-bottom:1px solid #e0e7ff;font-size:11px;vertical-align:top}
-    tr:nth-child(even) td{background:#f0f4ff}
-    .summary{display:flex;gap:20px;margin:12px 0;padding:12px;background:#e8eaf6;border-radius:8px}
-    .s-item{flex:1;text-align:center}
-    .s-val{font-size:16px;font-weight:900;color:#1a237e}
-    .s-lbl{font-size:10px;color:#546e7a;text-transform:uppercase}
-    @media print{body{margin:0}button{display:none}}
-  </style></head><body>
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Sai Cottage Report — ${month}</title>
+  <style>body{font-family:Arial,sans-serif;font-size:11px;color:#222;margin:20px}h1{color:#1a237e;font-size:18px;margin-bottom:4px}.sub{color:#666;font-size:11px;margin-bottom:16px}table{width:100%;border-collapse:collapse;margin-top:10px}th{background:#1a237e;color:#fff;padding:7px 5px;text-align:left;font-size:10px}td{padding:5px;border-bottom:1px solid #e0e7ff;font-size:10px;vertical-align:top}tr:nth-child(even) td{background:#f0f4ff}.summary{display:flex;gap:16px;margin:12px 0;padding:12px;background:#e8eaf6;border-radius:8px}.s-item{flex:1;text-align:center}.s-val{font-size:15px;font-weight:900;color:#1a237e}.s-lbl{font-size:10px;color:#546e7a;text-transform:uppercase}@media print{body{margin:0}}</style></head><body>
   <h1>🏠 Sai Cottage — Rent Report</h1>
   <div class="sub">साई कॉटेज · Balda, Pardi, Valsad · Month: <b>${month}</b> · Generated: ${new Date().toLocaleDateString('en-IN')}</div>
   <div class="summary">
-    <div class="s-item"><div class="s-val">${occRooms.length}</div><div class="s-lbl">Occupied Rooms</div></div>
+    <div class="s-item"><div class="s-val">${occRooms.length}</div><div class="s-lbl">Occupied</div></div>
     <div class="s-item"><div class="s-val">₹${totalCollected.toLocaleString('en-IN')}</div><div class="s-lbl">Collected</div></div>
     <div class="s-item"><div class="s-val">₹${totalPending.toLocaleString('en-IN')}</div><div class="s-lbl">Pending</div></div>
     <div class="s-item"><div class="s-val">${occRooms.filter(r=>getRoomPayment(r.id).paid).length}/${occRooms.length}</div><div class="s-lbl">Rooms Paid</div></div>
   </div>
-  <table>
-    <thead><tr>
-      <th>Room</th><th>Floor</th><th>Tenant Name(s)</th><th>Mobile</th><th>Members</th>
-      <th>Base Rent</th><th>Light/Water</th><th>Extra Member</th><th>Baki/Other</th>
-      <th>Total</th><th>Status</th><th>Signature</th>
-    </tr></thead>
-    <tbody>${rows}</tbody>
-  </table>
-  <div style="margin-top:16px;font-size:10px;color:#888">Total rooms: ${S.rooms.length} · Occupied: ${occRooms.length} · Report generated by Sai Cottage App</div>
-  <script>window.onload=function(){window.print();}<\/script>
-  </body></html>`;
-
+  <table><thead><tr><th>Room</th><th>Floor</th><th>Tenant(s)</th><th>Mobile</th><th>Mbrs</th><th>Base Rent</th><th>Light/Water</th><th>Extra Members</th><th>Baki/Other</th><th>Total Due</th><th>Amt Paid</th><th>Status</th><th>Balance</th><th>Signature</th></tr></thead><tbody>${rows}</tbody></table>
+  <div style="margin-top:16px;font-size:10px;color:#888">Generated by Sai Cottage App · ${new Date().toLocaleString('en-IN')}</div>
+  <script>window.onload=function(){window.print();}<\/script></body></html>`;
   const blob=new Blob([html],{type:'text/html'});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download=`SaiCottage_Report_${month.replace(' ','_')}.html`;
-  a.click();URL.revokeObjectURL(url);
+  const a=document.createElement('a');a.href=url;a.download=`SaiCottage_Report_${month.replace(' ','_')}.html`;a.click();URL.revokeObjectURL(url);
   showToast('📄 Report downloaded — open & print as PDF');
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// ADMIN PANEL — All in-page forms (no browser prompts)
-// ═══════════════════════════════════════════════════════════════════
+// ═══ ADMIN PANEL ═══
 function renderAdmin(){
   const s=S.settings;
   return`
   <div class="section-title">⚙️ Admin Panel</div>
 
-  <!-- Current Month -->
+  <!-- Current Month & Settlement -->
   <div class="card">
-    <div class="card-header">
-      <h3>📅 Current Month</h3>
-      <button class="btn-sm btn-info" style="max-width:130px;padding:7px" onclick="openChangeMonthModal()">Change Month</button>
+    <div class="card-header"><h3>📅 Current Month</h3>
+      <div style="display:flex;gap:7px">
+        <button class="btn-sm btn-warning" style="max-width:100px;padding:7px;font-size:11px" onclick="openChangeMonthModal()">Change</button>
+        <button class="btn-sm btn-info" style="max-width:110px;padding:7px;font-size:11px" onclick="openSettlementModal()">📋 Settle</button>
+      </div>
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="detail-label">Active Month</span><span class="detail-value">${s.current_month||currentMonthLabel()}</span></div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:8px">Use "Settle" at end of month to carry unpaid balances forward</div>
     </div>
   </div>
 
@@ -1115,17 +1181,15 @@ function renderAdmin(){
     <div class="card-body">
       ${['Ground','1st','2nd','3rd'].map(fl=>{
         const fk=getFloorKey(fl);
-        const br=s[`base_rent_${fk}`]||( fl==='3rd'?2600:3500);
+        const br=s[`base_rent_${fk}`]||(fl==='3rd'?2600:3500);
         const lw=s[`light_water_${fk}`]||500;
-        const bm=s[`base_members_${fk}`]||2;
         const em=s[`extra_per_member_${fk}`]||(fl==='3rd'?400:500);
         return`<div style="background:var(--bg);border-radius:10px;padding:10px 12px;margin-bottom:8px;border:1.5px solid var(--border)">
           <div style="font-size:11px;font-weight:800;color:var(--primary);margin-bottom:6px;text-transform:uppercase">${fl} Floor</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:11px">
             <span style="color:var(--text-muted)">Base Rent:</span><span style="font-weight:700">₹${br.toLocaleString('en-IN')}</span>
             <span style="color:var(--text-muted)">Light &amp; Water:</span><span style="font-weight:700">₹${lw.toLocaleString('en-IN')}</span>
-            <span style="color:var(--text-muted)">Free Members:</span><span style="font-weight:700">${bm} members</span>
-            <span style="color:var(--text-muted)">Extra/Member:</span><span style="font-weight:700">₹${em.toLocaleString('en-IN')}</span>
+            <span style="color:var(--text-muted)">Extra Member Rate:</span><span style="font-weight:700">₹${em.toLocaleString('en-IN')}/member</span>
           </div>
         </div>`;
       }).join('')}
@@ -1164,13 +1228,13 @@ function renderAdmin(){
     <div class="card-body">
       <div class="detail-row"><span class="detail-label">Property</span><span class="detail-value">Sai Cottage</span></div>
       <div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">Balda, Pardi, Valsad</span></div>
-      <div class="detail-row"><span class="detail-label">Rooms</span><span class="detail-value">${S.rooms.length}</span></div>
-      <div class="detail-row"><span class="detail-label">Members</span><span class="detail-value">${S.members.filter(m=>m.is_active).length}</span></div>
-      <div class="detail-row"><span class="detail-label">Backend</span><span class="detail-value">${isConfigured()?'Supabase 🟢':'Local (Offline) 🔴'}</span></div>
+      <div class="detail-row"><span class="detail-label">Total Rooms</span><span class="detail-value">${S.rooms.length}</span></div>
+      <div class="detail-row"><span class="detail-label">Active Members</span><span class="detail-value">${S.members.filter(m=>m.is_active).length}</span></div>
+      <div class="detail-row"><span class="detail-label">Backend</span><span class="detail-value">${isConfigured()?'Supabase (Live)':'Local Storage'}</span></div>
     </div>
   </div>
 
-  <!-- Danger Zone -->
+  <!-- Danger -->
   <div class="card">
     <div class="card-header"><h3>⚠️ Danger Zone</h3></div>
     <div class="card-body">
@@ -1179,60 +1243,42 @@ function renderAdmin(){
   </div>`;
 }
 
-// ── Change Month Modal ──
+// ── Admin: Change Month ──
 function openChangeMonthModal(){
-  showInputModal('Change Active Month','Enter month (e.g. Feb 2026):','text',S.settings.current_month||currentMonthLabel(),(val)=>{
+  showInputModal('Change Active Month','Enter month (e.g. Apr 2026):','text',S.settings.current_month||currentMonthLabel(),val=>{
     if(!val||!val.trim())return;
     const m=val.trim();
-    syncWrite({
-      local:()=>{S.settings.current_month=m;},
-      remote:()=>sb.update(T.SETTINGS,{id:S.settings.id},{current_month:m}),
-    }).then(()=>{showToast('✅ Month changed to '+m);renderTab('admin');});
+    syncWrite({local:()=>{S.settings.current_month=m;},remote:()=>sb.update(T.SETTINGS,{id:S.settings.id},{current_month:m})})
+    .then(()=>{showToast('✅ Month changed to '+m);renderTab('admin');});
   });
 }
 
-// ── Charges Config Modal ──
+// ── Admin: Charges Modal (no Free Members, only Extra Member Rate) ──
 function openChargesModal(){
   closeModal();
   const s=S.settings;
   const div=document.createElement('div');
   div.className='modal-overlay';div.id='modalOverlay';
   div.onclick=e=>{if(e.target===div)closeModal();};
-
-  const floorRows=['Ground','1st','2nd','3rd'].map(fl=>{
+  const rows=['Ground','1st','2nd','3rd'].map(fl=>{
     const fk=getFloorKey(fl);
     const br=s[`base_rent_${fk}`]||(fl==='3rd'?2600:3500);
     const lw=s[`light_water_${fk}`]||500;
-    const bm=s[`base_members_${fk}`]||2;
     const em=s[`extra_per_member_${fk}`]||(fl==='3rd'?400:500);
     return`<div class="floor-config-card">
       <div class="floor-config-title">${fl} Floor</div>
       <div class="form-row">
-        <div class="form-field">
-          <label>Base Rent (₹)</label>
-          <input type="number" id="br_${fk}" value="${br}">
-        </div>
-        <div class="form-field">
-          <label>Light &amp; Water (₹)</label>
-          <input type="number" id="lw_${fk}" value="${lw}">
-        </div>
-        <div class="form-field">
-          <label>Free Members</label>
-          <input type="number" id="bm_${fk}" value="${bm}" min="1">
-        </div>
-        <div class="form-field">
-          <label>Extra/Member (₹)</label>
-          <input type="number" id="em_${fk}" value="${em}">
-        </div>
+        <div class="form-field"><label>Base Rent (₹)</label><input type="number" id="br_${fk}" value="${br}"></div>
+        <div class="form-field"><label>Light &amp; Water (₹)</label><input type="number" id="lw_${fk}" value="${lw}"></div>
+        <div class="form-field" style="grid-column:span 2"><label>Extra Member Charge (₹ per extra member)</label><input type="number" id="em_${fk}" value="${em}"></div>
       </div>
     </div>`;
   }).join('');
-
   div.innerHTML=`<div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">💰 Charges Configuration</div>
-    <div class="modal-sub">Configure rent and charges per floor</div>
-    ${floorRows}
+    <div class="modal-sub">Set rates per floor. Extra member count is set per room in Edit Room.</div>
+    ${rows}
     <div class="btn-group">
       <button class="btn-sm btn-success" onclick="saveChargesConfig()">💾 Save All</button>
       <button class="btn-sm btn-outline" onclick="closeModal()">✕ Cancel</button>
@@ -1242,109 +1288,60 @@ function openChargesModal(){
 }
 
 async function saveChargesConfig(){
-  const fks=['gf','1st','2nd','3rd'];
-  const upd={};
+  const fks=['gf','1st','2nd','3rd'];const upd={};
   for(const fk of fks){
-    const br=parseInt(document.getElementById(`br_${fk}`)?.value)||0;
-    const lw=parseInt(document.getElementById(`lw_${fk}`)?.value)||0;
-    const bm=parseInt(document.getElementById(`bm_${fk}`)?.value)||2;
-    const em=parseInt(document.getElementById(`em_${fk}`)?.value)||0;
-    upd[`base_rent_${fk}`]=br;
-    upd[`light_water_${fk}`]=lw;
-    upd[`base_members_${fk}`]=bm;
-    upd[`extra_per_member_${fk}`]=em;
+    upd[`base_rent_${fk}`]=parseInt(document.getElementById(`br_${fk}`)?.value)||0;
+    upd[`light_water_${fk}`]=parseInt(document.getElementById(`lw_${fk}`)?.value)||0;
+    upd[`extra_per_member_${fk}`]=parseInt(document.getElementById(`em_${fk}`)?.value)||0;
   }
-  // Also update legacy keys used by calcMemberCharge
-  upd.base_members_gf=upd.base_members_gf;
-  upd.extra_per_member_gf=upd.extra_per_member_gf;
-  upd.base_members_3rd=upd.base_members_3rd;
-  upd.extra_per_member_3rd=upd.extra_per_member_3rd;
-
-  // Update room base_rent and water_charge to match floor config
-  const floorMap={gf:'Ground','1st':'1st','2nd':'2nd','3rd':'3rd'};
   await syncWrite({
     local:()=>{
       Object.assign(S.settings,upd);
-      // Update rooms to reflect new floor-wide defaults
-      S.rooms.forEach(r=>{
-        const fk=getFloorKey(r.floor);
-        if(!r._custom_rent)r.base_rent=upd[`base_rent_${fk}`]||r.base_rent;
-        if(!r._custom_water)r.water_charge=upd[`light_water_${fk}`]||r.water_charge;
-      });
+      S.rooms.forEach(r=>{const fk=getFloorKey(r.floor);if(!r._custom_rent)r.base_rent=upd[`base_rent_${fk}`]||r.base_rent;if(!r._custom_water)r.water_charge=upd[`light_water_${fk}`]||r.water_charge;});
     },
     remote:()=>sb.update(T.SETTINGS,{id:S.settings.id},upd),
   });
-  showToast('✅ Charges configuration saved');
-  closeModal();
-  renderTab('admin');
+  showToast('✅ Charges saved');closeModal();renderTab('admin');
 }
 
-// ── Reset Password Modal ──
+// ── Admin: User management ──
 function openResetPwdModal(userId){
   const u=getUserById(userId);
-  showInputModal(`Reset Password for ${u.name}`,'Enter new password (min 6 chars):','password','',async(val)=>{
+  showInputModal(`Reset Password — ${u.name}`,'New password (min 6 chars):','password','',async val=>{
     if(!val||val.trim().length<6){showToast('❌ Password must be 6+ chars');return;}
-    await syncWrite({
-      local:()=>{u.password_hash=val.trim();},
-      remote:()=>sb.update(T.USERS,{id:userId},{password_hash:val.trim()}),
-    });
+    await syncWrite({local:()=>{u.password_hash=val.trim();},remote:()=>sb.update(T.USERS,{id:userId},{password_hash:val.trim()})});
     showToast('✅ Password reset');
   });
 }
-
-// ── Toggle User ──
 function confirmToggleUser(userId,active){
   const u=getUserById(userId);
-  showConfirm(
-    active?'Reactivate User':'Deactivate User',
-    `${active?'Reactivate':'Deactivate'} ${u.name}? ${!active?'They will not be able to login.':''}`,
-    active?'Reactivate':'Deactivate',
-    !active,
-    async()=>{
-      await syncWrite({
-        local:()=>{u.is_active=active;},
-        remote:()=>sb.update(T.USERS,{id:userId},{is_active:active}),
-      });
-      showToast(active?'✅ User reactivated':'🚫 User deactivated');
-      renderTab('admin');
-    }
-  );
-}
-
-function confirmFullReset(){
-  showConfirm('Reset All Data','Reset ALL local data? This cannot be undone.','Reset',true,()=>{
-    localStorage.removeItem(STORE_KEY);location.reload();
+  showConfirm(active?'Reactivate User':'Deactivate User',`${active?'Reactivate':'Deactivate'} ${u.name}?`,active?'Reactivate':'Deactivate',!active,async()=>{
+    await syncWrite({local:()=>{u.is_active=active;},remote:()=>sb.update(T.USERS,{id:userId},{is_active:active})});
+    showToast(active?'✅ Reactivated':'🚫 Deactivated');renderTab('admin');
   });
 }
-
-// ── Add System User Modal ──
+function confirmFullReset(){
+  showConfirm('Reset All Data','Reset ALL local data? This cannot be undone.','Reset',true,()=>{localStorage.removeItem(STORE_KEY);location.reload();});
+}
 function openAddUserModal(){
   closeModal();
-  const div=document.createElement('div');
-  div.className='modal-overlay';div.id='modalOverlay';
+  const div=document.createElement('div');div.className='modal-overlay';div.id='modalOverlay';
   div.onclick=e=>{if(e.target===div)closeModal();};
-  div.innerHTML=`<div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Add System User</div>
-    <div class="modal-sub">Admin or Manager account</div>
+  div.innerHTML=`<div class="modal"><div class="modal-handle"></div>
+    <div class="modal-title">Add System User</div><div class="modal-sub">Admin or Manager account</div>
     <div class="edit-section">
-      <label>Full Name</label>
-      <input type="text" id="auName" placeholder="Full name">
-      <label>Username</label>
-      <input type="text" id="auUsername" placeholder="Login username" autocapitalize="none">
-      <label>Password</label>
-      <input type="password" id="auPassword" placeholder="Min 6 chars">
-      <label>Role</label>
-      <select id="auRole"><option value="manager">Manager</option><option value="admin">Admin</option></select>
+      <label>Full Name</label><input type="text" id="auName" placeholder="Full name">
+      <label>Username</label><input type="text" id="auUsername" placeholder="Login username" autocapitalize="none">
+      <label>Password</label><input type="password" id="auPassword" placeholder="Min 6 chars">
+      <label>Role</label><select id="auRole"><option value="manager">Manager</option><option value="admin">Admin</option></select>
       <div class="btn-group">
-        <button class="btn-sm btn-success" onclick="addSystemUser()">✅ Create User</button>
+        <button class="btn-sm btn-success" onclick="addSystemUser()">✅ Create</button>
         <button class="btn-sm btn-outline" onclick="closeModal()">✕ Cancel</button>
       </div>
     </div>
   </div>`;
   document.body.appendChild(div);
 }
-
 async function addSystemUser(){
   const name=document.getElementById('auName').value.trim();
   const username=document.getElementById('auUsername').value.trim().toLowerCase();
@@ -1352,71 +1349,58 @@ async function addSystemUser(){
   const role=document.getElementById('auRole').value;
   if(!name||!username||!password){showToast('❌ All fields required');return;}
   if(password.length<6){showToast('❌ Password must be 6+ chars');return;}
-  if(S.users.find(u=>u.username===username)||S.members.find(m=>m.username===username)){showToast('❌ Username already exists');return;}
+  if(S.users.find(u=>u.username===username)||S.members.find(m=>m.username===username)){showToast('❌ Username taken');return;}
   const nu={id:'u'+Date.now(),username,password_hash:password,role,name,room_id:null,is_active:true};
-  await syncWrite({
-    local:()=>S.users.push(nu),
-    remote:async()=>{const r=await sb.insert(T.USERS,nu);if(r&&r[0])nu.id=r[0].id;},
-  });
+  await syncWrite({local:()=>S.users.push(nu),remote:async()=>{const r=await sb.insert(T.USERS,nu);if(r&&r[0])nu.id=r[0].id;}});
   showToast('✅ User created');closeModal();renderTab('admin');
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// ROOM MODAL
-// ═══════════════════════════════════════════════════════════════════
-function openRoomModal(roomId){
-  S.selectedRoom=roomId;S.editMode=false;buildRoomModal();
-}
-
+// ═══ ROOM MODAL ═══
+function openRoomModal(roomId){S.selectedRoom=roomId;S.editMode=false;buildRoomModal();}
 function buildRoomModal(){
   const roomId=S.selectedRoom;
   const room=getRoomById(roomId);
   const mems=getRoomMembers(roomId);
   const pay=getRoomPayment(roomId);
-  const mc=calcMemberCharge(room);
+  const{extraCount,rate,charge}=calcExtraMemberCharge(room);
   const tot=calcRoomTotal(room);
   const role=S.user.role;
   const canEdit=role==='admin'||role==='manager';
   const hist=S.payments.filter(p=>p.room_id===roomId&&p.month!==(S.settings.current_month||currentMonthLabel())).slice(-5).reverse();
-
   closeModal();
-  const div=document.createElement('div');
-  div.className='modal-overlay';div.id='modalOverlay';
+  const div=document.createElement('div');div.className='modal-overlay';div.id='modalOverlay';
   div.onclick=e=>{if(e.target===div)closeModal();};
-
   div.innerHTML=`<div class="modal">
     <div class="modal-handle"></div>
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
-      <div>
-        <div class="modal-title">Room ${room.num}</div>
-        <div class="modal-sub">${room.floor} Floor · ${mems.length} member${mems.length!==1?'s':''}</div>
-      </div>
+      <div><div class="modal-title">Room ${room.num}</div><div class="modal-sub">${room.floor} Floor · ${mems.length} member${mems.length!==1?'s':''}</div></div>
       <span class="pill ${pay.paid?'pill-paid':'pill-unpaid'}" style="font-size:11px;padding:4px 10px">${pay.paid?'✅ Paid':'❌ Unpaid'}</span>
     </div>
-    ${S.editMode&&canEdit?buildEditForm(room):buildRoomDetail(room,mems,mc,tot,pay,hist,canEdit)}
+    ${S.editMode&&canEdit?buildEditForm(room):buildRoomDetail(room,mems,extraCount,rate,charge,tot,pay,hist,canEdit)}
   </div>`;
   document.body.appendChild(div);
 }
 
-function buildRoomDetail(room,mems,mc,tot,pay,hist,canEdit){
+function buildRoomDetail(room,mems,extraCount,rate,charge,tot,pay,hist,canEdit){
+  const bal=pay.balance||0;
   return`
     <div class="pricing-box">
       <div class="pricing-box-title">💰 Rent Breakdown</div>
       <div class="pricing-row"><span>Base Rent</span><span>₹${room.base_rent.toLocaleString('en-IN')}</span></div>
       <div class="pricing-row"><span>Light &amp; Water</span><span>₹${room.water_charge.toLocaleString('en-IN')}</span></div>
-      ${mc.extra>0?`<div class="pricing-row"><span>Extra Members (${mems.length-mc.base} × ₹${mc.rate})</span><span style="color:var(--warning)">+₹${mc.extra.toLocaleString('en-IN')}</span></div>`:''}
+      ${extraCount>0?`<div class="pricing-row"><span>Extra Members (${extraCount}×₹${rate})</span><span style="color:var(--warning)">+₹${charge.toLocaleString('en-IN')}</span></div>`:''}
       ${room.other_charge>0?`<div class="pricing-row"><span>${room.other_label||'Other'}</span><span style="color:var(--warning)">+₹${room.other_charge.toLocaleString('en-IN')}</span></div>`:''}
       <div class="pricing-row"><span>Total Due</span><span>₹${tot.toLocaleString('en-IN')}</span></div>
     </div>
+    ${pay.paid&&bal!==0?`<div style="background:${bal>0?'#ffebee':'#e8f5e9'};border-radius:10px;padding:8px 12px;margin:8px 0;font-size:12px;font-weight:700;color:${bal>0?'var(--danger)':'var(--success)'}">
+      ${bal>0?`⚠️ Balance owed: ₹${bal.toLocaleString('en-IN')} (carries to next month)`:`✅ Credit: ₹${Math.abs(bal).toLocaleString('en-IN')} (applies next month)`}
+    </div>`:''}
 
-    <div class="section-title" style="margin-top:14px">👥 Members (${mems.length}/${mc.base} included free)</div>
+    <div class="section-title" style="margin-top:14px">👥 Members (${mems.length})</div>
     ${mems.length?mems.map(m=>`
     <div class="member-card">
       <div class="member-avatar">${m.name.charAt(0).toUpperCase()}</div>
-      <div class="member-info">
-        <div class="member-name">${escHtml(m.name)}</div>
-        <div class="member-detail">📱 ${m.mobile||'—'} · @${m.username}</div>
-      </div>
+      <div class="member-info"><div class="member-name">${escHtml(m.name)}</div><div class="member-detail">📱 ${m.mobile||'—'} · @${m.username}</div></div>
       ${canEdit?`<div class="member-actions">
         <button class="icon-action ia-info" onclick="editMemberModal('${m.id}')" title="Edit">✏️</button>
         <button class="icon-action ia-danger" onclick="confirmRemoveMember('${m.id}')" title="Remove">🗑️</button>
@@ -1428,15 +1412,18 @@ function buildRoomDetail(room,mems,mc,tot,pay,hist,canEdit){
 
     ${canEdit?`<div class="btn-group" style="margin-top:10px">
       ${pay.paid
-        ?`<button class="btn-sm btn-danger" onclick="markPaid('${room.id}',false);closeModal()">❌ Mark Unpaid</button>`
-        :`<button class="btn-sm btn-success" onclick="markPaid('${room.id}',true);closeModal()">✅ Mark Paid</button>`}
+        ?`<button class="btn-sm btn-danger" onclick="revertPayment('${room.id}');closeModal()">❌ Revert Payment</button>`
+        :`<button class="btn-sm btn-success" onclick="closeModal();openPaymentModal('${room.id}')">💳 Record Payment</button>`}
       <button class="btn-sm btn-warning" onclick="S.editMode=true;buildRoomModal()">✏️ Edit Room</button>
     </div>`:''}
 
     ${hist.length?`<div class="section-title" style="margin-top:16px">📋 History</div>
     ${hist.map(h=>`<div class="hist-item">
       <div class="hist-date">${h.month}</div>
-      <div class="hist-amt ${h.paid?'hist-paid':'hist-unpaid'}">${h.paid?'✅':'❌'} ₹${(h.amount||0).toLocaleString('en-IN')}</div>
+      <div>
+        <div class="hist-amt ${h.paid?'hist-paid':'hist-unpaid'}">${h.paid?'✅':'❌'} ₹${(h.amount_paid||h.amount_due||0).toLocaleString('en-IN')}</div>
+        ${h.balance&&h.balance!==0?`<div style="font-size:10px;color:${h.balance>0?'var(--danger)':'var(--success)'}">Bal: ${h.balance>0?'+':'-'}₹${Math.abs(h.balance).toLocaleString('en-IN')}</div>`:''}
+      </div>
     </div>`).join('')}`:''}`;
 }
 
@@ -1448,6 +1435,9 @@ function buildEditForm(room){
     <input type="number" id="eRent" value="${room.base_rent}">
     <label>Light &amp; Water Charge (₹)</label>
     <input type="number" id="eWater" value="${room.water_charge}">
+    <label>Number of Extra Members</label>
+    <input type="number" id="eExtraMembers" value="${room.extra_members||0}" min="0" placeholder="0 = no extra charge">
+    <div class="hint">Each extra member will be charged as per floor rate (currently ₹${S.settings[`extra_per_member_${getFloorKey(room.floor)}`]||(room.floor==='3rd'?400:500)}/member)</div>
     <label>Other Charge (₹) — Baki, Extra etc.</label>
     <input type="number" id="eOther" value="${room.other_charge}">
     <label>Other Charge Label</label>
@@ -1465,6 +1455,7 @@ async function saveRoomEdit(roomId){
     is_vacant:document.getElementById('eVacant').value==='true',
     base_rent:parseInt(document.getElementById('eRent').value)||room.base_rent,
     water_charge:parseInt(document.getElementById('eWater').value)||room.water_charge,
+    extra_members:parseInt(document.getElementById('eExtraMembers').value)||0,
     other_charge:parseInt(document.getElementById('eOther').value)||0,
     other_label:document.getElementById('eOtherLabel').value.trim(),
     _custom_rent:true,_custom_water:true,
@@ -1473,28 +1464,21 @@ async function saveRoomEdit(roomId){
   S.editMode=false;showToast('✅ Room updated');closeModal();renderTab(S.activeTab);
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// MEMBER MANAGEMENT
-// ═══════════════════════════════════════════════════════════════════
+// ═══ MEMBER MANAGEMENT ═══
 function openAddMemberModal(roomId){
   closeModal();
-  const div=document.createElement('div');
-  div.className='modal-overlay';div.id='modalOverlay';
+  const r=getRoomById(roomId);
+  const div=document.createElement('div');div.className='modal-overlay';div.id='modalOverlay';
   div.onclick=e=>{if(e.target===div){closeModal();openRoomModal(roomId);}};
-  div.innerHTML=`<div class="modal">
-    <div class="modal-handle"></div>
+  div.innerHTML=`<div class="modal"><div class="modal-handle"></div>
     <div class="modal-title">Add Member</div>
-    <div class="modal-sub">Room ${getRoomById(roomId).num} · ${getRoomById(roomId).floor} Floor</div>
+    <div class="modal-sub">Room ${r.num} · ${r.floor} Floor</div>
     <div class="edit-section">
-      <label>Full Name *</label>
-      <input type="text" id="mName" placeholder="e.g. Ramesh Kumar">
-      <label>Mobile</label>
-      <input type="tel" id="mMobile" placeholder="10-digit number">
-      <label>Username (for app login) *</label>
-      <input type="text" id="mUsername" placeholder="e.g. ramesh123" autocapitalize="none">
-      <label>Password *</label>
-      <input type="password" id="mPassword" placeholder="Minimum 6 characters">
-      <div class="hint">Tenant will use this to log into the app</div>
+      <label>Full Name *</label><input type="text" id="mName" placeholder="e.g. Ramesh Kumar">
+      <label>Mobile</label><input type="tel" id="mMobile" placeholder="10-digit number">
+      <label>Username (for app login) *</label><input type="text" id="mUsername" placeholder="e.g. ramesh123" autocapitalize="none">
+      <label>Password *</label><input type="password" id="mPassword" placeholder="Minimum 6 characters">
+      <div class="hint">Tenant will use this to log in</div>
       <div class="btn-group">
         <button class="btn-sm btn-success" onclick="addMember('${roomId}')">✅ Add Member</button>
         <button class="btn-sm btn-outline" onclick="closeModal();openRoomModal('${roomId}')">✕ Cancel</button>
@@ -1503,7 +1487,6 @@ function openAddMemberModal(roomId){
   </div>`;
   document.body.appendChild(div);
 }
-
 async function addMember(roomId){
   const name=document.getElementById('mName').value.trim();
   const mobile=document.getElementById('mMobile').value.trim();
@@ -1512,32 +1495,21 @@ async function addMember(roomId){
   if(!name||!username||!password){showToast('❌ Name, username & password required');return;}
   if(password.length<6){showToast('❌ Password must be 6+ characters');return;}
   if(S.members.find(m=>m.username===username)||S.users.find(u=>u.username===username)){showToast('❌ Username already exists');return;}
-  const newMember={id:'m'+Date.now(),room_id:roomId,name,mobile,username,password_hash:password,is_active:true,joined_at:new Date().toISOString().split('T')[0],left_at:null};
-  await syncWrite({
-    local:()=>S.members.push(newMember),
-    remote:async()=>{const r=await sb.insert(T.MEMBERS,newMember);if(r&&r[0])newMember.id=r[0].id;},
-  });
+  const nm={id:'m'+Date.now(),room_id:roomId,name,mobile,username,password_hash:password,is_active:true,joined_at:new Date().toISOString().split('T')[0],left_at:null};
+  await syncWrite({local:()=>S.members.push(nm),remote:async()=>{const r=await sb.insert(T.MEMBERS,nm);if(r&&r[0])nm.id=r[0].id;}});
   showToast('✅ Member added');closeModal();openRoomModal(roomId);renderTab(S.activeTab,false);
 }
-
 function editMemberModal(memberId){
-  const m=S.members.find(x=>x.id===memberId);
-  if(!m)return;
+  const m=S.members.find(x=>x.id===memberId);if(!m)return;
   closeModal();
-  const div=document.createElement('div');
-  div.className='modal-overlay';div.id='modalOverlay';
+  const div=document.createElement('div');div.className='modal-overlay';div.id='modalOverlay';
   div.onclick=e=>{if(e.target===div){closeModal();openRoomModal(m.room_id);}};
-  div.innerHTML=`<div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Edit Member</div>
-    <div class="modal-sub">@${m.username}</div>
+  div.innerHTML=`<div class="modal"><div class="modal-handle"></div>
+    <div class="modal-title">Edit Member</div><div class="modal-sub">@${m.username}</div>
     <div class="edit-section">
-      <label>Full Name</label>
-      <input type="text" id="emName" value="${escHtml(m.name)}">
-      <label>Mobile</label>
-      <input type="tel" id="emMobile" value="${m.mobile}">
-      <label>New Password (leave blank to keep)</label>
-      <input type="password" id="emPassword" placeholder="Leave blank to keep current">
+      <label>Full Name</label><input type="text" id="emName" value="${escHtml(m.name)}">
+      <label>Mobile</label><input type="tel" id="emMobile" value="${m.mobile||''}">
+      <label>New Password (leave blank to keep)</label><input type="password" id="emPassword" placeholder="Leave blank to keep">
       <div class="btn-group">
         <button class="btn-sm btn-success" onclick="saveMemberEdit('${m.id}','${m.room_id}')">💾 Save</button>
         <button class="btn-sm btn-outline" onclick="closeModal();openRoomModal('${m.room_id}')">✕ Cancel</button>
@@ -1546,7 +1518,6 @@ function editMemberModal(memberId){
   </div>`;
   document.body.appendChild(div);
 }
-
 async function saveMemberEdit(memberId,roomId){
   const m=S.members.find(x=>x.id===memberId);
   const name=document.getElementById('emName').value.trim()||m.name;
@@ -1557,118 +1528,66 @@ async function saveMemberEdit(memberId,roomId){
   await syncWrite({local:()=>Object.assign(m,upd),remote:()=>sb.update(T.MEMBERS,{id:memberId},upd)});
   showToast('✅ Member updated');closeModal();openRoomModal(roomId);
 }
-
-// FIX: Proper member removal with confirmation dialog (no browser prompt)
 function confirmRemoveMember(memberId){
-  const m=S.members.find(x=>x.id===memberId);
-  if(!m)return;
+  const m=S.members.find(x=>x.id===memberId);if(!m)return;
   const roomId=m.room_id;
-  showConfirm(
-    'Remove Member',
-    `Remove "${m.name}" from room? Their login will be revoked immediately.`,
-    'Remove',
-    true,
-    async()=>{
-      await syncWrite({
-        local:()=>{
-          // Actually splice from array for immediate UI update
-          const idx=S.members.findIndex(x=>x.id===memberId);
-          if(idx>=0){S.members[idx].is_active=false;S.members[idx].left_at=new Date().toISOString().split('T')[0];}
-        },
-        remote:()=>sb.update(T.MEMBERS,{id:memberId},{is_active:false,left_at:new Date().toISOString().split('T')[0]}),
-      });
-      showToast('✅ Member removed — login revoked');
-      closeModal();
-      openRoomModal(roomId);
-      renderTab(S.activeTab,false);
-    }
-  );
+  showConfirm('Remove Member',`Remove "${m.name}" from room? Their login will be revoked.`,'Remove',true,async()=>{
+    await syncWrite({
+      local:()=>{const i=S.members.findIndex(x=>x.id===memberId);if(i>=0){S.members[i].is_active=false;S.members[i].left_at=new Date().toISOString().split('T')[0];}},
+      remote:()=>sb.update(T.MEMBERS,{id:memberId},{is_active:false,left_at:new Date().toISOString().split('T')[0]}),
+    });
+    showToast('✅ Member removed');closeModal();openRoomModal(roomId);renderTab(S.activeTab,false);
+  });
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// UI HELPERS — Custom dialogs replacing browser prompt/confirm
-// ═══════════════════════════════════════════════════════════════════
-
-// Custom confirm dialog
+// ═══ DIALOG HELPERS ═══
 function showConfirm(title,msg,okLabel,isDanger,onOk){
-  const existing=document.getElementById('confirmOverlay');
-  if(existing)existing.remove();
-  const div=document.createElement('div');
-  div.className='confirm-overlay';div.id='confirmOverlay';
+  const ex=document.getElementById('confirmOverlay');if(ex)ex.remove();
+  const div=document.createElement('div');div.className='confirm-overlay';div.id='confirmOverlay';
   div.innerHTML=`<div class="confirm-box">
-    <div class="confirm-title">${title}</div>
-    <div class="confirm-msg">${msg}</div>
+    <div class="confirm-title">${title}</div><div class="confirm-msg">${msg}</div>
     <div class="confirm-btns">
-      <button class="confirm-cancel" onclick="document.getElementById('confirmOverlay').remove()">&nbsp;Cancel&nbsp;</button>
-      <button class="${isDanger?'confirm-ok':'confirm-ok safe'}" id="confirmOkBtn">${okLabel}</button>
+      <button class="confirm-cancel" onclick="document.getElementById('confirmOverlay').remove()">Cancel</button>
+      <button class="${isDanger?'confirm-ok':'confirm-ok safe'}" id="confOk">${okLabel}</button>
     </div>
   </div>`;
   document.body.appendChild(div);
-  document.getElementById('confirmOkBtn').onclick=()=>{div.remove();onOk();};
+  document.getElementById('confOk').onclick=()=>{div.remove();onOk();};
 }
-
-// Custom input dialog
-function showInputModal(title,subtitle,type,defaultVal,onOk){
-  const existing=document.getElementById('inputModalOverlay');
-  if(existing)existing.remove();
-  const div=document.createElement('div');
-  div.className='input-modal-overlay';div.id='inputModalOverlay';
+function showInputModal(title,sub,type,def,onOk){
+  const ex=document.getElementById('inputModalOverlay');if(ex)ex.remove();
+  const div=document.createElement('div');div.className='input-modal-overlay';div.id='inputModalOverlay';
   div.innerHTML=`<div class="input-modal-box">
-    <div class="input-modal-title">${title}</div>
-    <div class="input-modal-sub">${subtitle}</div>
-    <input type="${type}" class="input-modal-input" id="inputModalVal" value="${escHtml(String(defaultVal||''))}" placeholder="${subtitle}">
+    <div class="input-modal-title">${title}</div><div class="input-modal-sub">${sub}</div>
+    <input type="${type}" class="input-modal-input" id="imVal" value="${escHtml(String(def||''))}" placeholder="${sub}">
     <div class="input-modal-btns">
       <button style="background:var(--bg);color:var(--text);border:1.5px solid var(--border)" onclick="document.getElementById('inputModalOverlay').remove()">Cancel</button>
-      <button style="background:var(--primary);color:#fff" id="inputModalOk">OK</button>
+      <button style="background:var(--primary);color:#fff" id="imOk">OK</button>
     </div>
   </div>`;
   document.body.appendChild(div);
-  const input=document.getElementById('inputModalVal');
-  input.focus();input.select();
-  document.getElementById('inputModalOk').onclick=()=>{
-    const val=input.value;
-    div.remove();
-    onOk(val);
-  };
-  input.onkeydown=e=>{if(e.key==='Enter'){const val=input.value;div.remove();onOk(val);}};
+  const inp=document.getElementById('imVal');inp.focus();inp.select();
+  document.getElementById('imOk').onclick=()=>{const v=inp.value;div.remove();onOk(v);};
+  inp.onkeydown=e=>{if(e.key==='Enter'){const v=inp.value;div.remove();onOk(v);}};
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// UTILS
-// ═══════════════════════════════════════════════════════════════════
+// ═══ UTILS ═══
 function closeModal(){const m=document.getElementById('modalOverlay');if(m)m.remove();}
-
-function showToast(msg){
-  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
-  clearTimeout(t._tid);t._tid=setTimeout(()=>t.classList.remove('show'),2800);
-}
-
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._tid);t._tid=setTimeout(()=>t.classList.remove('show'),3000);}
 function setLoaderStatus(msg){const el=document.getElementById('loaderStatus');if(el)el.textContent=msg;}
+function escHtml(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function escHtml(s){
-  if(!s)return'';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// NETWORK
-// ═══════════════════════════════════════════════════════════════════
-window.addEventListener('online',()=>{S.isOnline=true;document.body.classList.remove('offline');if(isConfigured())loadAllData();});
-window.addEventListener('offline',()=>{S.isOnline=false;document.body.classList.add('offline');setSync('offline');});
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&document.getElementById('authScreen').style.display!=='none')doLogin();
 });
 
-// ═══════════════════════════════════════════════════════════════════
-// BOOT
-// ═══════════════════════════════════════════════════════════════════
+// ═══ BOOT ═══
 (async function boot(){
-  setLoaderStatus('Loading local data...');
-  hydrate();
-  await new Promise(r=>setTimeout(r,400));
-  setLoaderStatus('Connecting to real-time database...');
+  setLoaderStatus('Loading local data...');hydrate();
+  await new Promise(r=>setTimeout(r,350));
+  setLoaderStatus('Initialising...');
   await loadAllData();
-  await new Promise(r=>setTimeout(r,400));
+  await new Promise(r=>setTimeout(r,300));
   const loader=document.getElementById('loadingScreen');
   loader.classList.add('hidden');
   setTimeout(()=>loader.style.display='none',500);
