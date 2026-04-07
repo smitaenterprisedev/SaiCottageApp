@@ -2981,7 +2981,7 @@
         <div class="room-num">${r.num}</div>
         <div class="room-info">
           <div class="room-name">${escHtml(mems.map((m) => m.name).join(", "))}</div>
-          <div class="room-sub">${r.floor} · ${mems.length} members${bal !== 0 ? ` · Bal:₹${bal}` : ""}</div>
+          <div class="room-sub">${r.floor} · ${mems.length} members${bal > 0 ? ` · Pending: ₹${bal}` : bal < 0 ? ` · Advance: ₹${Math.abs(bal)}` : ""}</div>
         </div>
         <div class="room-right">
           <div class="room-amount" style="color:var(--danger)">₹${tot.toLocaleString("en-IN")}</div>
@@ -3013,7 +3013,7 @@
         <div class="room-num">${r.num}</div>
         <div class="room-info">
           <div class="room-name">${escHtml(mems.map((m) => m.name).join(", "))}</div>
-          <div class="room-sub">${pay.paid_date || ""} · Paid ₹${(pay.amount_paid || tot).toLocaleString("en-IN")}${bal !== 0 ? ` · ${bal < 0 ? "Credit" : "Owed"}: ₹${Math.abs(bal)}` : ""}</div>
+          <div class="room-sub">${pay.paid_date || ""} · Paid ₹${(pay.amount_paid || tot).toLocaleString("en-IN")}${bal > 0 ? ` · Pending: ₹${bal.toLocaleString("en-IN")}` : bal < 0 ? ` · Advance: ₹${Math.abs(bal).toLocaleString("en-IN")}` : ""} </div>
         </div>
         <div class="room-right">
           <div class="room-amount" style="color:var(--success)">₹${tot.toLocaleString("en-IN")}</div>
@@ -3057,8 +3057,8 @@
     <div class="pricing-box">
       <div class="pricing-box-title">💰 Amount Due</div>
       <div class="pricing-row"><span>This Month's Rent</span><span>₹${tot.toLocaleString("en-IN")}</span></div>
-      ${prevBalance > 0 ? `<div class="pricing-row"><span>Previous Balance Owed</span><span style="color:var(--danger)">+₹${prevBalance.toLocaleString("en-IN")}</span></div>` : ""}
-      ${prevBalance < 0 ? `<div class="pricing-row"><span>Previous Credit</span><span style="color:var(--success)">−₹${Math.abs(prevBalance).toLocaleString("en-IN")}</span></div>` : ""}
+      ${prevBalance > 0 ? `<div class="pricing-row"><span>⚠️ Pending from Last Month</span><span style="color:var(--danger)">+₹${prevBalance.toLocaleString("en-IN")}</span></div>` : ""}
+      ${prevBalance < 0 ? `<div class="pricing-row"><span>✅ Advance from Last Month</span><span style="color:var(--success)">−₹${Math.abs(prevBalance).toLocaleString("en-IN")}</span></div>` : ""}
       <div class="pricing-row"><span>Net Amount Due</span><span>₹${netDue.toLocaleString("en-IN")}</span></div>
     </div>
 
@@ -3088,9 +3088,9 @@
           return;
         }
         if (diff > 0) {
-          preview.innerHTML = `<span class="balance-badge balance-credit">Overpaid by ₹${diff.toLocaleString("en-IN")} — credit next month</span>`;
+          preview.innerHTML = `<span class="balance-badge balance-credit">✅ Advance of ₹${diff.toLocaleString("en-IN")} — will adjust next month</span>`;
         } else {
-          preview.innerHTML = `<span class="balance-badge balance-debit">Short by ₹${Math.abs(diff).toLocaleString("en-IN")} — carried to next month</span>`;
+          preview.innerHTML = `<span class="balance-badge balance-debit">⚠️ Pending ₹${Math.abs(diff).toLocaleString("en-IN")} — will carry to next month</span>`;
         }
       }
 
@@ -3146,9 +3146,9 @@
         });
         const balMsg =
           newBalance > 0
-            ? ` (₹${newBalance.toLocaleString("en-IN")} owed next month)`
+            ? ` · ₹${newBalance.toLocaleString("en-IN")} pending next month`
             : newBalance < 0
-              ? ` (₹${Math.abs(newBalance).toLocaleString("en-IN")} credit next month)`
+              ? ` · ₹${Math.abs(newBalance).toLocaleString("en-IN")} advance adjusted next month`
               : "";
         showToast(
           `✅ Payment recorded — ₹${amtPaid.toLocaleString("en-IN")}${balMsg}`,
@@ -3212,7 +3212,7 @@
 
         let rows = "";
         if (unpaidRooms.length) {
-          rows += `<div style="font-size:11px;font-weight:800;color:var(--danger);margin:10px 0 6px;text-transform:uppercase">Unpaid Rooms (will carry forward)</div>`;
+          rows += `<div style="font-size:11px;font-weight:800;color:var(--danger);margin:10px 0 6px;text-transform:uppercase">Pending Rooms (amount will carry to next month)</div>`;
           rows += unpaidRooms
             .map((r) => {
               const mems = getRoomMembers(r.id);
@@ -3222,15 +3222,15 @@
             .join("");
         }
         if (partialRooms.length) {
-          rows += `<div style="font-size:11px;font-weight:800;color:var(--warning);margin:10px 0 6px;text-transform:uppercase">Partial Payments (balance carry forward)</div>`;
+          rows += `<div style="font-size:11px;font-weight:800;color:var(--warning);margin:10px 0 6px;text-transform:uppercase">Partial Payments (difference carried forward)</div>`;
           rows += partialRooms
             .map((r) => {
               const mems = getRoomMembers(r.id);
               const p = getRoomPayment(r.id);
               const lbl =
                 p.balance > 0
-                  ? `₹${p.balance.toLocaleString("en-IN")} owed`
-                  : `₹${Math.abs(p.balance).toLocaleString("en-IN")} credit`;
+                  ? `₹${p.balance.toLocaleString("en-IN")} pending`
+                  : `₹${Math.abs(p.balance).toLocaleString("en-IN")} advance`;
               return `<div class="detail-row"><span class="detail-label">Room ${r.num} — ${escHtml(mems.map((m) => m.name).join(", "))}</span><span class="detail-value" style="color:${p.balance > 0 ? "var(--danger)" : "var(--success)"}">${lbl}</span></div>`;
             })
             .join("");
@@ -3379,7 +3379,7 @@
       <div class="detail-row"><span class="detail-label">Amount Paid</span><span class="detail-value">₹${(pay.amount_paid || tot).toLocaleString("en-IN")}</span></div>
       <div class="detail-row"><span class="detail-label">Paid On</span><span class="detail-value">${pay.paid_date || "—"}</span></div>
       <div class="detail-row"><span class="detail-label">Recorded By</span><span class="detail-value">${pay.paid_by || "—"}</span></div>
-      ${bal !== 0 ? `<div class="detail-row"><span class="detail-label">${bal > 0 ? "Balance Owed" : "Credit"}</span><span class="detail-value" style="color:${bal > 0 ? "var(--danger)" : "var(--success)"}">₹${Math.abs(bal).toLocaleString("en-IN")} ${bal > 0 ? "(carries to next month)" : "(applies next month)"}</span></div>` : ""}
+      ${bal !== 0 ? `<div class="detail-row"><span class="detail-label">${bal > 0 ? "Pending Amount" : "Advance Paid"}</span><span class="detail-value" style="color:${bal > 0 ? "var(--danger)" : "var(--success)"}">₹${Math.abs(bal).toLocaleString("en-IN")} ${bal > 0 ? "(carries to next month)" : "(applies next month)"}</span></div>` : ""}
     </div>`
         : '<div class="card-body"><div style="text-align:center;padding:10px;font-size:13px;color:var(--danger);font-weight:700">Payment pending. Please contact manager.</div></div>'
     }
@@ -3503,7 +3503,7 @@
       <td><b>₹${tot.toLocaleString("en-IN")}</b></td>
       <td>${pay.paid ? `₹${(pay.amount_paid || tot).toLocaleString("en-IN")}` : "—"}</td>
       <td style="color:${sc};font-weight:700">${status}</td>
-      ${bal !== 0 ? `<td style="color:${bal > 0 ? "#c62828" : "#2e7d32"};font-size:10px">${bal > 0 ? "Owes" : "Credit"} ₹${Math.abs(bal).toLocaleString("en-IN")}</td>` : "<td>—</td>"}
+      ${bal !== 0 ? `<td style="color:${bal > 0 ? "#c62828" : "#2e7d32"};font-size:10px">${bal > 0 ? "Pending" : "Advance"} ₹${Math.abs(bal).toLocaleString("en-IN")}</td>` : "<td>—</td>"}
       <td style="min-width:80px">&nbsp;</td>
     </tr>`;
         });
@@ -3526,7 +3526,7 @@
     <div class="s-item"><div class="s-val">₹${totalPending.toLocaleString("en-IN")}</div><div class="s-lbl">Pending</div></div>
     <div class="s-item"><div class="s-val">${occRooms.filter((r) => getRoomPayment(r.id).paid).length}/${occRooms.length}</div><div class="s-lbl">Rooms Paid</div></div>
   </div>
-  <table><thead><tr><th>Room</th><th>Floor</th><th>Tenant(s)</th><th>Mobile</th><th>Mbrs</th><th>Base Rent</th><th>Light/Water</th><th>Extra Members</th><th>Baki/Other</th><th>Total Due</th><th>Amt Paid</th><th>Status</th><th>Balance</th><th>Signature</th></tr></thead><tbody>${rows}</tbody></table>
+  <table><thead><tr><th>Room</th><th>Floor</th><th>Tenant(s)</th><th>Mobile</th><th>Mbrs</th><th>Base Rent</th><th>Light/Water</th><th>Extra Members</th><th>Baki/Other</th><th>Total Due</th><th>Amt Paid</th><th>Status</th><th>Pending/Advance</th><th>Signature</th></tr></thead><tbody>${rows}</tbody></table>
   <div style="margin-top:16px;font-size:10px;color:#888">Generated by Sai Cottage App · ${new Date().toLocaleString("en-IN")}</div>
   <script>window.onload=function(){window.print();}<\/script></body></html>`;
         const blob = new Blob([html], { type: "text/html" });
@@ -3923,7 +3923,7 @@
     ${
       pay.paid && bal !== 0
         ? `<div style="background:${bal > 0 ? "#ffebee" : "#e8f5e9"};border-radius:10px;padding:8px 12px;margin:8px 0;font-size:12px;font-weight:700;color:${bal > 0 ? "var(--danger)" : "var(--success)"}">
-      ${bal > 0 ? `⚠️ Balance owed: ₹${bal.toLocaleString("en-IN")} (carries to next month)` : `✅ Credit: ₹${Math.abs(bal).toLocaleString("en-IN")} (applies next month)`}
+     ${bal > 0 ? `⚠️ Pending Amount: ₹${bal.toLocaleString("en-IN")} — will be added to next month` : `✅ Advance Paid: ₹${Math.abs(bal).toLocaleString("en-IN")} — will reduce next month's rent`}
     </div>`
         : ""
     }
