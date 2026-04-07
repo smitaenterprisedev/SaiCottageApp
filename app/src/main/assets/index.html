@@ -2931,7 +2931,7 @@
         <div class="room-right">
           <div class="room-amount" style="color:${amtColor}">₹${tot.toLocaleString("en-IN")}</div>
           <div class="pill ${pClass}">${pText}</div>
-          ${hasBalance ? `<div style="font-size:9px;color:${pay.balance > 0 ? "var(--danger)" : "var(--success)"};font-weight:700">${pay.balance > 0 ? "+" : ""}₹${pay.balance.toLocaleString("en-IN")} bal</div>` : ""}
+          ${hasBalance ? `<div style="font-size:9px;color:${pay.balance > 0 ? "var(--danger)" : "var(--success)"};font-weight:700">${pay.balance > 0 ? "Pending ₹" + pay.balance.toLocaleString("en-IN") : "Advance ₹" + Math.abs(pay.balance).toLocaleString("en-IN")}</div>` : ""}
         </div>
       </div>`;
             })
@@ -2981,7 +2981,7 @@
         <div class="room-num">${r.num}</div>
         <div class="room-info">
           <div class="room-name">${escHtml(mems.map((m) => m.name).join(", "))}</div>
-          <div class="room-sub">${r.floor} · ${mems.length} members${bal > 0 ? ` · Pending: ₹${bal}` : bal < 0 ? ` · Advance: ₹${Math.abs(bal)}` : ""}</div>
+          <div class="room-sub">${r.floor} · ${mems.length} members${bal > 0 ? ` · Pending: ₹${bal.toLocaleString("en-IN")}` : ""}</div>
         </div>
         <div class="room-right">
           <div class="room-amount" style="color:var(--danger)">₹${tot.toLocaleString("en-IN")}</div>
@@ -3088,9 +3088,9 @@
           return;
         }
         if (diff > 0) {
-          preview.innerHTML = `<span class="balance-badge balance-credit">✅ Advance of ₹${diff.toLocaleString("en-IN")} — will adjust next month</span>`;
+          preview.innerHTML = `<span class="balance-badge balance-credit">✅ Advance: ₹${diff.toLocaleString("en-IN")} extra — will adjust next month</span>`;
         } else {
-          preview.innerHTML = `<span class="balance-badge balance-debit">⚠️ Pending ₹${Math.abs(diff).toLocaleString("en-IN")} — will carry to next month</span>`;
+          preview.innerHTML = `<span class="balance-badge balance-debit">⚠️ Pending: ₹${Math.abs(diff).toLocaleString("en-IN")} short — will carry next month</span>`;
         }
       }
 
@@ -3106,7 +3106,10 @@
         const tot = calcRoomTotal(room);
         const today = new Date().toLocaleDateString("en-IN");
         // balance: positive = tenant still owes, negative = credit for next month
-        const newBalance = amtPaid - netDue;
+        // Positive balance = tenant still owes (underpaid)
+        // Negative balance = tenant paid extra (advance for next month)
+        const newBalance =
+          amtPaid < netDue ? netDue - amtPaid : -(amtPaid - netDue);
 
         await syncWrite({
           local: () => {
@@ -3146,9 +3149,9 @@
         });
         const balMsg =
           newBalance > 0
-            ? ` · ₹${newBalance.toLocaleString("en-IN")} pending next month`
+            ? ` · ₹${newBalance.toLocaleString("en-IN")} still pending (carries next month)`
             : newBalance < 0
-              ? ` · ₹${Math.abs(newBalance).toLocaleString("en-IN")} advance adjusted next month`
+              ? ` · ₹${Math.abs(newBalance).toLocaleString("en-IN")} advance (adjusts next month)`
               : "";
         showToast(
           `✅ Payment recorded — ₹${amtPaid.toLocaleString("en-IN")}${balMsg}`,
@@ -3379,7 +3382,8 @@
       <div class="detail-row"><span class="detail-label">Amount Paid</span><span class="detail-value">₹${(pay.amount_paid || tot).toLocaleString("en-IN")}</span></div>
       <div class="detail-row"><span class="detail-label">Paid On</span><span class="detail-value">${pay.paid_date || "—"}</span></div>
       <div class="detail-row"><span class="detail-label">Recorded By</span><span class="detail-value">${pay.paid_by || "—"}</span></div>
-      ${bal !== 0 ? `<div class="detail-row"><span class="detail-label">${bal > 0 ? "Pending Amount" : "Advance Paid"}</span><span class="detail-value" style="color:${bal > 0 ? "var(--danger)" : "var(--success)"}">₹${Math.abs(bal).toLocaleString("en-IN")} ${bal > 0 ? "(carries to next month)" : "(applies next month)"}</span></div>` : ""}
+      ${bal > 0 ? `<div class="detail-row"><span class="detail-label" style="color:var(--danger);font-weight:800">⚠️ Pending Amount</span><span class="detail-value" style="color:var(--danger)">₹${bal.toLocaleString("en-IN")} — will be added next month</span></div>` : ""}
+      ${bal < 0 ? `<div class="detail-row"><span class="detail-label" style="color:var(--success);font-weight:800">✅ Advance Paid</span><span class="detail-value" style="color:var(--success)">₹${Math.abs(bal).toLocaleString("en-IN")} — will reduce next month's rent</span></div>` : ""}
     </div>`
         : '<div class="card-body"><div style="text-align:center;padding:10px;font-size:13px;color:var(--danger);font-weight:700">Payment pending. Please contact manager.</div></div>'
     }
@@ -3923,7 +3927,7 @@
     ${
       pay.paid && bal !== 0
         ? `<div style="background:${bal > 0 ? "#ffebee" : "#e8f5e9"};border-radius:10px;padding:8px 12px;margin:8px 0;font-size:12px;font-weight:700;color:${bal > 0 ? "var(--danger)" : "var(--success)"}">
-     ${bal > 0 ? `⚠️ Pending Amount: ₹${bal.toLocaleString("en-IN")} — will be added to next month` : `✅ Advance Paid: ₹${Math.abs(bal).toLocaleString("en-IN")} — will reduce next month's rent`}
+        ${bal > 0 ? `⚠️ Pending Amount: ₹${bal.toLocaleString("en-IN")} — carries to next month` : `✅ Advance Paid: ₹${Math.abs(bal).toLocaleString("en-IN")} — reduces next month's rent`}
     </div>`
         : ""
     }
